@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-# @author: C. Guychard
+# @author: J. Carette
 # @copyright: ©2018 Article 714
 # @license: AGPL v3
 
 {
-    'name': u'COREF',
+    'name': u'coref',
     'version': u'10.0.1.0.0',
     'category': u'Applications',
     'author': u'Article714',
