@@ -19,8 +19,8 @@ TODO
 
 **Credits:** .
 """,
-    'depends': [],
-    'data': [],
+    'depends': ['base'],
+    'data': ['views/coref_partner_views.xml'],
     'installable': True,
     'images': [],
     'application': True,

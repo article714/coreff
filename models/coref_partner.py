@@ -7,14 +7,12 @@ Created on 8 August 2018
 @license: AGPL v3
 '''
 
-from . import models, fields, api
+from . import models, fields, api, _
 
-class coreffPartner():
-    _name='coref_partner'
-    _inherits={'res.partner':'partner_id'}
+class CorefPartner():
+    _inherits=['res.partner']
     
     #Add all fields from CreditSafe request
     
     
-    #Add all fields from Societe.com request
 
