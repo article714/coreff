@@ -7,10 +7,10 @@ Created on 8 August 2018
 @license: AGPL v3
 '''
 
-from . import models, fields, api, _
+from odoo import api, fields, models, tools, _
 
-class CorefPartner():
-    _inherits=['res.partner']
+class CorefPartner(models.Model):
+    _inherit = 'res.partner'
     
     #Add all fields from CreditSafe request
     
