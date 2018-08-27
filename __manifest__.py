@@ -11,11 +11,13 @@
     'license': u'AGPL-3',
     'website': u'https://www.article714.org',
     'description': u"""
-Ompany REFerences extensions 
-============================
+CORE Financial extensions 
+=========================
 
-TODO
+The aim of this module is to add financial informations 
+from CreditSafe to res_partner model. 
 
+Of course you need a CreditSafe account.  
 
 **Credits:** .
 """,
