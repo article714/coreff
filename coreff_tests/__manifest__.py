@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-# @author: C. Guychard
+# @author: J. Carette
 # @copyright: ©2018 Article 714
 # @license: AGPL v3
 
 {
-    'name': u'Crapo: Test Module for workflow management',
+    'name': u'CoreFF: Test Module',
     'version': u'10.0.1.0.0',
-    'category': u'Crapo Workflows',
+    'category': u'CoreFF',
     'author': u'Article714',
     'license': u'AGPL-3',
     'website': u'https://www.article714.org',
@@ -19,9 +19,8 @@ TODO
 
 **Credits:** .
 """,
-    'depends': ['base_crapo_workflow'],
-    'data': ['security/access_model.xml',
-             'views/menus_and_views.xml'],
+    'depends': ['coreff_base'],
+    'data': ['security/access_model.xml'],
     'installable': True,
     'images': [],
     'application': True,
