@@ -2,15 +2,13 @@
 <odoo>
 	
    <record model="ir.ui.view" id="coref_partner_form">
-      <field name="name">coref.partner.form</field>
+      <field name="name">coreff.partner.form</field>
       <field name="model">res.partner</field>
       <field name="inherit_id" ref="base.view_partner_form"/>
       <field name="arch" type="xml">
 			<xpath expr="//oage[@name='sales_purchases']" position="after">
 				 <page name='financial_information' string="Informmations financières">
-				 	<!-- Ajout des informations financères issues du modèle coref_partner -->
-				 	
-				 	
+				 	<!-- Add financial informations to view_partner_form -->
 				 	
 				 </page>
 			</xpath>

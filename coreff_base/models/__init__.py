@@ -7,4 +7,4 @@ Created on 8 August 2018
 @license: AGPL v3
 '''
 
-from . import coref_partner
+from models import coreff_partner

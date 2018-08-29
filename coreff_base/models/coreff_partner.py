@@ -9,7 +9,7 @@ Created on 8 August 2018
 
 from odoo import api, fields, models, tools, _
 
-class CorefPartner(models.Model):
+class CoreffPartner(models.Model):
     _inherit = 'res.partner'
     
     #Add all fields from CreditSafe request
