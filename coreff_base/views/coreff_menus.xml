@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<!-- Base menu -->
+	<menuitem id="coreff_base_menu" parent="base.menu_custom"
+		name="Financial informations" 
+		groups="group_coreff_admin" 
+		sequence="11" />
+
+	<!-- Liste automata menu -->
+
+	<menuitem id="coreff_financial_services" parent="coreff_base_menu"
+		name="Financial services" groups="group_coreff_admin"
+		sequence="1" action="coreff_financial_services_action" />
+
+</odoo>
+

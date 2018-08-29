@@ -22,7 +22,8 @@ Of course, you need a CreditSafe account.
 **Credits:** .
 """,
     'depends': ['base'],
-    'data': ['views/coreff_partner_views.xml'],
+    'data': ['views/coreff_partner_views.xml',
+             'views/coreff_menus.xml'],
     'installable': True,
     'images': [],
     'application': True,
