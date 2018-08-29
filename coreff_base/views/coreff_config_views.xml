@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="view_coreff_config" model="ir.ui.view">
+		<field name="name">Coreff: Configuration</field>
+		<field name="model">coreff.config.settings</field>
+		<field name="arch" type="xml">
+			<form string="Configartion des services CoreFF" class="oe_form_configuration">
+				<header>
+					<button string="Apply" type="object" name="execute" class="oe_highlight" />
+					<button string="Cancel" type="object" name="cancel" class="oe_link"
+						special="cancel" />
+				</header>
+			</form>
+		</field>
+	</record>
+	
+</odoo>
