@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<data>
+	
+		<!-- default users are crapo Users -->
+	    <record id="group_coreff_user" model="res.groups">
+	        <field name="name">Core-FF - User</field>
+	        <field name="category_id" ref="base.module_category_coreff"/>
+        		<field name="users" eval="[(4, ref('base.default_user'))]"/>
+        </record>
+        
+		<!-- Application Administrator -->
+	    <record id="group_coreff_app_admin" model="res.groups">
+	        <field name="name">Core-FF - Application Administrator</field>
+	        <field name="category_id" ref="base.module_category_coreff"/>
+        		<field name="implied_ids" eval="[(4, ref('group_coreff_user'))]"/>
+	    </record>
+	    
+		<!--  Crapo Administrator -->
+	    <record id="group_coreff_admin" model="res.groups">
+	        <field name="name">Core-FF - Administrator</field>
+	        <field name="category_id" ref="base.module_category_coreff"/>
+        		<field name="implied_ids" eval="[(4, ref('group_coreff_app_admin'))]"/>
+	    </record>
+	    
+		<!-- admins are crapo Admins -->
+	    <record id="base.group_system" model="res.groups">
+        		<field name="implied_ids" eval="[(4, ref('group_coreff_admin'))]"/>
+        </record>
+	</data>        
+        
+</odoo>
