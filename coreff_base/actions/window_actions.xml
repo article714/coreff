@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="coreff_financial_services_action" model="ir.actions.act_window">
+			<field name="name">CoreFF: Configuration</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">coreff.config.settings</field>
+			<field name="view_mode">form</field>
+			<field name="target">inline</field>
+		</record>
+		
+	</data>
+</odoo>
+
