@@ -1,4 +1,6 @@
 eclipse.preferences.version=1
+encoding//coreff_tests/__init__.py=utf-8
+encoding//coreff_tests/models/__init__.py=utf-8
 encoding//models/__init__.py=utf-8
 encoding//models/coref_partner.py=utf-8
 encoding/__init__.py=utf-8
