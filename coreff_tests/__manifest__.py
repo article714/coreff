@@ -11,8 +11,8 @@
     'license': u'AGPL-3',
     'website': u'https://www.article714.org',
     'description': u"""
-Crapo: Test module for workflow management
-===========================================
+CoreFF: Test module
+===================
 
 TODO
 
