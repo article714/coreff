@@ -22,7 +22,11 @@ Of course, you need a CreditSafe account.
 **Credits:** .
 """,
     'depends': ['base'],
-    'data': ['views/coreff_partner_views.xml',
+    'data': ['security/coreff_security.xml',
+             'security/base_access_model.xml',
+             'actions/window_actions.xml',
+             'views/coreff_partner_views.xml',
+             'views/coreff_config_views.xml',
              'views/coreff_menus.xml'],
     'installable': True,
     'images': [],
