@@ -3,24 +3,26 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from __builtin__ import str
+import logging
 
 from odoo import api, fields, models, _
-import logging
+
 
 _logger = logging.getLogger(__name__)
 
 PARAMS = [
-    ("CreditSafeUrl", "coreff.creditSafeUrl"),
-    ("CreditSafeLogin", "coreff.creditSafeLogin"),
-    ("CreditSafePassword", "coreff.creditSafePassword"),
-    ("SocieteComUrl", "coreff.SocieteComUrl"),
-    ("SocieteComLogin", "coreff.SocieteComLogin"),
-    ("SocieteComPassword", "coreff.SocieteComPassword")]
+    ("creditSafeUrl", "coreff.creditSafeUrl"),
+    ("creditSafeLogin", "coreff.creditSafeLogin"),
+    ("creditSafePassword", "coreff.creditSafePassword"),
+    ("societeComUrl", "coreff.SocieteComUrl"),
+    ("societeComLogin", "coreff.SocieteComLogin"),
+    ("societeComPassword", "coreff.SocieteComPassword")
+]
 
 
 class CoreffConfig(models.TransientModel):
     _name = 'coreff.config.settings'
-    _inherit = 'res.config.settings'
+    _inherit = 'res.config.settings'    
 
     @api.one
     def set_params(self):
@@ -43,14 +45,18 @@ class CoreffConfig(models.TransientModel):
         res = {}
         for field_name, key_name in PARAMS:
             param_value = self.env['ir.config_parameter'].get_param(key_name, '')
-                
+            
+            _logger.info("GE_ATTR = "+str(getattr(self, field_name, ''))+" TYPE = "+str(type(getattr(self, field_name, '')))+" ")    
             if isinstance(self[field_name], models.Model):
                 if param_value != None and param_value != '':
                     val = self[field_name].search([('id', '=', param_value)])
                     res[field_name] = val.id
+            elif isinstance(self[field_name], str):
+                res[field_name] = param_value.strip()
+            elif isinstance(self[field_name], unicode):
+                res[field_name] = param_value.strip()
             elif isinstance(self[field_name], bool):
                 res[field_name] = True if param_value == '1' else False
-            else:
-                res[field_name] = param_value.strip()
+            
             
         return res

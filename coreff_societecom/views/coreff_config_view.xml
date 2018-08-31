@@ -9,9 +9,9 @@
                 
                 	<xpath expr="//header" position="after">   
                     <group string="Informations Societe.com" name="coreff">
-                        <field name="SocieteComUrl"/>
-                        <field name="SocieteComLogin"/>
-                        <field name="SocieteComPassword"/>
+                        <field name="societeComUrl"/>
+                        <field name="societeComLogin"/>
+                        <field name="societeComPassword"/>
                     </group>
                 </xpath>
                 

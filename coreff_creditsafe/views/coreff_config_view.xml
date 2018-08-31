@@ -9,9 +9,9 @@
                 
                 	<xpath expr="//header" position="after">   
                     <group string="Informations service CreditSafe" name="coreff">
-                        <field name="CreditSafeUrl"/>
-                        <field name="CreditSafeLogin"/>
-                        <field name="CreditSafePassword"/>
+                        <field name="creditSafeUrl"/>
+                        <field name="creditSafeLogin"/>
+                        <field name="creditSafePassword"/>
                     </group>
                 </xpath>
                 
