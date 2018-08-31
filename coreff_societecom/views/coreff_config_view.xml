@@ -8,11 +8,16 @@
             <field name="arch" type="xml">
                 
                 	<xpath expr="//header" position="after">   
-                    <group string="Informations Societe.com" name="coreff">
-                        <field name="societeComUrl"/>
-                        <field name="societeComLogin"/>
-                        <field name="societeComPassword"/>
-                    </group>
+                		<group name="container_row_2">
+	                    <group string="Informations Societe.com" name="coreff">
+	                        <field name="societeComUrl"/>
+	                        <field name="societeComLogin"/>
+	                        <field name="societeComPassword"/>
+	                    </group>
+	                    <group>
+	                    
+	                    </group>
+	                 </group>
                 </xpath>
                 
             </field>

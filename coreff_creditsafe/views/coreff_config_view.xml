@@ -8,11 +8,14 @@
             <field name="arch" type="xml">
                 
                 	<xpath expr="//header" position="after">   
-                    <group string="Informations service CreditSafe" name="coreff">
-                        <field name="creditSafeUrl"/>
-                        <field name="creditSafeLogin"/>
-                        <field name="creditSafePassword"/>
-                    </group>
+                		<group name="container_row_2">
+	                    <group string="Informations service CreditSafe" name="coreff">
+	                        <field name="creditSafeUrl"/>
+	                        <field name="creditSafeLogin"/>
+	                        <field name="creditSafePassword"/>
+	                    </group>
+	                    <group></group>
+	                </group>
                 </xpath>
                 
             </field>
