@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record model="ir.ui.view" id="coref_partner_form">
+		<field name="name">coreff.partner.form</field>
+		<field name="model">res.partner</field>
+		<field name="inherit_id" ref="base.view_partner_form" />
+		<field name="arch" type="xml">
+			<xpath expr="//header[@id='service_header']" position="before">
+				<button string="CreditSafe update" type="object"
+							name="interactive_update" class="oe_highlight" />	
+			</xpath>
+			<xpath expr="//group[@id='service_informations']" position="after">
+					<group name="container_row_2">
+						<group string="Identification">
+							<field name="siren" readonly="True"/>
+							<field name="nic"  readonly="True"/>	
+							<field name="activity_code"  readonly="True"/>
+							<field name="activity_description"  readonly="True"/>
+							<field name="nationality"  readonly="True"/>
+						</group>
+						<group string="Notations">
+							<field name="code_status" readonly="True" />
+							<field name="label_status" readonly="True" />
+							<field name="rating" readonly="True" />
+							<field name="rating_desc1" readonly="True" />
+							<field name="rating_desc2" readonly="True" />
+							<field name="credit_limit" readonly="True" />
+						</group>
+					</group>
+					<group name="container_row_2">
+						<group string="Judgements">
+							<field name="last_judgement_date" readonly="True" />
+							<field name="last_ccj_date" readonly="True" />
+							<field name="number_of_directors" readonly="True" />
+						</group>
+
+						<group string="Financial informations">
+
+							<field name="company_name" readonly="True" />
+							<field name="legal_form" readonly="True" />
+							<field name="court_registry_number" readonly="True" />
+							<field name="court_registry_description" readonly="True" />
+							<field name="share_capital" readonly="True" />
+							<field name="incorporation_date" readonly="True" />
+						</group>
+					</group>
+			</xpath>
+		</field>
+	</record>
+
+</odoo>
