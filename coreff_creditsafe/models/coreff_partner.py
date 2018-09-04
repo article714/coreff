@@ -91,5 +91,5 @@ class CoreffPartner(models.Model):
     @api.one
     def get_company_information(self):
         _logger.info('GET COMPANY INFO FOR SIRET NUMEBR : '+str(self.company_name))
-        get_company_information_by_siret(self.company_name, 'CS-IB-'+self.company_name);
+        get_company_information_by_siret(str(self.company_name), 'CS-IB-'+str(self.company_name));
     
