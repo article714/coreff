@@ -7,6 +7,7 @@ Created on 8 August 2018
 @license: AGPL v3
 '''
 
-
-from . import coreff_config
 from . import coreff_partner
+from . import coreff_config
+
+

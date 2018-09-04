@@ -23,7 +23,8 @@ into "financial informations" configuration menu.
 **Credits:** .
 """,
     'depends': ['coreff_base'],
-    'data': ['views/coreff_config_view.xml'],
+    'data': ['views/coreff_config_view.xml',
+             'views/coreff_partner_views.xml'],
     'installable': True,
     'images': [],
     'application': True,
