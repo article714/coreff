@@ -16,17 +16,13 @@ PARAMS = [
     ("creditSafePassword", "coreff.creditSafePassword"),
     ("societeComUrl", "coreff.SocieteComUrl"),
     ("societeComLogin", "coreff.SocieteComLogin"),
-    ("societeComPassword", "coreff.SocieteComPassword"),
-    ("coucou", "coreff.coucou")
+    ("societeComPassword", "coreff.SocieteComPassword")
 ]
 
 
 class CoreffConfig(models.TransientModel):
     _name = 'coreff.config.settings'
     _inherit = 'res.config.settings'
-
-    coucou = fields.Many2one(comodel_name='res.partner')
-    coincoin = fields.Boolean()
 
     @api.one
     def set_params(self):
