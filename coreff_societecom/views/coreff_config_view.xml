@@ -12,7 +12,7 @@
 	                    <group string="Informations Societe.com" name="coreff">
 	                        <field name="societeComUrl"/>
 	                        <field name="societeComLogin"/>
-	                        <field name="societeComPassword"/>
+	                        <field name="societeComPassword" password="True"/>
 	                    </group>
 	                    <group>
 	                    

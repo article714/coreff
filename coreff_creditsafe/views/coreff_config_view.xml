@@ -12,7 +12,7 @@
 	                    <group string="Informations service CreditSafe" name="coreff">
 	                        <field name="creditSafeUrl"/>
 	                        <field name="creditSafeLogin"/>
-	                        <field name="creditSafePassword"/>
+	                        <field name="creditSafePassword" password="True"/>
 	                    </group>
 	                    <group></group>
 	                </group>
