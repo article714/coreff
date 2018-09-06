@@ -133,5 +133,5 @@ class CoreffPartner(models.Model):
                             setattr(self, k, node.text)    
                                 
         else:
-            raise Exception("SIRET is not valid.")
+            raise Exception("SIRET is not valid : "+siret)
                                 
