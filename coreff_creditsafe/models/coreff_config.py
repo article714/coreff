@@ -8,7 +8,7 @@ from odoo import fields, models, _
 class CoreffConfig(models.TransientModel):
     _inherit = 'coreff.config.settings'
 
-    creditSafeUrl = fields.Char(string=_(u'URL'),
+    creditSafeUrl = fields.Char(string=_(u'WSDL'),
                                 help=_(u'URL d\'accès au service GetData de CreditSafe.'))
                                 
     creditSafeLogin = fields.Char(string=_(u'Identifiant'),
