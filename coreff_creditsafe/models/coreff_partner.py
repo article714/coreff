@@ -11,9 +11,35 @@ import logging
 
 
 from odoo import api, fields, models, _
+from lxml.etree import Element, tostring, parse, fromstring
 from creditsafe_data_wsdl import get_company_information_by_siret
 
 _logger = logging.getLogger(__name__)
+
+FIELDS_MATCHING = [
+    ("company_name", "companyname"),
+    ("trade_name", "tradename"),
+    ("acronym", "acronym"),
+    ("activity_code", "activitycode"),
+    ("activity_description", "activitydescription"),
+    ("legal_form", "legalform"),
+    ("telephone", "telephone"),
+    ("court_registry_number", "courtregistrynumber"),
+    ("court_registry_description", "courtregistrydescription"),
+    ("share_capital", "sharecapital"),
+    ("incorporation_date", "incorporationdate"),
+    ("nationality", "nationality"),
+    #("code_status", "status_code"),
+    ("label_status", "status"),
+    ("rating", "rating"),
+    ("rating_desc1", "ratingdesc1"),
+    ("rating_desc2", "ratingdesc2"),
+    ("credit_limit", "creditlimit"),
+    ("last_judgement_date", "lastjudgementdate"),
+    ("last_ccj_date", "lastccjdate"),
+    ("number_of_directors", "numberofdirectors")
+]
+
 
 class CoreffPartner(models.Model):
     _inherit = 'res.partner'
@@ -84,12 +110,28 @@ class CoreffPartner(models.Model):
     @api.one
     def interactive_update(self):
         super(CoreffPartner, self).interactive_update()
-        _logger.info('INTERACTIVE UPDATE')      
+        _logger.info('INTERACTIVE UPDATE WITH CREDITSAFE')      
         self.get_company_information()
 
     #-------------------------
     @api.one
     def get_company_information(self):
-        _logger.info('GET COMPANY INFO FOR SIRET NUMEBR : '+str(self.company_name))
-        get_company_information_by_siret(str(self.company_name), 'CS-IB-'+str(self.company_name));
-    
+        siret = getattr(self, 'company_number', '')
+        ref  = 'CreditSafe/Infibail'+ getattr(self, 'name', '')
+        
+        if siret != None and len(siret)==14:
+            xml_info = get_company_information_by_siret(siret.strip(), ref);
+            
+            if xml_info != None: 
+                
+                summary = xml_info.xpath('//company/summary')[0]
+                
+                if summary != None:
+                    for k, v in FIELDS_MATCHING:
+                        node = summary.find(v)
+                        if node != None: 
+                            setattr(self, k, node.text)    
+                                
+        else:
+            raise Exception("SIRET is not valid.")
+                                

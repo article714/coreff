@@ -2,7 +2,7 @@
 # ©2018 Article714
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from lxml.etree import Element, tostring
+from lxml.etree import Element, tostring, parse, fromstring
 import logging
 import re
 
@@ -31,8 +31,8 @@ wsdl = 'https://www.creditsafe.fr/getdata/service/CSFRServices.asmx?wsdl'
 #</header>
 
 header_values = {
-    'username': 'InfibailTEST',
-    'password': 'Infibail8746915',
+    'username': 'T3st_GD_INFIBAIL',
+    'password': 'creditsafe',
     'operation': 'getcompanyinformation',
     'language': 'FR',
     'country': 'FR',
@@ -41,7 +41,7 @@ header_values = {
 
 body_values = {
     'package': 'standard',
-    'companynumber': ''
+    'companynumber': '63201210000012'
 }
 
 
@@ -91,10 +91,24 @@ class ZeepClient(object):
                 s = self.xml_request.xpath('/xmlrequest/body/companynumber')
                 s[0].text = siret
             
-            logging.info('XML_REQUEST : '+tostring(self.xml_request, pretty_print=True))
-            xml_response = self.client.service.GetData(tostring(self.xml_request, pretty_print=True))
-            logging.info('XML_RRESPONSE : '+str(xml_response))
-            return xml_response
+            response = self.client.service.GetData(tostring(self.xml_request, pretty_print=True))
+            
+            if response != None: 
+                
+                #Besoin d'encoder en UTF-8 avant lecture 
+                xml = response.encode("utf-8")
+                xml_response = fromstring(response)
+                    
+                report_type  = xml_response.xpath('/xmlresponse/header/reportinformation/reporttype') 
+                if report_type != None and report_type[0].text == str(operation):
+                    return xml_response
+                else:
+                    error_detail = xml_response.xpath('/xmlresponse/body/errors/errordetail')
+                    code = error_detail[0].find('code').text
+                    desc = error_detail[0].find('desc').text
+                    raise Exception("Erreur lors de l'execution du service Credit Safe - CODE : %s - LABEL : %s" % (code, desc))
+            
+            
 
         
         except zeep.exceptions.Fault as e:
@@ -113,7 +127,6 @@ zeep_client = ZeepClient()
 
 
 def get_company_information_by_siret(siret, ref):
-    logging.info("GET_COMPANY_INFORMATION_BY_SIRET")
     
     if zeep_client != None:
    
