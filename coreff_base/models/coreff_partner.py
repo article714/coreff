@@ -16,10 +16,6 @@ _logger = logging.getLogger(__name__)
 class CoreffPartner(models.Model):
     _inherit = 'res.partner'
 
-    company_number = fields.Char(string=_(u'SIRET'), index=True, store=True)
-    siren = fields.Char(string=_(u'SIREN'), index=True, store=True)
-    nic = fields.Char(string=_(u'NIC'), store=True)
-    
     #-------------------------
     # unimplemented method that will be defined in other module to update from HMI
     # only runs validators by default
