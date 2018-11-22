@@ -5,6 +5,7 @@ encoding//coreff_base/models/coreff_config.py=utf-8
 encoding//coreff_base/models/coreff_partner.py=utf-8
 encoding//coreff_creditsafe/__init__.py=utf-8
 encoding//coreff_creditsafe/__manifest__.py=utf-8
+encoding//coreff_creditsafe/models/__init__.py=utf-8
 encoding//coreff_creditsafe/models/coreff_config.py=utf-8
 encoding//coreff_creditsafe/models/coreff_partner.py=utf-8
 encoding//coreff_creditsafe/models/creditsafe_data_wsdl.py=utf-8

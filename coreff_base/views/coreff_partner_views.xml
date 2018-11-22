@@ -8,7 +8,7 @@
 		<field name="arch" type="xml">
 			<xpath expr="//label[@for='street']" position="before">
 				<!-- Add siret number in the main panel -->
-				<field name="company_number" />
+				<!-- field name="siret" class="oe_read_only"/-->
 			</xpath>
 			<xpath expr="//page[@name='sales_purchases']" position="after">
 				<page name='financial_information' string="Informmations financières">

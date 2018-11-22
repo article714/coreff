@@ -7,13 +7,14 @@ Created on 2018, Sept 1
 @license: AGPL v3
 '''
 
-import logging
-
-
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError
+
 from lxml.etree import Element, tostring, parse, fromstring
+
 from creditsafe_data_wsdl import get_company_information_by_siret
 
+import logging
 _logger = logging.getLogger(__name__)
 
 FIELDS_MATCHING = [
@@ -110,13 +111,12 @@ class CoreffPartner(models.Model):
     @api.one
     def interactive_update(self):
         super(CoreffPartner, self).interactive_update()
-        _logger.info('INTERACTIVE UPDATE WITH CREDITSAFE')      
         self.get_company_information()
 
     #-------------------------
     @api.one
     def get_company_information(self):
-        siret = getattr(self, 'company_number', '')
+        siret = getattr(self, 'siret', '')
         ref  = 'CreditSafe/Infibail'+ getattr(self, 'name', '')
         
         if siret != None and len(siret)==14:
@@ -133,5 +133,5 @@ class CoreffPartner(models.Model):
                             setattr(self, k, node.text)    
                                 
         else:
-            raise Exception("SIRET is not valid : "+siret)
+            raise UserError(_("The SIRET '%s' is incorrect.") % siret)
                                 

@@ -24,7 +24,7 @@ Of course, you need a CreditSafe account.
     'depends': ['base',
                 'web', 'web_sheet_full_width', 'web_dialog_size', 'web_no_bubble', 'web_translate_dialog',
                 'web_tree_dynamic_colored_field','web_notify',
-                ' l10n_fr_siret'],
+                'l10n_fr_siret'],
     'data': ['security/coreff_security.xml',
              'security/base_access_model.xml',
              'actions/window_actions.xml',
