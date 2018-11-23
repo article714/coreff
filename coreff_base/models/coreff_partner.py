@@ -29,4 +29,10 @@ class CoreffPartner(models.Model):
     def run_validators(self):
         #TODO
         return
+    
+    @api.one
+    def create_from(self):
+        #TODO
+        _logger.debug("CREATE FROM CALL")
+        return
 

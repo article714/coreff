@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_coreff_informa_config" model="ir.ui.view">
+            <field name="name">Coreff: Configuration</field>
+            <field name="model">coreff.config.settings</field>
+	      	<field name="inherit_id" ref="coreff_base.view_coreff_config"/>
+            <field name="arch" type="xml">
+                
+                	<xpath expr="//header" position="after">   
+                		<group name="container_row_2">
+	                    <group string="Informations Informa" name="coreff">
+	                        <field name="informaUrl"/>
+	                        <field name="informaLogin"/>
+	                        <field name="informaPassword" password="True"/>
+	                    </group>
+	                    <group>
+	                    
+	                    </group>
+	                 </group>
+                </xpath>
+                
+            </field>
+        </record>
+
+    </data>
+</odoo>

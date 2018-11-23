@@ -11,15 +11,15 @@
     'license': u'AGPL-3',
     'website': u'https://www.article714.org',
     'description': u"""
-CoreFF - Espace de travail CoreFF
+CoreFF -  CoreFF workplace
 =================================
 
-Espace de travail CoreFF
+CoreFF Workplace
 
 
 **Credits:** Article714.
 """,
-    'depends': ['coreff_base','coreff_creditsafe','coreff_societecom'],
+    'depends': ['coreff_base','coreff_creditsafe','coreff_societecom','coreff_informa'],
     'data': [
              ],
     'installable': True,

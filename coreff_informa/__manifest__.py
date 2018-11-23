@@ -4,20 +4,20 @@
 # @license: AGPL v3
 
 {
-    'name': u'CoreFF: Societe.com',
+    'name': u'CoreFF: Informa',
     'version': u'10.0.1.0.0',
     'category': u'CoreFF',
     'author': u'Article714',
     'license': u'AGPL-3',
     'website': u'https://www.article714.org',
     'description': u"""
-CoreFF - CreditSafe 
+CoreFF - INFORMA 
 ===================
 
 The aim of this module is to get financial informations 
-from Societe.com and add them to res_partner model. 
+from Informa and add them to res_partner model. 
 
-Of course, you need a Societe.com account and set its properties
+Of course, you need an Informa account and set its properties
 into "financial informations" configuration menu.   
 
 **Credits:** .

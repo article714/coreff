@@ -16,7 +16,10 @@ PARAMS = [
     ("creditSafePassword", "coreff.creditSafePassword"),
     ("societeComUrl", "coreff.SocieteComUrl"),
     ("societeComLogin", "coreff.SocieteComLogin"),
-    ("societeComPassword", "coreff.SocieteComPassword")
+    ("societeComPassword", "coreff.SocieteComPassword"),
+    ("informaUrl", "coreff.InformaUrl"),
+    ("informaLogin", "coreff.InformaLogin"),
+    ("informaPassword", "coreff.InformaPassword")
 ]
 
 

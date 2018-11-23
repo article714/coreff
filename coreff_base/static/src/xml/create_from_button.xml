@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template id="template" xml:space="preserve">      
+ 
+<t t-extend="ListView.buttons">                   
+	<t t-jquery="button.o_list_button_add" t-operation="after">
+         
+         <div t-if="widget.model == 'res.partner'" class="btn-group o_dropdown">
+    			<button class="o_dropdown_toggler_btn btn btn-sm dropdown-toggle" data-toggle="dropdown">
+        			<span class="fa" />Create from... <span class="caret" />
+    			</button>
+		    	<ul class="dropdown-menu" role="menu">
+		    </ul>
+		</div>
+		
+	</t>       
+ </t>
+    
+</template>

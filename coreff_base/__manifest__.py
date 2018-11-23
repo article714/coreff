@@ -30,7 +30,11 @@ Of course, you need a CreditSafe account.
              'actions/window_actions.xml',
              'views/coreff_partner_views.xml',
              'views/coreff_config_views.xml',
-             'views/coreff_menus.xml'],
+             'views/coreff_menus.xml',
+             'views/tree_view_assets.xml'],
+    
+    'qweb': ['static/src/xml/create_from_button.xml'],
+     
     'installable': True,
     'images': [],
     'application': True,
