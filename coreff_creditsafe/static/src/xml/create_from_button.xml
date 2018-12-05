@@ -4,7 +4,7 @@
     <t t-extend="ListView.buttons">                       
     		<t t-jquery="ul.dropdown-menu" t-operation="append">
 	        <li class="o_add_filter o_closed_menu">
-	            <a href="#">CreditSafe</a>
+	            <a class="o_create_from_creditsafe">CreditSafe</a>
 	        </li>
       </t>       
     </t>   

@@ -21,8 +21,7 @@
 			
 			<xpath expr="//label[@for='street']" position="before">
 				<!-- Add siret number in the main panel -->
-						<button name="create_from" string="Create from" type="object" />
-				<field name="siret" class="oe_read_only" />
+				<!-- field name="siret" class="oe_read_only" /-->
 			</xpath>
 
 			<xpath expr="//page[@name='sales_purchases']" position="after">

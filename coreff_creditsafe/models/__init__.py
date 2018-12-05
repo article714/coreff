@@ -9,4 +9,5 @@ Created on 8 August 2018
 
 from . import coreff_partner
 from . import coreff_config
+from . import coreff_create_from_wizard
 
