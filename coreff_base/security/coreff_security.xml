@@ -3,7 +3,7 @@
 <odoo>
 	<data>
 	
-		<!-- default users are crapo Users -->
+		<!-- default users are coreff Users -->
 	    <record id="group_coreff_user" model="res.groups">
 	        <field name="name">Core-FF - User</field>
 	        <field name="category_id" ref="base.module_category_coreff"/>
