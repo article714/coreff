@@ -17,7 +17,6 @@
     'data': ['security/coreff_security.xml',
              'views/coreff_partner_views.xml',
              'views/coreff_config_views.xml',
-             'views/coreff_menus.xml',
              'views/tree_view_assets.xml'],
     
     'qweb': ['static/src/xml/create_from_button.xml'],
