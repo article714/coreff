@@ -3,15 +3,49 @@
 
 	<record id="view_coreff_config" model="ir.ui.view">
 		<field name="name">view.coreff.settings</field>
-		<field name="model">coreff.config.settings</field>
+		<field name="model">res.config.settings</field>
 		<field name="arch" type="xml">
-			<form string="CoreFF settings" class="oe_form_configuration">
-				<header>
-					<button string="Apply" type="object" name="execute" class="oe_highlight" />
-					<button string="Cancel" type="object" name="cancel" class="oe_link"
-						special="cancel" />
-				</header>
-			</form>
+		
+            <xpath expr="//div[hasclass('settings')]"
+                position="inside">
+                <div class="app_settings_block" data-string="coreff"
+                    string="Coreff" data-key="coreff_base"
+                    groups="coreff_base.group_coreff_app_admin" id="coreff_settings_block">
+                    <h2>Coreff</h2>
+
+					<div class="row mt16 o_settings_container">
+						<div class="col-12 col-lg-6 o_setting_box"
+							id="lease4_crm_societecom_config">
+							<div class="o_setting_left_pane">
+								<field name="module_coreff_societecom" />
+							</div>
+							<div class="o_setting_right_pane">
+								<label for="module_coreff_societecom" />
+								<div class="text-muted">
+									Enable the retrieving of
+									corporate data for companies using
+									Societe.com
+								</div>
+							</div>
+						</div>
+						<div class="col-12 col-lg-6 o_setting_box"
+							id="lease4_crm_creditsafe_config">
+							<div class="o_setting_left_pane">
+								<field name="module_coreff_creditsafe" />
+							</div>
+							<div class="o_setting_right_pane">
+								<label for="module_coreff_creditsafe" />
+								<div class="text-muted">
+									Enable the retrieving of
+									corporate data for companies using
+									Credit
+									Safe services
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+            </xpath>
 		</field>
 	</record>
 	
