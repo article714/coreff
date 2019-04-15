@@ -12,7 +12,7 @@ from odoo.exceptions import UserError
 
 from lxml.etree import Element, tostring, parse, fromstring
 
-from creditsafe_data_wsdl import get_company_information_by_siret
+from . creditsafe_data_wsdl import get_company_information_by_siret
 
 import logging
 _logger = logging.getLogger(__name__)

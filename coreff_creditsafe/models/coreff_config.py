@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-# ©2018 Article714
+# ©2018-2019 Article714
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
 from odoo import fields, models, _
 
 class CoreffConfig(models.TransientModel):
-    _inherit = 'coreff.config.settings'
+    _inherit = 'res.config.settings'
 
     creditSafeUrl = fields.Char(string=_(u'WSDL'),
                                 help=_(u'URL d\'accès au service GetData de CreditSafe.'))

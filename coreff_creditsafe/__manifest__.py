@@ -19,5 +19,5 @@
     'qweb': ['static/src/xml/create_from_button.xml'],
     'installable': True,
     'images': [],
-    'application': True,
+    'application': False,
 }

@@ -13,8 +13,7 @@
 			<xpath expr="//group[@id='service_informations']" position="after">
 					<group name="container_row_2">
 						<group string="Identification">
-							<field name="siren" readonly="True"/>
-							<field name="nic"  readonly="True"/>	
+							<field name="siret" readonly="True"/>
 							<field name="activity_code"  readonly="True"/>
 							<field name="activity_description"  readonly="True"/>
 							<field name="nationality"  readonly="True"/>

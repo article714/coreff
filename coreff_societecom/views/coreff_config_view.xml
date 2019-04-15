@@ -3,23 +3,38 @@
     <data>
         <record id="view_coreff_societecom_config" model="ir.ui.view">
             <field name="name">Coreff: Configuration</field>
-            <field name="model">coreff.config.settings</field>
+            <field name="model">res.config.settings</field>
 	      	<field name="inherit_id" ref="coreff_base.view_coreff_config"/>
             <field name="arch" type="xml">
-                
-                	<xpath expr="//header" position="after">   
-                		<group name="container_row_2">
-	                    <group string="Informations Societe.com" name="coreff">
-	                        <field name="societeComUrl"/>
-	                        <field name="societeComLogin"/>
-	                        <field name="societeComPassword" password="True"/>
-	                    </group>
-	                    <group>
-	                    
-	                    </group>
-	                 </group>
+                <xpath expr="//div[@id='coreff_settings_block']"
+                			 position="inside">
+					<h2>Societe.com API</h2>
+					<div class="row mt16 o_settings_container">
+						<div class="col-12 col-lg-6 o_setting_box"
+							id="lease4_crm_societecom_config">
+							<div class="o_setting_left_pane">
+							</div>
+							<div class="o_setting_right_pane">
+							
+								<div class="content-group">
+									<div class="row mt16">
+										<label for="societeComUrl" class="col-lg-3 o_light_label"/>
+										<field name="societeComUrl"/>
+									</div>
+									<div class="row">
+										<label for="societeComLogin" class="col-lg-3 o_light_label"/>
+										<field name="societeComLogin"/>
+									</div>
+									<div class="row">
+										<label for="societeComPassword" class="col-lg-3 o_light_label"/>
+										<field name="societeComPassword"/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
                 </xpath>
-                
+
             </field>
         </record>
 
