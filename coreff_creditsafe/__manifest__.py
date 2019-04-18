@@ -12,7 +12,7 @@
     'license': u'AGPL-3',
     'website': u'https://www.article714.org',
     'summary': '',
-    'depends': ['coreff_base'],
+    'depends': ['coreff_base','l10n_fr'],
     'data': ['views/coreff_config_view.xml',
              'views/coreff_partner_views.xml',
              'views/create_from_button.xml'],
