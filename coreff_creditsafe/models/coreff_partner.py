@@ -114,13 +114,18 @@ class CoreffPartner(models.Model):
         self.get_company_information()
 
     #-------------------------
-    @api.one
     def get_company_information(self):
-        siret = getattr(self, 'siret', '')
+        """
+        Get Company info from CreditSafe
+        """
+        self.ensure_one()
+        
         ref  = 'CreditSafe/Infibail'+ getattr(self, 'name', '')
         
-        if siret != None and len(siret)==14:
-            xml_info = get_company_information_by_siret(siret.strip(), ref);
+        logging.error("LOOKING FOR SIRET: %s",self.siret)
+        
+        if self.siret and len(self.siret)==14:
+            xml_info = get_company_information_by_siret(self.siret.strip(), ref);
             
             if xml_info != None: 
                 
@@ -133,5 +138,5 @@ class CoreffPartner(models.Model):
                             setattr(self, k, node.text)    
                                 
         else:
-            raise UserError(_("The SIRET '%s' is incorrect.") % siret)
+            raise UserError(_("The SIRET '%s' is incorrect.") % str(self.siret))
                                 
