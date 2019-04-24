@@ -11,17 +11,9 @@
     'author': u'Article714',
     'license': u'AGPL-3',
     'website': u'https://www.article714.org',
-    'description': u"""
-CoreFF: Test module
-===================
-
-TODO
-
-
-**Credits:** .
-""",
-    'depends': ['coreff_creditsafe','coreff_societecom','coreff_informa'],
-    'data': ['security/access_model.xml'],
+    'summary': u'Coreff Test Module',
+    'depends': ['coreff_creditsafe', 'coreff_societecom', 'coreff_informa'],
+    'data': [],
     'installable': True,
     'images': [],
     'application': True,
