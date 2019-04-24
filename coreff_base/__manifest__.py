@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*-
+# coding: utf-8
 
 # @author: J. Carette
 # @author: C. Guychard
@@ -18,9 +18,9 @@
              'views/coreff_partner_views.xml',
              'views/coreff_config_views.xml',
              'views/tree_view_assets.xml'],
-    
-    'qweb': ['static/src/xml/create_from_button.xml'],
-     
+
+    'qweb': ['static/src/xml/create_from_button.xml'], 
+
     'installable': True,
     'images': [],
     'application': False,
