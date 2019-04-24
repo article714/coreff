@@ -13,14 +13,12 @@
     'license': u'AGPL-3',
     'website': u'https://www.article714.org',
     'summary': u'Manage Core Financial Data: base module',
-    'depends': ['base','l10n_fr'],
+    'depends': ['base', 'l10n_fr'],
     'data': ['security/coreff_security.xml',
              'views/coreff_partner_views.xml',
              'views/coreff_config_views.xml',
              'views/tree_view_assets.xml'],
-
-    'qweb': ['static/src/xml/create_from_button.xml'], 
-
+    'qweb': ['static/src/xml/create_from_button.xml'],
     'installable': True,
     'images': [],
     'application': False,
