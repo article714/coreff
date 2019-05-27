@@ -5,13 +5,13 @@
 # @license: AGPL v3
 
 {
-    'name': u'CoreFF: Societe.com',
-    'version': u'12.0.1.0.0',
-    'category': u'CoreFF',
-    'author': u'Article714',
-    'license': u'AGPL-3',
-    'website': u'https://www.article714.org',
-    'description': u"""
+    "name": u"CoreFF: Societe.com",
+    "version": u"12.0.1.0.0",
+    "category": u"CoreFF",
+    "author": u"Article714",
+    "license": u"AGPL-3",
+    "website": u"https://www.article714.org",
+    "description": u"""
 CoreFF - CreditSafe 
 ===================
 
@@ -23,10 +23,10 @@ into "financial informations" configuration menu.
 
 **Credits:** .
 """,
-    'depends': ['coreff_base'],
-    'data': ['views/coreff_config_view.xml'],
-    'qweb': ['static/src/xml/create_from_button.xml'],
-    'installable': True,
-    'images': [],
-    'application': False,
+    "depends": ["coreff_base"],
+    "data": ["views/coreff_config_view.xml"],
+    "qweb": ["static/src/xml/create_from_button.xml"],
+    "installable": True,
+    "images": [],
+    "application": False,
 }
