@@ -12,13 +12,17 @@
     "license": u"AGPL-3",
     "website": u"https://www.article714.org",
     "summary": "",
-    "depends": ["coreff_base", "l10n_fr"],
+    "depends": ["coreff_base", "l10n_fr", "web"],
     "data": [
-        "views/coreff_config_view.xml",
-        "views/coreff_partner_views.xml",
-        "views/create_from_button.xml",
+        "views/coreff_creditsafe_assets.xml",
+        "views/res_config_settings_views.xml",
+        "views/res_partner_views.xml",
+        "data/cron.xml"
     ],
-    "qweb": ["static/src/xml/create_from_button.xml"],
+    "qweb": [
+        "static/src/xml/create_from_button.xml",
+        "static/src/xml/creditsafe_autocomplete.xml",
+    ],
     "installable": True,
     "images": [],
     "application": False,

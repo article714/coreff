@@ -18,16 +18,20 @@
 
 								<div class="content-group">
 									<div class="row mt16">
-										<label for="creditSafeUrl" class="col-lg-3 o_light_label"/>
-										<field name="creditSafeUrl"/>
+										<label for="creditsafe_url" class="col-lg-3 o_light_label"/>
+										<field name="creditsafe_url"/>
 									</div>
 									<div class="row">
-										<label for="creditSafeLogin" class="col-lg-3 o_light_label"/>
-										<field name="creditSafeLogin"/>
+										<label for="creditsafe_username" class="col-lg-3 o_light_label"/>
+										<field name="creditsafe_username"/>
 									</div>
 									<div class="row">
-										<label for="creditSafePassword" class="col-lg-3 o_light_label"/>
-										<field name="creditSafePassword"/>
+										<label for="creditsafe_password" class="col-lg-3 o_light_label"/>
+										<field name="creditsafe_password" password="True"/>
+									</div>
+									<div class="row">
+										<label for="creditsafe_token" class="col-lg-3 o_light_label"/>
+										<field name="creditsafe_token"/>
 									</div>
 								</div>
 				

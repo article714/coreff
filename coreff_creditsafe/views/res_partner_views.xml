@@ -11,8 +11,13 @@
 			<xpath expr="//field[@name='siret']" position="replace">
                     
             </xpath> 	
+
+			<xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="widget">field_coreff_creditsafe</attribute>
+            </xpath>
+
 			<xpath expr="//field[@name='vat']" position="before">
-                    <field name="siret" attrs="{'invisible': [('is_company', '=', False)]}"/>
+                    <field name="siret" widget="field_coreff_creditsafe" attrs="{'invisible': [('is_company', '=', False)]}"/>
             </xpath> 	
 			
 			
