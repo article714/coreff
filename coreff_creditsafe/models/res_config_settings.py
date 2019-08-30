@@ -3,6 +3,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
+import requests
+import json
 from odoo import fields, models, _, api
 
 
@@ -29,6 +31,13 @@ class ResConfigSettings(models.TransientModel):
         self.env['ir.config_parameter'].sudo().set_param('coreff_creditsafe.creditsafe_url', self.creditsafe_url)
         self.env['ir.config_parameter'].sudo().set_param('coreff_creditsafe.creditsafe_username', self.creditsafe_username)
         self.env['ir.config_parameter'].sudo().set_param('coreff_creditsafe.creditsafe_password', self.creditsafe_password)
-        self.env['ir.config_parameter'].sudo().set_param('coreff_creditsafe.creditsafe_token', self.creditsafe_token)
+
+        headers = {"accept": "application/json", "Content-type": "application/json"}
+        data = {"username": self.creditsafe_username, "password": self.creditsafe_password}
+        response = requests.post(("{}/authenticate".format(self.creditsafe_url)), data=json.dumps(data), headers=headers)
+        if response.status_code == 200:
+            content = response.json()
+            self.creditsafe_token = content["token"]
+            self.env['ir.config_parameter'].sudo().set_param('coreff_creditsafe.creditsafe_token', self.creditsafe_token)
 
         super(ResConfigSettings, self).set_values()

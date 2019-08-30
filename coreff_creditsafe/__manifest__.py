@@ -17,7 +17,8 @@
         "views/coreff_creditsafe_assets.xml",
         "views/res_config_settings_views.xml",
         "views/res_partner_views.xml",
-        "data/cron.xml"
+        "data/cron.xml",
+        "security/creditsafe_authent_security.xml",
     ],
     "qweb": [
         "static/src/xml/create_from_button.xml",

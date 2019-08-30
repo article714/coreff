@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<data>
+	
+		<record id="access_creditsafe_authent_admin" 
+            model="ir.model.access">
+            <field name="name">access.coreff.creditsafe.authent.admin</field>
+            <field name="model_id" 
+                ref="model_creditsafe_authent" />
+            <field name="group_id" 
+                eval="ref('base.group_user')" />
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
+            <field name="perm_create">1</field>
+            <field name="perm_unlink">1</field>
+        </record>
+
+	</data>
+</odoo>
