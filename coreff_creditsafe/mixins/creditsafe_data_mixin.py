@@ -13,28 +13,46 @@ class CreditSafeDataMixin(object):
     creditsafe_company_id = fields.Char(string="Creditsafe id")
 
     # Identification
-    creditsafe_company_name = fields.Char(string="Business Name")
-    creditsafe_legal_form = fields.Char(string="Legal Form")
-    creditsafe_court_registry_number = fields.Char(string="RCS Number")
-    creditsafe_court_registry_description = fields.Char(string="RCS")
-    creditsafe_incorporation_date = fields.Char(string="Registration Date")
-    creditsafe_activity_code = fields.Char(string="Activity Code")
-    creditsafe_activity_description = fields.Char(
-        string="Activity Description"
+    creditsafe_company_name = fields.Char(
+        string="Business Name", readonly=True
     )
-    creditsafe_country = fields.Char(string="Country")
+    creditsafe_legal_form = fields.Char(string="Legal Form", readonly=True)
+    creditsafe_court_registry_number = fields.Char(
+        string="RCS Number", readonly=True
+    )
+    creditsafe_court_registry_description = fields.Char(
+        string="RCS", readonly=True
+    )
+    creditsafe_incorporation_date = fields.Char(
+        string="Registration Date", readonly=True
+    )
+    creditsafe_activity_code = fields.Char(
+        string="Activity Code", readonly=True
+    )
+    creditsafe_activity_description = fields.Char(
+        string="Activity Description", readonly=True
+    )
+    creditsafe_country = fields.Char(string="Country", readonly=True)
 
     # Notations
-    creditsafe_status = fields.Char(string="Status")
-    creditsafe_rating = fields.Char(string="Rating")
-    creditsafe_rating_short = fields.Char(string="Rating / Short Precision")
-    creditsafe_rating_long = fields.Char(string="Rating / Long Precision")
-    creditsafe_credit_limit = fields.Char(string="Credit Limit")
+    creditsafe_status = fields.Char(string="Status", readonly=True)
+    creditsafe_rating = fields.Char(string="Rating", readonly=True)
+    creditsafe_rating_short = fields.Char(
+        string="Rating / Short Precision", readonly=True
+    )
+    creditsafe_rating_long = fields.Char(
+        string="Rating / Long Precision", readonly=True
+    )
+    creditsafe_credit_limit = fields.Char(string="Credit Limit", readonly=True)
 
     # Judgements
-    creditsafe_last_judgement_date = fields.Char(string="Last Judgement")
-    creditsafe_last_ccj_date = fields.Char(string="")
-    creditsafe_number_of_directors = fields.Char(string="Number of Directors")
+    creditsafe_last_judgement_date = fields.Char(
+        string="Last Judgement", readonly=True
+    )
+    creditsafe_last_ccj_date = fields.Char(string="", readonly=True)
+    creditsafe_number_of_directors = fields.Char(
+        string="Number of Directors", readonly=True
+    )
 
     creditsafe_last_update = fields.Datetime(
         readonly=True, string="Last Update"
