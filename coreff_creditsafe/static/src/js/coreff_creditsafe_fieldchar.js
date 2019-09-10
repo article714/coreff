@@ -39,12 +39,7 @@ odoo.define('coreff.creditsafe.fieldchar', function (require) {
         },
 
         _isActive: function () {
-            return this.model === 'res.company' ||
-                (
-                    this.model === 'res.partner'
-                    && this.record.data.is_company
-                    && !(this.record.data && this.record.data.id)
-                );
+            return this.model === 'res.partner' && this.record.data.is_company;
         },
 
         _removeDropdown: function () {
@@ -62,8 +57,6 @@ odoo.define('coreff.creditsafe.fieldchar', function (require) {
         _selectCompany: function (company) {
             var self = this;
             Autocomplete.getCreateData(company).then(function (data) {
-                console.log(data);
-
                 self.trigger_up('field_changed', {
                     dataPointID: self.dataPointID,
                     changes: data.company,
@@ -79,6 +72,12 @@ odoo.define('coreff.creditsafe.fieldchar', function (require) {
             this._removeDropdown();
         },
 
+        _showLoading: function() {
+            this._removeDropdown();
+            this.$dropdown = $(QWeb.render('creditsafe_autocomplete.loading'));
+            this.$dropdown.appendTo(this.$el);
+        },
+
         _showDropdown: function () {
             this._removeDropdown();
             if (this.suggestions.length > 0) {
@@ -92,6 +91,7 @@ odoo.define('coreff.creditsafe.fieldchar', function (require) {
         _suggestCompanies: function (value) {
             var self = this;
             if (Autocomplete.validateSearchTerm(value, this.onlySiret) && Autocomplete.isOnline()) {
+                self._showLoading();
                 return Autocomplete.autocomplete(value, this.onlySiret).then(function (suggestions) {
                     if (suggestions && suggestions.length) {
                         self.suggestions = suggestions;

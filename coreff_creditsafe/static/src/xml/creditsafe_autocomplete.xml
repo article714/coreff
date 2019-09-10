@@ -6,10 +6,16 @@
                 t-attf-class="dropdown-item o_partner_autocomplete_suggestion clearfix#{info_index == 0 and ' active' or ''}"
                 t-att-data-index="info_index">
                 <div class="o_partner_autocomplete_info">
-                    <strong><t t-esc="info['name'] or '&#160;'"/></strong>
+                    <strong><t t-esc="info['name'] or '&#160;'"/></strong> <t t-esc="info['city'] or '&#160;'"/>
                     <div><t t-esc="info['siret']"/></div>
                 </div>
             </a>
         </t>
+    </div>
+
+    <div t-name="creditsafe_autocomplete.loading" class="o_partner_autocomplete_dropdown dropdown-menu show" role="menu">
+        <div class="o_partner_autocomplete_info dropdown-item o_partner_autocomplete_suggestion loading-ellipsis">
+            <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+        </div>
     </div>
 </templates>

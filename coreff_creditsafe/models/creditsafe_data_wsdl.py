@@ -12,7 +12,9 @@ import threading
 try:
     import zeep
 except:
-    logging.exception("Cannot find Zeep, some CreditSafe features won't be available")
+    logging.exception(
+        "Cannot find Zeep, some CreditSafe features won't be available"
+    )
 
 from odoo import exceptions
 
@@ -76,7 +78,9 @@ class ZeepClient(object):
         # set namespace to Zeep Client
         # self.client.set_ns_prefix('NS1', 'http://NAMESPACE_URL')
 
-    def getCompanyInformation(self, siret, ref="", operation="getcompanyinformation"):
+    def getCompanyInformation(
+        self, siret, ref="", operation="getcompanyinformation"
+    ):
         self.lock.acquire()
         try:
             # complete header with specific values
@@ -85,7 +89,9 @@ class ZeepClient(object):
             o[0].text = operation
 
             if ref != "":
-                c = self.xml_request.xpath("/xmlrequest/header/chargereference")
+                c = self.xml_request.xpath(
+                    "/xmlrequest/header/chargereference"
+                )
                 c[0].text = ref
 
             if siret != None and siret != "":
@@ -105,7 +111,9 @@ class ZeepClient(object):
                 report_type = xml_response.xpath(
                     "/xmlresponse/header/reportinformation/reporttype"
                 )
-                if report_type != None and report_type[0].text == str(operation):
+                if report_type != None and report_type[0].text == str(
+                    operation
+                ):
                     return xml_response
                 else:
                     error_detail = xml_response.xpath(
@@ -119,7 +127,9 @@ class ZeepClient(object):
                     )
 
         except zeep.exceptions.Fault as e:
-            logging.warning("Fault when PROCESSING Credit-Safe Service --> %s" % str(e))
+            logging.warning(
+                "Fault when PROCESSING Credit-Safe Service --> %s" % str(e)
+            )
             return None
         except Exception as e:
             # This means something went wrong.

@@ -7,44 +7,11 @@ odoo.define('coreff.creditsafe.core', function (require) {
         autocomplete: function (value, isSiret) {
             value = value.trim();
             var self = this;
-            var def = $.Deferred(),
-                creditsafeSuggestions = [];
+            var def = $.Deferred();
 
-            const getCreditSafeSuggestions = async (value, isSiret) => {
-                const settings = await self._getCreditSafeSettings();
-                var headers = {
-                    'accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': settings.token
-                };
-                if (isSiret) {
-                    var url = settings.url + '/companies?countries=fr%2Ces&language=en&regNo=' + value;
-                }
-                else {
-                    var url = settings.url + '/companies?countries=fr%2Ces&language=en&name=' + value;
-                }
-                var options = {
-                    headers: headers,
-                    method: "GET"
-                };
-                const response = await fetch(url, options);
-                const json = await response.json();
-                console.log(json);
-                return json;
-            };
-
-            getCreditSafeSuggestions(value, isSiret).then(res => {
-                creditsafeSuggestions = res.companies.map(function (company){
-                    var suggestion = {};
-                    suggestion.name = company.name;
-                    suggestion.siret = company.regNo;
-                    suggestion.street = company.address.street;
-                    suggestion.city = company.address.city;
-                    suggestion.zip = company.address.postCode;
-                    suggestion.country_id = company.country;
-                    return suggestion;
-                });
-                return def.resolve(creditsafeSuggestions);
+            // fr%2Ces
+            self._getCompanies("fr", "en", isSiret, value).then(res => {
+                return def.resolve(res);
             });
 
             return def;
@@ -84,36 +51,13 @@ odoo.define('coreff.creditsafe.core', function (require) {
             }
         },
 
-        _getCreditSafeSettings: function () {
-            var self = this;
-            var def = $.Deferred();
-
-            const getSettings = async () => {
-                var settings = {};
-                settings.url = await self._getSettings("coreff_creditsafe.creditsafe_url");
-                settings.username = await self._getSettings("coreff_creditsafe.creditsafe_username");
-                settings.password = await self._getSettings("coreff_creditsafe.creditsafe_password");
-                settings.token = await self._getSettings("coreff_creditsafe.creditsafe_token");
-                return settings;
-            };
-
-            getSettings().then(res => {
-                def.resolve(res);
-            });
-
-            return def;
-        },
-
-        _getSettings: function (key) {
-            var domain = [['key', '=', key]];
-            var fields = ['value'];
-
+        _getCompanies: function (countries, language, isSiret, value) {
             return rpc.query({
-                model: 'ir.config_parameter',
-                method: 'search_read',
-                args: [domain, fields],
+                model: 'creditsafe.api',
+                method: 'get_companies',
+                args: [countries, language, isSiret, value],
             }).then(function (res) {
-                return res[0].value;
+                return res;
             });
         },
 
@@ -127,63 +71,7 @@ odoo.define('coreff.creditsafe.core', function (require) {
             }).then(function (res){
                 return res[0];
             });
-        },
-
-        _getSettingsId: function (key) {
-            var domain = [['key', '=', key]];
-
-            return rpc.query({
-                model: 'ir.config_parameter',
-                method: 'search_read',
-                args: [domain]
-            }).then(function (res){
-                return res[0];
-            });
-        },
-
-        _updateSettings: function (id, value) {
-            return rpc.query({
-                model: 'ir.config_parameter',
-                method: 'write',
-                args: [id, {value: value}],
-            }).then(function () {
-                return;
-            });
-        },
-
-        _updateToken: function (settings) {
-            var self = this;
-            const getToken = async () => {
-                var headers = {
-                    'accept': 'application/json',
-                    'Content-Type': 'application/json'
-                };
-                var url = settings.url + '/authenticate';
-                var data = {
-                    username: settings.username,
-                    password: settings.password
-                };
-                var options = {
-                    headers: headers,
-                    data: data,
-                    method: "POST"
-                };
-                const response = await fetch(url, options);
-                const json = await response.json();
-                console.log(json);
-                return json;
-            };
-
-            const updateToken = async () => {
-                const token = await getToken();
-                const settingId = await self._getSettingsId("coreff_creditsafe.creditsafe_token");
-                await self._updateSettings(settingId, token);
-            }
-
-            return updateToken().then(function () {
-                return;
-            });
-        },
+        }
         
     };
 });
