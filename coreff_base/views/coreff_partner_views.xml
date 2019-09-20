@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
- <!-- 
+	<!--
 	<record model="ir.ui.view" id="coreff_partner_tree">
 		<field name="name">coreff.partner.tree</field>
 		<field name="model">res.partner</field>
 		<field name="inherit_id" ref="base.view_partner_tree" />
 		<field name="arch" type="xml">
-			
+
 		</field>
 	</record>
   -->
-	<record model="ir.ui.view" id="coref_partner_form">
+	<!--<record model="ir.ui.view" id="coref_partner_form">
 		<field name="name">coreff.partner.form</field>
 		<field name="model">res.partner</field>
 		<field name="inherit_id" ref="base.view_partner_form" />
 		<field name="arch" type="xml">
-			
+
 
 			<xpath expr="//page[@name='sales_purchases']" position="after">
-				<page name='financial_information' string="Financial informations">
-					<!-- Add financial informations to view_partner_form -->
+				<!-<page name='financial_information' string="Financial informations">
+					<!- Add financial informations to view_partner_form ->
 
 					<header id="service_header">
-						<!-- Add here buttons to call finacial webservices -->
+						<!- Add here buttons to call finacial webservices ->
 					</header>
 
 					<group id="service_informations">
-						<!-- Add here informations from financial webservices -->
+						<!- Add here informations from financial webservices ->
 					</group>
 
 				</page>
 			</xpath>
 		</field>
-	</record>
+	</record>-->
 
 </odoo>
