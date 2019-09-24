@@ -38,10 +38,6 @@ odoo.define('coreff.creditsafe.fieldchar', function (require) {
             }
         },
 
-        _isActive: function () {
-            return this.record.data.is_company;
-        },
-
         _removeDropdown: function () {
             if (this.$dropdown) {
                 this.$dropdown.remove();
@@ -116,9 +112,7 @@ odoo.define('coreff.creditsafe.fieldchar', function (require) {
 
         _onInput: function () {
             this._super.apply(this, arguments);
-            if (this._isActive()) {
-                this._suggestCompanies(this.$input.val());
-            }
+            this._suggestCompanies(this.$input.val());
         },
 
         _onKeydown: function (e) {
