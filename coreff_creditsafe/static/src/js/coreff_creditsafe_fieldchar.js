@@ -39,7 +39,7 @@ odoo.define('coreff.creditsafe.fieldchar', function (require) {
         },
 
         _isActive: function () {
-            return this.model === 'res.partner' && this.record.data.is_company;
+            return this.record.data.is_company;
         },
 
         _removeDropdown: function () {
@@ -72,7 +72,7 @@ odoo.define('coreff.creditsafe.fieldchar', function (require) {
             this._removeDropdown();
         },
 
-        _showLoading: function() {
+        _showLoading: function () {
             this._removeDropdown();
             this.$dropdown = $(QWeb.render('creditsafe_autocomplete.loading'));
             this.$dropdown.appendTo(this.$el);
