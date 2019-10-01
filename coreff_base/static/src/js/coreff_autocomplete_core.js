@@ -78,7 +78,6 @@ odoo.define('coreff.autocomplete.core', function (require) {
                 method: 'get_companies',
                 args: [countries, language, isSiret, value],
             }).then(function (res) {
-                console.log(res);
                 return res;
             });
         },

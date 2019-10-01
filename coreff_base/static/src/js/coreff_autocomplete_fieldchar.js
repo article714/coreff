@@ -39,9 +39,7 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
             }
 
             Autocomplete.getUser().then(function (res) {
-                console.log(res);
                 Autocomplete.getConnector(res.company_id[0]).then(function (res) {
-                    console.log(res);
                     self.connector = res.coreff_connector_id;
                 })
             });
@@ -95,9 +93,7 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
 
         _suggestCompanies: function (value) {
             var self = this;
-            console.log(this.connector)
             if (Autocomplete.validateSearchTerm(value, this.onlySiret) && Autocomplete.isOnline() && this.connector) {
-                console.log("CONNECTOR TRUE")
                 self._showLoading();
                 return Autocomplete.autocomplete(value, this.onlySiret).then(function (suggestions) {
                     if (suggestions && suggestions.length) {
