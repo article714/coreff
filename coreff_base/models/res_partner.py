@@ -12,7 +12,7 @@ import logging
 from odoo import api, models
 
 
-class CoreffPartner(models.Model):
+class ResPartner(models.Model):
     _inherit = "res.partner"
 
     # -------------------------

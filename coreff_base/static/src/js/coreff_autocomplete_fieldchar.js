@@ -1,10 +1,10 @@
-odoo.define('coreff.creditsafe.fieldchar', function (require) {
+odoo.define('coreff.autocomplete.fieldchar', function (require) {
     'use strict';
 
     var basic_fields = require('web.basic_fields');
     var core = require('web.core');
     var field_registry = require('web.field_registry');
-    var Autocomplete = require('coreff.creditsafe.core');
+    var Autocomplete = require('coreff.autocomplete.core');
 
     var QWeb = core.qweb;
 
@@ -24,6 +24,7 @@ odoo.define('coreff.creditsafe.fieldchar', function (require) {
         }),
 
         init: function () {
+            var self = this;
             this._super.apply(this, arguments);
 
             this.onlySiret = this.name === 'siret';
@@ -36,6 +37,14 @@ odoo.define('coreff.creditsafe.fieldchar', function (require) {
             if (this.debounceSuggestions > 0) {
                 this._suggestCompanies = _.debounce(this._suggestCompanies.bind(this), this.debounceSuggestions);
             }
+
+            Autocomplete.getUser().then(function (res) {
+                console.log(res);
+                Autocomplete.getConnector(res.company_id[0]).then(function (res) {
+                    console.log(res);
+                    self.connector = res.coreff_connector_id;
+                })
+            });
         },
 
         _removeDropdown: function () {
@@ -70,14 +79,14 @@ odoo.define('coreff.creditsafe.fieldchar', function (require) {
 
         _showLoading: function () {
             this._removeDropdown();
-            this.$dropdown = $(QWeb.render('creditsafe_autocomplete.loading'));
+            this.$dropdown = $(QWeb.render('coreff_autocomplete.loading'));
             this.$dropdown.appendTo(this.$el);
         },
 
         _showDropdown: function () {
             this._removeDropdown();
             if (this.suggestions.length > 0) {
-                this.$dropdown = $(QWeb.render('creditsafe_autocomplete.dropdown', {
+                this.$dropdown = $(QWeb.render('coreff_autocomplete.dropdown', {
                     suggestions: this.suggestions,
                 }));
                 this.$dropdown.appendTo(this.$el);
@@ -86,7 +95,9 @@ odoo.define('coreff.creditsafe.fieldchar', function (require) {
 
         _suggestCompanies: function (value) {
             var self = this;
-            if (Autocomplete.validateSearchTerm(value, this.onlySiret) && Autocomplete.isOnline()) {
+            console.log(this.connector)
+            if (Autocomplete.validateSearchTerm(value, this.onlySiret) && Autocomplete.isOnline() && this.connector) {
+                console.log("CONNECTOR TRUE")
                 self._showLoading();
                 return Autocomplete.autocomplete(value, this.onlySiret).then(function (suggestions) {
                     if (suggestions && suggestions.length) {
@@ -172,7 +183,7 @@ odoo.define('coreff.creditsafe.fieldchar', function (require) {
         },
     });
 
-    field_registry.add('field_coreff_creditsafe', FieldAutocomplete);
+    field_registry.add('field_coreff_autocomplete', FieldAutocomplete);
 
     return FieldAutocomplete;
 });

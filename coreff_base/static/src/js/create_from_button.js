@@ -1,4 +1,4 @@
-odoo.define('coreff_creditsafe.create_from_button', function (require) {
+odoo.define('coreff_autocomplete.create_from_button', function (require) {
         "use strict";
 
 

@@ -2,24 +2,16 @@
 # ©2018-2019 Article714
 # # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import logging
 import json
 import requests
 from odoo import api, models
 
-LOGGER = logging.getLogger(__name__)
 
-
-class CreditSafeApi(models.Model):
-    """
-    API for CreditSafe service
-    """
-
-    _name = "creditsafe.api"
-    _description = "CreditSafe API"
+class CoreffConnector(models.Model):
+    _inherit = "coreff.connector"
 
     @api.model
-    def authenticate(self):
+    def creditsafe_authenticate(self):
         """
         Auto authent to access CreditSafe
         """
@@ -51,7 +43,7 @@ class CreditSafeApi(models.Model):
                 raise Exception(response)
 
     @api.model
-    def get_companies(self, countries, language, is_siret, value):
+    def creditsafe_get_companies(self, countries, language, is_siret, value):
         """
         Get companies
         """
@@ -111,7 +103,7 @@ class CreditSafeApi(models.Model):
                 raise Exception(response)
 
     @api.model
-    def get_company(self, company_id):
+    def creditsafe_get_company(self, company_id):
         """
         Get company information
         """

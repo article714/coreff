@@ -3,9 +3,9 @@
         model="ir.cron">
         <field name="name">CreditSafe : Authent</field>
         <field name="model_id" 
-            ref="model_creditsafe_api" />
+            ref="model_coreff_connector" />
         <field name="state">code</field>
-        <field name="code">model.authenticate()</field>
+        <field name="code">model.creditsafe_authenticate()</field>
         <field name="interval_number">10</field>
         <field name="interval_type">minutes</field>
         <field name="numbercall">-1</field>

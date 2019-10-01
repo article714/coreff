@@ -7,6 +7,6 @@ Created on 8 August 2018
 @license: AGPL v3
 """
 
-from . import creditsafe_api
+from . import coreff_connector
 from . import res_config_settings
 from . import res_partner

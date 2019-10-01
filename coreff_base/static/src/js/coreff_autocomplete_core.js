@@ -1,7 +1,8 @@
-odoo.define('coreff.creditsafe.core', function (require) {
+odoo.define('coreff.autocomplete.core', function (require) {
     'use strict';
 
     var rpc = require('web.rpc');
+    var session = require('web.session');
 
     return {
         autocomplete: function (value, isSiret) {
@@ -51,12 +52,33 @@ odoo.define('coreff.creditsafe.core', function (require) {
             }
         },
 
+        getUser: function () {
+            return rpc.query({
+                model: 'res.users',
+                method: 'read',
+                args: [[session.uid], ['name', 'company_id']],
+            }).then(function (res) {
+                return res[0];
+            });
+        },
+
+        getConnector: function (company_id) {
+            return rpc.query({
+                model: 'res.company',
+                method: 'read',
+                args: [[company_id], ['name', 'coreff_connector_id']]
+            }).then(function (res) {
+                return res[0];
+            });
+        },
+
         _getCompanies: function (countries, language, isSiret, value) {
             return rpc.query({
-                model: 'creditsafe.api',
+                model: 'coreff.api',
                 method: 'get_companies',
                 args: [countries, language, isSiret, value],
             }).then(function (res) {
+                console.log(res);
                 return res;
             });
         },
@@ -68,10 +90,10 @@ odoo.define('coreff.creditsafe.core', function (require) {
                 model: 'res.country',
                 method: 'search_read',
                 args: [domain]
-            }).then(function (res){
+            }).then(function (res) {
                 return res[0];
             });
         }
-        
+
     };
 });

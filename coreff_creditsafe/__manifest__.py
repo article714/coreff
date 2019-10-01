@@ -14,16 +14,12 @@
     "summary": "",
     "depends": ["coreff_base", "l10n_fr", "web"],
     "data": [
-        "views/coreff_creditsafe_assets.xml",
         "views/res_config_settings_views.xml",
         "views/res_partner_views.xml",
+        "data/coreff_connector.xml",
         "data/cron.xml",
-        "security/creditsafe_api_security.xml",
     ],
-    "qweb": [
-        "static/src/xml/create_from_button.xml",
-        "static/src/xml/creditsafe_autocomplete.xml",
-    ],
+    "qweb": [],
     "installable": True,
     "images": [],
     "application": False,

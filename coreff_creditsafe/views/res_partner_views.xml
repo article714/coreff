@@ -17,13 +17,13 @@
 
             <xpath expr="//field[@name='name']" 
                 position="attributes">
-                <attribute name="widget">field_coreff_creditsafe</attribute>
+                <attribute name="widget">field_coreff_autocomplete</attribute>
             </xpath>
 
             <xpath expr="//field[@name='name']" 
                 position="after">
                 <field name="siret" 
-                    widget="field_coreff_creditsafe" 
+                    widget="field_coreff_autocomplete" 
                     placeholder="SIRET" 
                     attrs="{'invisible': [('is_company', '=', False)]}" />
             </xpath>
