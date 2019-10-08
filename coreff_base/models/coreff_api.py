@@ -14,16 +14,6 @@ class CoreffAPI(models.Model):
     _name = "coreff.api"
 
     @api.model
-    def authenticate(self):
-        """
-        Authent
-        """
-        company = self.env.user.company_id
-        connector = company.coreff_connector_id
-        if connector:
-            return safe_eval(connector.authenticate_def, {"self": connector})
-
-    @api.model
     def get_companies(self, countries, language, is_siret, value):
         """
         Get companies

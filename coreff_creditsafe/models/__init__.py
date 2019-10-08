@@ -8,5 +8,6 @@ Created on 8 August 2018
 """
 
 from . import coreff_connector
-from . import res_config_settings
+from . import coreff_credentials
+from . import res_company
 from . import res_partner
