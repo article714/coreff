@@ -18,7 +18,6 @@
         "views/res_company_views.xml",
         "views/res_partner_views.xml",
         "data/coreff_connector.xml",
-        "data/cron.xml",
     ],
     "qweb": [],
     "installable": True,

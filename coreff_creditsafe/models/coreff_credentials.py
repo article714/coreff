@@ -32,6 +32,7 @@ class CoreffCredentials(models.Model):
 
     @api.model
     def get_token(self, url, username):
-        return self.env["coreff.credentials"].search(
+        token = self.env["coreff.credentials"].search(
             [("url", "=", url), ("username", "=", username)]
         )
+        return token

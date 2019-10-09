@@ -56,7 +56,7 @@ odoo.define('coreff.autocomplete.core', function (require) {
             return rpc.query({
                 model: 'res.users',
                 method: 'read',
-                args: [[session.uid], ['name', 'company_id']],
+                args: [session.uid, ['name', 'company_id']],
             }).then(function (res) {
                 return res[0];
             });
@@ -66,19 +66,24 @@ odoo.define('coreff.autocomplete.core', function (require) {
             return rpc.query({
                 model: 'res.company',
                 method: 'read',
-                args: [[company_id], ['name', 'coreff_connector_id']]
+                args: [company_id, ['name', 'coreff_connector_id']]
             }).then(function (res) {
                 return res[0];
             });
         },
 
         _getCompanies: function (countries, language, isSiret, value) {
+            var data = {};
+            data.countries = countries;
+            data.language = language;
+            data.is_siret = isSiret;
+            data.value = value;
+            data.user_id = session.uid;
             return rpc.query({
                 model: 'coreff.api',
                 method: 'get_companies',
-                args: [countries, language, isSiret, value],
+                args: [data],
             }).then(function (res) {
-                console.log(res);
                 return res;
             });
         },

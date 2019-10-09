@@ -11,17 +11,26 @@
             type="xml">
             <xpath expr="//notebook" 
                 position="inside">
-                <page string="Creditsafe">
+                <field name="creditsafe_visibility" 
+                    invisible="1" />
+                <page string="Creditsafe" 
+                    attrs="{'invisible': [('creditsafe_visibility', '=', False)]}">
                     <group>
-                        <group>
+                        <group colspan="2">
+                            <field name="creditsafe_use_parent_company" 
+                                attrs="{'invisible': [('parent_id', '=', False)]}" />
+                        </group>
+                        <group attrs="{'invisible': [('creditsafe_use_parent_company', '=', True)]}">
                             <field name="creditsafe_url" />
                             <field name="creditsafe_username" />
-                            <field name="creditsafe_password" />
+                            <field name="creditsafe_password" 
+                                password="True" />
                         </group>
-                        <group>
+                        <group attrs="{'invisible': [('creditsafe_use_parent_company', '=', False)]}">
                             <field name="creditsafe_parent_url" />
                             <field name="creditsafe_parent_username" />
-                            <field name="creditsafe_parent_password" />
+                            <field name="creditsafe_parent_password" 
+                                password="True" />
                         </group>
                     </group>
                 </page>
