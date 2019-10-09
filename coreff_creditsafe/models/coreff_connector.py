@@ -11,63 +11,59 @@ class CoreffConnector(models.Model):
     _inherit = "coreff.connector"
 
     @api.model
-    def creditsafe_authenticate(self):
+    def creditsafe_authenticate(self, url, username, password):
         """
         Auto authent to access CreditSafe
         """
-        params = self.env["ir.config_parameter"].sudo()
-        username = params.get_param("coreff_creditsafe.creditsafe_username")
-        password = params.get_param("coreff_creditsafe.creditsafe_password")
-        url = params.get_param("coreff_creditsafe.creditsafe_url")
+        headers = {
+            "accept": "application/json",
+            "Content-type": "application/json",
+        }
 
-        if username and password and url:
-            headers = {
-                "accept": "application/json",
-                "Content-type": "application/json",
-            }
+        data = {"username": username, "password": password}
 
-            data = {"username": username, "password": password}
+        response = requests.post(
+            "{}/authenticate".format(url),
+            data=json.dumps(data),
+            headers=headers,
+        )
 
-            response = requests.post(
-                "{}/authenticate".format(url),
-                data=json.dumps(data),
-                headers=headers,
+        if response.status_code == 200:
+            content = response.json()
+
+            self.env["coreff.credentials"].update_token(
+                url, username, content["token"]
             )
-
-            if response.status_code == 200:
-                content = response.json()
-                params.set_param(
-                    "coreff_creditsafe.creditsafe_token", content["token"]
-                )
-            else:
-                raise Exception(response)
+            return content["token"]
+        if response.status_code == 401:
+            return False
+        else:
+            raise Exception(response)
 
     @api.model
-    def creditsafe_get_companies(self, countries, language, is_siret, value):
+    def creditsafe_get_companies(self, arguments, retry=False):
         """
         Get companies
         """
-        params = self.env["ir.config_parameter"].sudo()
-        creditsafe_url = params.get_param("coreff_creditsafe.creditsafe_url")
-        creditsafe_token = params.get_param(
-            "coreff_creditsafe.creditsafe_token"
-        )
+        settings = self.get_company_settings(arguments["user_id"])
+        url = settings["url"]
+        token = settings["token"]
 
-        if creditsafe_url and creditsafe_token:
+        if url:
             headers = {
                 "accept": "application/json",
                 "Content-type": "application/json",
-                "Authorization": creditsafe_token,
+                "Authorization": token if token else "",
             }
 
             call_url = "{}/companies?countries={}&language={}&page=1&pageSize=200".format(
-                creditsafe_url, countries, language
+                url, arguments["countries"], arguments["language"]
             )
 
-            if is_siret:
-                call_url += "&regNo={}".format(value)
+            if arguments["is_siret"]:
+                call_url += "&regNo={}".format(arguments["value"])
             else:
-                call_url += "&name={}".format(value)
+                call_url += "&name={}".format(arguments["value"])
 
             response = requests.get(call_url, headers=headers)
 
@@ -99,33 +95,67 @@ class CoreffConnector(models.Model):
                     suggestions.append(suggestion)
 
                 return suggestions
+            elif response.status_code == 403:
+                if not retry:
+                    res = self.creditsafe_authenticate(
+                        settings["url"],
+                        settings["username"],
+                        settings["password"],
+                    )
+                    if res:
+                        return self.creditsafe_get_companies(arguments, True)
+                else:
+                    raise Exception(response)
             else:
                 raise Exception(response)
 
     @api.model
-    def creditsafe_get_company(self, company_id):
+    def creditsafe_get_company(self, arguments, retry=False):
         """
         Get company information
         """
-        params = self.env["ir.config_parameter"].sudo()
-        creditsafe_url = params.get_param("coreff_creditsafe.creditsafe_url")
-        creditsafe_token = params.get_param(
-            "coreff_creditsafe.creditsafe_token"
-        )
+        settings = self.get_company_settings(arguments["user_id"])
+        url = settings["url"]
+        token = settings["token"]
 
-        if creditsafe_url and creditsafe_token:
+        if url:
             headers = {
                 "accept": "application/json",
                 "Content-type": "application/json",
-                "Authorization": creditsafe_token,
+                "Authorization": token if token else "",
             }
 
-            call_url = "{}/companies/{}".format(creditsafe_url, company_id)
+            call_url = "{}/companies/{}".format(url, arguments["company_id"])
 
             response = requests.get(call_url, headers=headers)
 
             if response.status_code == 200:
                 content = response.json()
                 return content
+            elif response.status_code == 403:
+                if not retry:
+                    res = self.creditsafe_authenticate(
+                        settings["url"],
+                        settings["username"],
+                        settings["password"],
+                    )
+                    if res:
+                        return self.creditsafe_get_company(arguments, True)
+                else:
+                    raise Exception(response)
             else:
                 raise Exception(response)
+
+    def get_company_settings(self, user_id):
+        res = {}
+        user = self.env["res.users"].browse(user_id)
+        company = user.company_id
+        res["url"] = company.get_parent_field("creditsafe_url")
+        res["username"] = company.get_parent_field("creditsafe_username")
+        res["password"] = company.get_parent_field("creditsafe_password")
+        res["token"] = (
+            self.env["coreff.credentials"]
+            .get_token(res["url"], res["username"])
+            .token
+        )
+        return res

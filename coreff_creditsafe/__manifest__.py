@@ -14,10 +14,10 @@
     "summary": "",
     "depends": ["coreff_base", "l10n_fr", "web"],
     "data": [
-        "views/res_config_settings_views.xml",
+        "security/creditsafe_security.xml",
+        "views/res_company_views.xml",
         "views/res_partner_views.xml",
         "data/coreff_connector.xml",
-        "data/cron.xml",
     ],
     "qweb": [],
     "installable": True,

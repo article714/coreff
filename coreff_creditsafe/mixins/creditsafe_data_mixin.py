@@ -64,9 +64,10 @@ class CreditSafeDataMixin(object):
         """
 
         for rec in self:
-            company = self.env["creditsafe.api"].get_company(
-                rec.creditsafe_company_id
-            )
+            arguments = {}
+            arguments["company_id"] = rec.creditsafe_company_id
+            arguments["user_id"] = self.env.user.id
+            company = self.env["coreff.api"].get_company(arguments)
             company = company.get("report", {})
             company_summary = company.get("companySummary", {})
             basic_information = company.get("companyIdentification", {}).get(

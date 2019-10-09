@@ -14,17 +14,7 @@ class CoreffAPI(models.Model):
     _name = "coreff.api"
 
     @api.model
-    def authenticate(self):
-        """
-        Authent
-        """
-        company = self.env.user.company_id
-        connector = company.coreff_connector_id
-        if connector:
-            return safe_eval(connector.authenticate_def, {"self": connector})
-
-    @api.model
-    def get_companies(self, countries, language, is_siret, value):
+    def get_companies(self, arguments):
         """
         Get companies
         """
@@ -33,17 +23,11 @@ class CoreffAPI(models.Model):
         if connector:
             return safe_eval(
                 connector.get_companies_def,
-                {
-                    "self": connector,
-                    "countries": countries,
-                    "language": language,
-                    "is_siret": is_siret,
-                    "value": value,
-                },
+                {"self": connector, "arguments": arguments},
             )
 
     @api.model
-    def get_company(self, company_id):
+    def get_company(self, arguments):
         """
         Get company information
         """
@@ -52,5 +36,5 @@ class CoreffAPI(models.Model):
         if connector:
             return safe_eval(
                 connector.get_company_def,
-                {"self": connector, "company_id": company_id},
+                {"self": connector, "arguments": arguments},
             )

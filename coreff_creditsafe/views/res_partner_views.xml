@@ -30,7 +30,8 @@
 
             <xpath expr="//page[@name='internal_notes']" 
                 position="before">
-                <page string="CreditSafe">
+                <page string="CreditSafe" 
+                    attrs="{'invisible': [('is_company', '=', False)]}">
                     <group>
                         <group col="1" 
                             colspan="2">

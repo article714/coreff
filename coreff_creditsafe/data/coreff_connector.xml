@@ -3,8 +3,7 @@
     <record id="coreff_connector_creditsafe_api" 
         model="coreff.connector">
         <field name="name">Credit Safe</field>
-        <field name="authenticate_def">self.creditsafe_authenticate()</field>
-        <field name="get_companies_def">self.creditsafe_get_companies(countries, language, is_siret, value)</field>
-        <field name="get_company_def">self.creditsafe_get_company(company_id)</field>
+        <field name="get_companies_def">self.creditsafe_get_companies(arguments)</field>
+        <field name="get_company_def">self.creditsafe_get_company(arguments)</field>
     </record>
 </odoo>
