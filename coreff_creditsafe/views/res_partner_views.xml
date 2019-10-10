@@ -2,36 +2,20 @@
 <odoo>
 
     <record model="ir.ui.view" 
-        id="coref_partner_form">
-        <field name="name">coreff.partner.form</field>
+        id="creditsafe_partner_form">
+        <field name="name">creditsafe.partner.form</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" 
-            ref="l10n_fr.res_partner_form_l10n_fr" />
+            ref="coreff_base.coreff_partner_form" />
         <field name="arch" 
             type="xml">
 
-            <!-- Modify SIRET place -->
-            <xpath expr="//field[@name='siret']" 
-                position="replace">
-            </xpath>
-
-            <xpath expr="//field[@name='name']" 
-                position="attributes">
-                <attribute name="widget">field_coreff_autocomplete</attribute>
-            </xpath>
-
-            <xpath expr="//field[@name='name']" 
-                position="after">
-                <field name="siret" 
-                    widget="field_coreff_autocomplete" 
-                    placeholder="SIRET" 
-                    attrs="{'invisible': [('is_company', '=', False)]}" />
-            </xpath>
-
             <xpath expr="//page[@name='internal_notes']" 
                 position="before">
+                <field name="creditsafe_visibility" 
+                    invisible="1" />
                 <page string="CreditSafe" 
-                    attrs="{'invisible': [('is_company', '=', False)]}">
+                    attrs="{'invisible': ['|',('is_company', '=', False), ('creditsafe_visibility', '=', False)]}">
                     <group>
                         <group col="1" 
                             colspan="2">

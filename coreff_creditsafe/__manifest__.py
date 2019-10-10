@@ -12,7 +12,7 @@
     "license": u"AGPL-3",
     "website": u"https://www.article714.org",
     "summary": "",
-    "depends": ["coreff_base", "l10n_fr", "web"],
+    "depends": ["coreff_base", "web"],
     "data": [
         "security/creditsafe_security.xml",
         "views/res_company_views.xml",

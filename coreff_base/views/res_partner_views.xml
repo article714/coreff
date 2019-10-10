@@ -1,37 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-	<!--
-	<record model="ir.ui.view" id="coreff_partner_tree">
-		<field name="name">coreff.partner.tree</field>
-		<field name="model">res.partner</field>
-		<field name="inherit_id" ref="base.view_partner_tree" />
-		<field name="arch" type="xml">
 
-		</field>
-	</record>
-  -->
-	<!--<record model="ir.ui.view" id="coref_partner_form">
+	<record model="ir.ui.view" 
+		id="coreff_partner_form">
 		<field name="name">coreff.partner.form</field>
 		<field name="model">res.partner</field>
-		<field name="inherit_id" ref="base.view_partner_form" />
-		<field name="arch" type="xml">
+		<field name="inherit_id" 
+			ref="l10n_fr.res_partner_form_l10n_fr" />
+		<field name="arch" 
+			type="xml">
 
+			<!-- Modify SIRET place -->
+			<xpath expr="//field[@name='siret']" 
+				position="replace">
+			</xpath>
 
-			<xpath expr="//page[@name='sales_purchases']" position="after">
-				<!-<page name='financial_information' string="Financial informations">
-					<!- Add financial informations to view_partner_form ->
+			<xpath expr="//field[@name='name']" 
+				position="attributes">
+				<attribute name="widget">field_coreff_autocomplete</attribute>
+			</xpath>
 
-					<header id="service_header">
-						<!- Add here buttons to call finacial webservices ->
-					</header>
-
-					<group id="service_informations">
-						<!- Add here informations from financial webservices ->
-					</group>
-
-				</page>
+			<xpath expr="//field[@name='name']" 
+				position="after">
+				<field name="siret" 
+					widget="field_coreff_autocomplete" 
+					placeholder="SIRET" 
+					attrs="{'invisible': [('is_company', '=', False)]}" />
 			</xpath>
 		</field>
-	</record>-->
+	</record>
 
 </odoo>

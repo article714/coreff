@@ -3,12 +3,18 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import fields
+import logging
 
 
 class CreditSafeDataMixin(object):
     """
     Fields for creditsafe informations
     """
+
+    creditsafe_visibility = fields.Boolean(
+        compute="_compute_creditsafe_visibility",
+        default=lambda rec: rec._default_creditsafe_visibility(),
+    )
 
     creditsafe_company_id = fields.Char(string="Creditsafe id")
 
@@ -57,6 +63,25 @@ class CreditSafeDataMixin(object):
     creditsafe_last_update = fields.Datetime(
         readonly=True, string="Last Update"
     )
+
+    def _compute_creditsafe_visibility(self):
+        company = self.env.user.company_id
+        for rec in self:
+            if company.coreff_connector_id == self.env.ref(
+                "coreff_creditsafe.coreff_connector_creditsafe_api"
+            ):
+                rec.creditsafe_visibility = True
+            else:
+                rec.creditsafe_visibility = False
+
+    def _default_creditsafe_visibility(self):
+        company = self.env.user.company_id
+        if company.coreff_connector_id == self.env.ref(
+            "coreff_creditsafe.coreff_connector_creditsafe_api"
+        ):
+            return True
+        else:
+            return False
 
     def update_creditsafe_data(self):
         """
