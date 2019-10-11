@@ -22,10 +22,12 @@
 
 			<xpath expr="//field[@name='name']" 
 				position="after">
-				<field name="siret" 
-					widget="field_coreff_autocomplete" 
-					placeholder="SIRET" 
-					attrs="{'invisible': [('is_company', '=', False)]}" />
+				<div>
+					<field name="siret" 
+						widget="field_coreff_autocomplete" 
+						placeholder="SIRET" 
+						attrs="{'invisible': [('is_company', '=', False)]}" />
+				</div>
 			</xpath>
 		</field>
 	</record>
