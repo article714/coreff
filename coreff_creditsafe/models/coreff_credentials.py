@@ -36,5 +36,14 @@ class CoreffCredentials(models.Model):
         credentials = self.env["coreff.credentials"].search(
             [("url", "=", url), ("username", "=", username)]
         )
-        credentials[1:].unlink()
-        return credentials[0]
+
+        res = credentials
+        flag = False
+        for rec in credentials:
+            if not flag:
+                res = rec
+                flag = True
+            else:
+                rec.unlink()
+
+        return res
