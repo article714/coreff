@@ -11,6 +11,7 @@ class CoreffCredentials(models.Model):
     """
 
     _name = "coreff.credentials"
+    _order = "create_date DESC"
 
     url = fields.Char()
 
@@ -20,7 +21,7 @@ class CoreffCredentials(models.Model):
 
     @api.model
     def update_token(self, url, username, token):
-        credentials = self.get_token(url, username)
+        credentials = self.get_credentials(url, username)
         if credentials:
             credentials.write({"token": token})
         else:
@@ -31,8 +32,9 @@ class CoreffCredentials(models.Model):
             self.env["coreff.credentials"].create(values)
 
     @api.model
-    def get_token(self, url, username):
-        token = self.env["coreff.credentials"].search(
+    def get_credentials(self, url, username):
+        credentials = self.env["coreff.credentials"].search(
             [("url", "=", url), ("username", "=", username)]
         )
-        return token
+        credentials[1:].unlink()
+        return credentials[0]
