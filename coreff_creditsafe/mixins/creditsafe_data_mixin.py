@@ -13,7 +13,6 @@ class CreditSafeDataMixin(object):
     creditsafe_visibility = fields.Boolean(
         compute="_compute_creditsafe_visibility",
         default=lambda rec: rec._default_creditsafe_visibility(),
-        store=True,
     )
 
     creditsafe_company_id = fields.Char(string="Creditsafe id")

@@ -13,7 +13,6 @@ class InformaDataMixin(object):
     informa_visibility = fields.Boolean(
         compute="_compute_informa_visibility",
         default=lambda rec: rec._default_informa_visibility(),
-        store=True,
     )
 
     informa_company_id = fields.Char(string="Informa id")
