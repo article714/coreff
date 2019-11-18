@@ -45,7 +45,7 @@ class CoreffConnector(models.Model):
         """
         Get companies
         """
-        settings = self.get_company_settings(arguments["user_id"])
+        settings = self.get_company_creditsafe_settings(arguments["user_id"])
         url = settings["url"]
         token = settings["token"]
 
@@ -92,8 +92,8 @@ class CoreffConnector(models.Model):
                         "postCode", ""
                     )
                     suggestion["country_id"] = company.get("country", "")
+                    suggestion["vat"] = company.get("vatNo", [""])[0]
                     suggestions.append(suggestion)
-
                 return suggestions
             elif response.status_code == 403:
                 if not retry:
@@ -114,7 +114,7 @@ class CoreffConnector(models.Model):
         """
         Get company information
         """
-        settings = self.get_company_settings(arguments["user_id"])
+        settings = self.get_company_creditsafe_settings(arguments["user_id"])
         url = settings["url"]
         token = settings["token"]
 
@@ -146,7 +146,7 @@ class CoreffConnector(models.Model):
             else:
                 raise Exception(response)
 
-    def get_company_settings(self, user_id):
+    def get_company_creditsafe_settings(self, user_id):
         res = {}
         user = self.env["res.users"].browse(user_id)
         company = user.company_id

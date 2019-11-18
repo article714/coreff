@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" 
+        id="informa_partner_form">
+        <field name="name">informa.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" 
+            ref="coreff_base.coreff_partner_form" />
+        <field name="arch" 
+            type="xml">
+
+            <xpath expr="//page[@name='internal_notes']" 
+                position="before">
+                <field name="informa_visibility" 
+                    invisible="1" />
+                <page string="Informa" 
+                    attrs="{'invisible': ['|',('is_company', '=', False), ('informa_visibility', '=', False)]}">
+                    <group>
+                        <group col="1" 
+                            colspan="2">
+                            <button string="Informa Update" 
+                                name="update_informa_data" 
+                                type="object" 
+                                class="oe_highlight" 
+                                attrs="{'invisible' : [('informa_company_id', '=', False)]}" />
+                            <span attrs="{'invisible' : [('informa_last_update', '=', False)]}">Last updated on : <field name="informa_last_update"></field>
+                            </span>
+                        </group>
+                        <group string="Identification">
+                            <field name="informa_company_id" />
+                            <field name="informa_company_name" />
+                            <field name="informa_legal_form" />
+                            <field name="informa_court_registry_number" />
+                            <field name="informa_court_registry_description" />
+                            <field name="informa_incorporation_date" />
+                            <field name="informa_activity_code" />
+                            <field name="informa_activity_description" />
+                            <field name="informa_country" />
+                        </group>
+                        <group col="1">
+                            <group string="Notations">
+                                <field name="informa_status" />
+                                <field name="informa_rating" />
+                                <field name="informa_rating_short" />
+                                <field name="informa_rating_long" />
+                                <field name="informa_credit_limit" />
+                            </group>
+                            <group string="Judgements">
+                                <field name="informa_last_judgement_date" />
+                                <field name="informa_last_ccj_date" />
+                                <field name="informa_number_of_directors" />
+                            </group>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
