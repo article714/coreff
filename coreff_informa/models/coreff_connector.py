@@ -11,15 +11,18 @@ class CoreffConnector(models.Model):
 
     @api.model
     def informa_get_companies(self, arguments):
+        """
+        Get companies
+        """
         settings = self.get_company_informa_settings(arguments["user_id"])
         client = Client(settings["url"])
 
         look_up_input = {}
         look_up_input["Country_Code"] = "ES"
-        if arguments["is_siret"]:
-            look_up_input["DnB_DUNS_Number"] = arguments["value"]
-        else:
-            look_up_input["Name"] = arguments["value"]
+        # if arguments["is_siret"]:
+        #     look_up_input["DnB_DUNS_Number"] = arguments["value"]
+        # else:
+        look_up_input["Name"] = arguments["value"]
 
         look_up_request = {}
         look_up_request["UserId"] = settings["username"]
@@ -36,7 +39,7 @@ class CoreffConnector(models.Model):
             suggestion = {}
             suggestion["informa_company_id"] = company["DUNS_NBR"]
             suggestion["name"] = company["NME"]
-            suggestion["siret"] = company["DUNS_NBR"]
+            # suggestion["siret"] = company["DUNS_NBR"]
             suggestion["street"] = company["ADR_LINE"]
             suggestion["city"] = company["NON_POST_TOWN"]
             suggestion["zip"] = company["POST_CODE"]
@@ -47,9 +50,15 @@ class CoreffConnector(models.Model):
 
     @api.model
     def informa_get_company(self, arguments):
+        """
+        Get company information
+        """
         pass
 
     def get_company_informa_settings(self, user_id):
+        """
+        Get company settings for Informa
+        """
         res = {}
         user = self.env["res.users"].browse(user_id)
         company = user.company_id

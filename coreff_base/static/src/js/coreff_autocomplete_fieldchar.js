@@ -41,6 +41,8 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
             Autocomplete.getUser().then(function (res) {
                 Autocomplete.getConnector(res.company_id[0]).then(function (res) {
                     self.connector = res.coreff_connector_id;
+                    var l = self.connector[2].split(',')
+                    self.connector = l.includes(self.name)
                 })
             });
         },

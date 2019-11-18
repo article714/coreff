@@ -147,6 +147,9 @@ class CoreffConnector(models.Model):
                 raise Exception(response)
 
     def get_company_creditsafe_settings(self, user_id):
+        """
+        Get company settings for CreditSafe
+        """
         res = {}
         user = self.env["res.users"].browse(user_id)
         company = user.company_id

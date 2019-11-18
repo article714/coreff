@@ -15,6 +15,8 @@ class CoreffConnector(models.Model):
 
     name = fields.Char(required=True)
 
+    autocomplete_fields = fields.Char()
+
     get_companies_def = fields.Char(required=True)
 
     get_company_def = fields.Char(required=True)
