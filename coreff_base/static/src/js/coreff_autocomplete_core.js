@@ -72,6 +72,16 @@ odoo.define('coreff.autocomplete.core', function (require) {
             });
         },
 
+        getFieldList: function (connector_id) {
+            return rpc.query({
+                model: 'coreff.connector',
+                method: 'read',
+                args: [connector_id, ['name', 'autocomplete_fields']]
+            }).then(function (res) {
+                return res[0];
+            })
+        },
+
         _getCompanies: function (countries, language, isSiret, value) {
             var data = {};
             data.countries = countries;

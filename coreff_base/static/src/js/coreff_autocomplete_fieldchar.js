@@ -38,16 +38,16 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
                 this._suggestCompanies = _.debounce(this._suggestCompanies.bind(this), this.debounceSuggestions);
             }
 
+            self.connector = false;
             Autocomplete.getUser().then(function (res) {
                 Autocomplete.getConnector(res.company_id[0]).then(function (res) {
-                    var connector = res.coreff_connector_id;
-                    var field_list = connector[2]
-                    if (field_list) {
-                        field_list = field_list.split(',')
-                        self.connector = field_list.includes(self.name)
-                    }
-                    else {
-                        self.connector = false;
+                    if (res.coreff_connector_id) {
+                        Autocomplete.getFieldList(res.coreff_connector_id[0]).then(function (res) {
+                            if (res.autocomplete_fields) {
+                                var field_list = res.autocomplete_fields.split(',');
+                                self.connector = field_list.includes(self.name);
+                            }
+                        });
                     }
                 })
             });
