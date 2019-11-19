@@ -18,7 +18,7 @@ class CoreffConnector(models.Model):
         client = Client(settings["url"])
 
         look_up_input = {}
-        look_up_input["Country_Code"] = "ES"
+        look_up_input["Country_Code"] = settings["country_code"]
         # if arguments["is_siret"]:
         #     look_up_input["DnB_DUNS_Number"] = arguments["value"]
         # else:
@@ -65,4 +65,5 @@ class CoreffConnector(models.Model):
         res["url"] = company.get_parent_field("informa_url")
         res["username"] = company.get_parent_field("informa_username")
         res["password"] = company.get_parent_field("informa_password")
+        res["country_code"] = company.informa_country_code
         return res

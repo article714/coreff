@@ -32,6 +32,9 @@
                             <field name="informa_parent_password" 
                                 password="True" />
                         </group>
+                        <group>
+                            <field name="informa_country_code" />
+                        </group>
                     </group>
                 </page>
             </xpath>

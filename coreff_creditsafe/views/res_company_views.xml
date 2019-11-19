@@ -32,6 +32,9 @@
                             <field name="creditsafe_parent_password" 
                                 password="True" />
                         </group>
+                        <group>
+                            <field name="creditsafe_countries" />
+                        </group>
                     </group>
                 </page>
             </xpath>

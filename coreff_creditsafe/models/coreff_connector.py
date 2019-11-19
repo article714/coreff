@@ -56,8 +56,9 @@ class CoreffConnector(models.Model):
                 "Authorization": token if token else "",
             }
 
-            call_url = "{}/companies?countries={}&language={}&page=1&pageSize=200".format(
-                url, arguments["countries"], arguments["language"]
+            countries = settings["countries"].replace(",", "%2C")
+            call_url = "{}/companies?countries={}&language=en&page=1&pageSize=200".format(
+                url, countries
             )
 
             if arguments["is_siret"]:
@@ -161,4 +162,5 @@ class CoreffConnector(models.Model):
             .get_credentials(res["url"], res["username"])
             .token
         )
+        res["countries"] = company.creditsafe_countries
         return res

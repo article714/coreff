@@ -22,19 +22,23 @@ class ResCompany(models.Model):
     informa_parent_username = fields.Char(compute="_compute_parent_username")
     informa_parent_password = fields.Char(compute="_compute_parent_password")
 
+    informa_country_code = fields.Char()
+
     @api.depends("parent_id")
     @api.onchange("parent_id", "informa_use_parent_company")
     def _compute_parent_url(self):
         for rec in self:
             if rec.parent_id and rec.informa_use_parent_company:
-                rec.informa_parent_url = rec.get_parent_field("informa_url")
+                rec.informa_parent_url = rec.get_parent_informa_field(
+                    "informa_url"
+                )
 
     @api.depends("parent_id")
     @api.onchange("parent_id", "informa_use_parent_company")
     def _compute_parent_username(self):
         for rec in self:
             if rec.parent_id and rec.informa_use_parent_company:
-                rec.informa_parent_username = rec.get_parent_field(
+                rec.informa_parent_username = rec.get_parent_informa_field(
                     "informa_username"
                 )
 
@@ -43,7 +47,7 @@ class ResCompany(models.Model):
     def _compute_parent_password(self):
         for rec in self:
             if rec.parent_id and rec.informa_use_parent_company:
-                rec.informa_parent_password = rec.get_parent_field(
+                rec.informa_parent_password = rec.get_parent_informa_field(
                     "informa_password"
                 )
 
@@ -58,11 +62,11 @@ class ResCompany(models.Model):
             else:
                 rec.informa_visibility = False
 
-    def get_parent_field(self, field):
+    def get_parent_informa_field(self, field):
         for rec in self:
             if not rec.informa_use_parent_company:
                 return rec[field]
             elif rec.parent_id:
-                return rec.parent_id.get_parent_field(field)
+                return rec.parent_id.get_parent_informa_field(field)
             else:
                 return None

@@ -10,8 +10,7 @@ odoo.define('coreff.autocomplete.core', function (require) {
             var self = this;
             var def = $.Deferred();
 
-            // fr%2Ces
-            self._getCompanies("fr", "en", isSiret, value).then(res => {
+            self._getCompanies(isSiret, value).then(res => {
                 return def.resolve(res);
             });
 
@@ -82,10 +81,8 @@ odoo.define('coreff.autocomplete.core', function (require) {
             })
         },
 
-        _getCompanies: function (countries, language, isSiret, value) {
+        _getCompanies: function (isSiret, value) {
             var data = {};
-            data.countries = countries;
-            data.language = language;
             data.is_siret = isSiret;
             data.value = value;
             data.user_id = session.uid;
