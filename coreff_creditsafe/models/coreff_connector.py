@@ -154,9 +154,13 @@ class CoreffConnector(models.Model):
         res = {}
         user = self.env["res.users"].browse(user_id)
         company = user.company_id
-        res["url"] = company.get_parent_field("creditsafe_url")
-        res["username"] = company.get_parent_field("creditsafe_username")
-        res["password"] = company.get_parent_field("creditsafe_password")
+        res["url"] = company.get_parent_creditsafe_field("creditsafe_url")
+        res["username"] = company.get_parent_creditsafe_field(
+            "creditsafe_username"
+        )
+        res["password"] = company.get_parent_creditsafe_field(
+            "creditsafe_password"
+        )
         res["token"] = (
             self.env["coreff.credentials"]
             .get_credentials(res["url"], res["username"])

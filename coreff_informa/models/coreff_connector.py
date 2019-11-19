@@ -62,8 +62,8 @@ class CoreffConnector(models.Model):
         res = {}
         user = self.env["res.users"].browse(user_id)
         company = user.company_id
-        res["url"] = company.get_parent_field("informa_url")
-        res["username"] = company.get_parent_field("informa_username")
-        res["password"] = company.get_parent_field("informa_password")
+        res["url"] = company.get_parent_informa_field("informa_url")
+        res["username"] = company.get_parent_informa_field("informa_username")
+        res["password"] = company.get_parent_informa_field("informa_password")
         res["country_code"] = company.informa_country_code
         return res
