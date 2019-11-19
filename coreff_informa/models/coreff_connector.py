@@ -30,9 +30,12 @@ class CoreffConnector(models.Model):
         look_up_request["lookUpInput"] = look_up_input
 
         result = client.service.ws_LookUp(look_up_request)
-        companies = result["CREDITMSGSRSV2"]["LOOKUPTRNRS"]["LOOKUPRS"][
+        companies = []
+        res = result["CREDITMSGSRSV2"]["LOOKUPTRNRS"]["LOOKUPRS"][
             "LOOKUPRSCOMPANY"
-        ]["ArrayOfLOOKUPRSCOMPANYItem"]
+        ]
+        if res:
+            companies = res["ArrayOfLOOKUPRSCOMPANYItem"]
         companies.sort(key=lambda x: (x["NME"], x["NON_POST_TOWN"]))
         suggestions = []
         for company in companies:
