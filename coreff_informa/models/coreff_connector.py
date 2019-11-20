@@ -15,7 +15,10 @@ class CoreffConnector(models.Model):
         Get companies
         """
         settings = self.get_company_informa_settings(arguments["user_id"])
-        client = Client(settings["url"])
+        client = Client(
+            settings["url"]
+            + "/DNB_WebServices.Providers.LookUp_V3:wsp_LookUp_V3?WSDL"
+        )
 
         look_up_input = {}
         look_up_input["Country_Code"] = settings["country_code"]
@@ -57,7 +60,10 @@ class CoreffConnector(models.Model):
         Get company
         """
         settings = self.get_company_informa_settings(arguments["user_id"])
-        client = Client(settings["url"])
+        client = Client(
+            settings["url"]
+            + "/DNB_WebServices.Providers.OrderAndInvestigations.GDP_V4:wsp_GDP_V4?WSDL"
+        )
 
         orders = {}
         orders["User_Language"] = "EN"
