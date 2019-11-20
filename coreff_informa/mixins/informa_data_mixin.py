@@ -17,43 +17,32 @@ class InformaDataMixin(object):
 
     informa_company_id = fields.Char(string="Informa id")
 
-    # Identification
-    informa_company_name = fields.Char(string="Business Name", readonly=True)
-    informa_legal_form = fields.Char(string="Legal Form", readonly=True)
-    informa_court_registry_number = fields.Char(
-        string="RCS Number", readonly=True
-    )
-    informa_court_registry_description = fields.Char(
-        string="RCS", readonly=True
-    )
-    informa_incorporation_date = fields.Char(
-        string="Registration Date", readonly=True
-    )
-    informa_activity_code = fields.Char(string="Activity Code", readonly=True)
-    informa_activity_description = fields.Char(
-        string="Activity Description", readonly=True
-    )
-    informa_country = fields.Char(string="Country", readonly=True)
-
-    # Notations
-    informa_status = fields.Char(string="Status", readonly=True)
-    informa_rating = fields.Char(string="Rating", readonly=True)
-    informa_rating_short = fields.Char(
-        string="Rating / Short Precision", readonly=True
-    )
-    informa_rating_long = fields.Char(
-        string="Rating / Long Precision", readonly=True
-    )
-    informa_credit_limit = fields.Char(string="Credit Limit", readonly=True)
-
-    # Judgements
-    informa_last_judgement_date = fields.Char(
-        string="Last Judgement", readonly=True
-    )
-    informa_last_ccj_date = fields.Char(string="", readonly=True)
-    informa_number_of_directors = fields.Char(
-        string="Number of Directors", readonly=True
-    )
+    informa_out_bus_ind = fields.Char()
+    informa_tot_empl = fields.Char()
+    informa_incn_yr = fields.Char()
+    informa_finl_embt_ind = fields.Char()
+    informa_dnb_ratg = fields.Char()
+    informa_max_cr = fields.Char()
+    informa_pnt_name = fields.Char()
+    informa_pnt_duns = fields.Char()
+    informa_stmt_dt = fields.Char()
+    informa_stmt_crcy_cd = fields.Char()
+    informa_cash_liq_aset = fields.Char()
+    informa_tot_curr_aset = fields.Char()
+    informa_tot_aset = fields.Char()
+    informa_tot_curr_liab = fields.Char()
+    informa_tot_liab = fields.Char()
+    informa_net_wrth = fields.Char()
+    informa_stmt_from_dt = fields.Char()
+    informa_stmt_to_dt = fields.Char()
+    informa_sls = fields.Char()
+    informa_net_incm = fields.Char()
+    informa_qk_rato = fields.Char()
+    informa_curr_rato = fields.Char()
+    informa_prev_net_wrth = fields.Char()
+    informa_prev_sls = fields.Char()
+    informa_prev_stmt_dt = fields.Char()
+    informa_pnt_ctry_cd = fields.Char()
 
     informa_last_update = fields.Datetime(readonly=True, string="Last Update")
 
@@ -86,60 +75,33 @@ class InformaDataMixin(object):
             arguments["company_id"] = rec.informa_company_id
             arguments["user_id"] = self.env.user.id
             company = self.env["coreff.api"].get_company(arguments)
-            company = company.get("report", {})
-            company_summary = company.get("companySummary", {})
-            basic_information = company.get("companyIdentification", {}).get(
-                "basicInformation", {}
-            )
-            credit_score = company.get("creditScore", {})
 
-            rec.informa_company_name = company_summary.get("businessName", "")
-            rec.informa_legal_form = basic_information.get(
-                "legalForm", {}
-            ).get("description", "")
-            rec.informa_court_registry_number = basic_information.get(
-                "companyRegistrationNumber", ""
-            )
-            rec.informa_court_registry_description = basic_information.get(
-                "commercialCourt", ""
-            )
-            rec.informa_incorporation_date = basic_information.get(
-                "companyRegistrationDate", ""
-            )
-            rec.informa_activity_code = basic_information.get(
-                "principalActivity", {}
-            ).get("code", "")
-            rec.informa_activity_description = basic_information.get(
-                "principalActivity", {}
-            ).get("description", "")
-            rec.informa_country = basic_information.get("country", "")
+            if company:
+                rec.informa_out_bus_ind = company["OUT_BUS_IND"]
+                rec.informa_tot_empl = company["TOT_EMPL"]
+                rec.informa_incn_yr = company["INCN_YR"]
+                rec.informa_finl_embt_ind = company["FINL_EMBT_IND"]
+                rec.informa_dnb_ratg = company["DNB_RATG"]
+                rec.informa_max_cr = company["MAX_CR"]
+                rec.informa_pnt_name = company["PNT_NAME"]
+                rec.informa_pnt_duns = company["PNT_DUNS"]
+                rec.informa_stmt_dt = company["STMT_DT"]
+                rec.informa_stmt_crcy_cd = company["STMT_CRCY_CD"]
+                rec.informa_cash_liq_aset = company["CASH_LIQ_ASET"]
+                rec.informa_tot_curr_aset = company["TOT_CURR_ASET"]
+                rec.informa_tot_aset = company["TOT_ASET"]
+                rec.informa_tot_curr_liab = company["TOT_CURR_LIAB"]
+                rec.informa_tot_liab = company["TOT_LIAB"]
+                rec.informa_net_wrth = company["NET_WRTH"]
+                rec.informa_stmt_from_dt = company["STMT_FROM_DT"]
+                rec.informa_stmt_to_dt = company["STMT_TO_DT"]
+                rec.informa_sls = company["SLS"]
+                rec.informa_net_incm = company["NET_INCM"]
+                rec.informa_qk_rato = company["QK_RATO"]
+                rec.informa_curr_rato = company["CURR_RATO"]
+                rec.informa_prev_net_wrth = company["PREV_NET_WRTH"]
+                rec.informa_prev_sls = company["PREV_SLS"]
+                rec.informa_prev_stmt_dt = company["PREV_STMT_DT"]
+                rec.informa_pnt_ctry_cd = company["PNT_CTRY_CD"]
 
-            rec.informa_status = basic_information.get(
-                "companyStatus", {}
-            ).get("status", "")
-            rec.informa_rating = (
-                credit_score.get("currentCreditRating", {})
-                .get("providerValue", {})
-                .get("maxValue", "")
-            )
-            rec.informa_rating_short = credit_score.get(
-                "currentCreditRating", {}
-            ).get("commonDescription", "")
-            rec.informa_rating_long = credit_score.get(
-                "currentCreditRating", {}
-            ).get("providerDescription", "")
-            rec.informa_credit_limit = (
-                credit_score.get("currentCreditRating", {})
-                .get("creditLimit", {})
-                .get("value", "")
-            )
-
-            rec.informa_last_judgement_date = credit_score.get(
-                "latestRatingChangeDate", ""
-            )
-            # rec.informa_last_ccj_date = company[""][""]
-            rec.informa_number_of_directors = len(
-                company.get("directors", {}).get("currentDirectors", {})
-            )
-
-            rec.informa_last_update = fields.Datetime.now()
+                rec.informa_last_update = fields.Datetime.now()

@@ -27,30 +27,33 @@
                             <span attrs="{'invisible' : [('informa_last_update', '=', False)]}">Last updated on : <field name="informa_last_update"></field>
                             </span>
                         </group>
-                        <group string="Identification">
-                            <field name="informa_company_id" />
-                            <field name="informa_company_name" />
-                            <field name="informa_legal_form" />
-                            <field name="informa_court_registry_number" />
-                            <field name="informa_court_registry_description" />
-                            <field name="informa_incorporation_date" />
-                            <field name="informa_activity_code" />
-                            <field name="informa_activity_description" />
-                            <field name="informa_country" />
-                        </group>
-                        <group col="1">
-                            <group string="Notations">
-                                <field name="informa_status" />
-                                <field name="informa_rating" />
-                                <field name="informa_rating_short" />
-                                <field name="informa_rating_long" />
-                                <field name="informa_credit_limit" />
-                            </group>
-                            <group string="Judgements">
-                                <field name="informa_last_judgement_date" />
-                                <field name="informa_last_ccj_date" />
-                                <field name="informa_number_of_directors" />
-                            </group>
+                        <group string="Decision Support">
+                            <field name="informa_out_bus_ind" />
+                            <field name="informa_tot_empl" />
+                            <field name="informa_incn_yr" />
+                            <field name="informa_finl_embt_ind" />
+                            <field name="informa_dnb_ratg" />
+                            <field name="informa_max_cr" />
+                            <field name="informa_pnt_name" />
+                            <field name="informa_pnt_duns" />
+                            <field name="informa_stmt_dt" />
+                            <field name="informa_stmt_crcy_cd" />
+                            <field name="informa_cash_liq_aset" />
+                            <field name="informa_tot_curr_aset" />
+                            <field name="informa_tot_aset" />
+                            <field name="informa_tot_curr_liab" />
+                            <field name="informa_tot_liab" />
+                            <field name="informa_net_wrth" />
+                            <field name="informa_stmt_from_dt" />
+                            <field name="informa_stmt_to_dt" />
+                            <field name="informa_sls" />
+                            <field name="informa_net_incm" />
+                            <field name="informa_qk_rato" />
+                            <field name="informa_curr_rato" />
+                            <field name="informa_prev_net_wrth" />
+                            <field name="informa_prev_sls" />
+                            <field name="informa_prev_stmt_dt" />
+                            <field name="informa_pnt_ctry_cd" />
                         </group>
                     </group>
                 </page>

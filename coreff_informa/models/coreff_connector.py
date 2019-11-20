@@ -54,9 +54,30 @@ class CoreffConnector(models.Model):
     @api.model
     def informa_get_company(self, arguments):
         """
-        Get company information
+        Get company
         """
-        pass
+        settings = self.get_company_informa_settings(arguments["user_id"])
+        client = Client(settings["url"])
+
+        orders = {}
+        orders["User_Language"] = "EN"
+        orders["DnB_DUNS_Number"] = arguments["company_id"]
+        orders["Country_Code"] = settings["country_code"]
+        orders["Product"] = "Decision Support "
+        orders["Product_Type"] = "D"
+
+        immediate_delivery = {}
+        immediate_delivery["Mode"] = "DIRECT"
+        immediate_delivery["Format"] = "XML"
+
+        gdp_request = {}
+        gdp_request["UserId"] = settings["username"]
+        gdp_request["Password"] = settings["password"]
+        gdp_request["Orders"] = orders
+        gdp_request["Immediate_Delivery"] = immediate_delivery
+
+        result = client.service.ws_OtherGDPProducts(gdp_request)
+        return result["CREDITMSGSRSV2"]["DATATRNRS"]["DATARS"]
 
     def get_company_informa_settings(self, user_id):
         """
