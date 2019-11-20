@@ -17,32 +17,67 @@ class InformaDataMixin(object):
 
     informa_company_id = fields.Char(string="Informa id")
 
-    informa_out_bus_ind = fields.Char()
-    informa_tot_empl = fields.Char()
-    informa_incn_yr = fields.Char()
-    informa_finl_embt_ind = fields.Char()
-    informa_dnb_ratg = fields.Char()
-    informa_max_cr = fields.Char()
-    informa_pnt_name = fields.Char()
-    informa_pnt_duns = fields.Char()
-    informa_stmt_dt = fields.Char()
-    informa_stmt_crcy_cd = fields.Char()
-    informa_cash_liq_aset = fields.Char()
-    informa_tot_curr_aset = fields.Char()
-    informa_tot_aset = fields.Char()
-    informa_tot_curr_liab = fields.Char()
-    informa_tot_liab = fields.Char()
-    informa_net_wrth = fields.Char()
-    informa_stmt_from_dt = fields.Char()
-    informa_stmt_to_dt = fields.Char()
-    informa_sls = fields.Char()
-    informa_net_incm = fields.Char()
-    informa_qk_rato = fields.Char()
-    informa_curr_rato = fields.Char()
-    informa_prev_net_wrth = fields.Char()
-    informa_prev_sls = fields.Char()
-    informa_prev_stmt_dt = fields.Char()
-    informa_pnt_ctry_cd = fields.Char()
+    informa_out_bus_ind = fields.Char(
+        string="Business Termination Indicator", readonly=True
+    )
+    informa_tot_empl = fields.Char(string="Total Employees", readonly=True)
+    informa_incn_yr = fields.Char(string="Constitution Year", readonly=True)
+    informa_finl_embt_ind = fields.Char(
+        string="Bankruptcy Indicator / Payment Suspension", readonly=True
+    )
+    informa_dnb_ratg = fields.Char(string="D&B® Rating", readonly=True)
+    informa_max_cr = fields.Char(
+        string="Maximum Recommended Credit Guide", readonly=True
+    )
+    informa_pnt_nme = fields.Char(string="Parent Company", readonly=True)
+    informa_pnt_duns = fields.Char(
+        string="D-U-N-S® D&B® Matrix", readonly=True
+    )
+    informa_stmt_dt = fields.Char(string="Balance Date", readonly=True)
+    informa_stmt_crcy_cd = fields.Char(
+        string=" Balance Currency Code (latest figures available)",
+        readonly=True,
+    )
+    informa_cash_liq_aset = fields.Char(
+        string="Treasury and Liquid Assets (latest figures available)",
+        readonly=True,
+    )
+    informa_tot_curr_aset = fields.Char(
+        string="Current Assets (latest figures available)", readonly=True
+    )
+    informa_tot_aset = fields.Char(
+        string="Total Assets (latest figures available)", readonly=True
+    )
+    informa_tot_curr_liab = fields.Char(
+        string="Total Current Liabilities (latest figures available)",
+        readonly=True,
+    )
+    informa_tot_liab = fields.Char(
+        string="Total Liabilities (latest figures available)", readonly=True
+    )
+    informa_net_wrth = fields.Char(string="Net Worth", readonly=True)
+    informa_stmt_from_dt = fields.Char(
+        string="Exercise Start Date", readonly=True
+    )
+    informa_stmt_to_dt = fields.Char(
+        string="Exercise Closing Date", readonly=True
+    )
+    informa_sls = fields.Char(string="Sales", readonly=True)
+    informa_net_incm = fields.Char(
+        string="Net Benefits (latest figures available)", readonly=True
+    )
+    informa_qk_rato = fields.Char(string="Liquidity Ratio", readonly=True)
+    informa_curr_rato = fields.Char(string="Solvency Ratio", readonly=True)
+    informa_prev_net_wrth = fields.Char(
+        string="Previous Net Equity", readonly=True
+    )
+    informa_prev_sls = fields.Char(string="Previous Sales", readonly=True)
+    informa_prev_stmt_dt = fields.Char(
+        string="Previous Balance Date", readonly=True
+    )
+    informa_pnt_ctry_cd = fields.Char(
+        string="Parent Company Country", readonly=True
+    )
 
     informa_last_update = fields.Datetime(readonly=True, string="Last Update")
 
@@ -83,7 +118,7 @@ class InformaDataMixin(object):
                 rec.informa_finl_embt_ind = company["FINL_EMBT_IND"]
                 rec.informa_dnb_ratg = company["DNB_RATG"]
                 rec.informa_max_cr = company["MAX_CR"]
-                rec.informa_pnt_name = company["PNT_NAME"]
+                rec.informa_pnt_nme = company["PNT_NME"]
                 rec.informa_pnt_duns = company["PNT_DUNS"]
                 rec.informa_stmt_dt = company["STMT_DT"]
                 rec.informa_stmt_crcy_cd = company["STMT_CRCY_CD"]
