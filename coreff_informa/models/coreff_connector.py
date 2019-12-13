@@ -34,11 +34,13 @@ class CoreffConnector(models.Model):
 
         result = client.service.ws_LookUp(look_up_request)
         companies = []
-        res = result["CREDITMSGSRSV2"]["LOOKUPTRNRS"]["LOOKUPRS"][
-            "LOOKUPRSCOMPANY"
-        ]
-        if res:
-            companies = res["ArrayOfLOOKUPRSCOMPANYItem"]
+        companies = (
+            result.get("CREDITMSGSRSV2", {})
+            .get("LOOKUPTRNRS", {})
+            .get("LOOKUPRS", {})
+            .get("LOOKUPRSCOMPANY", {})
+            .get("ArrayOfLOOKUPRSCOMPANYItem", [])
+        )
         companies.sort(key=lambda x: (x["NME"], x["NON_POST_TOWN"]))
         suggestions = []
         for company in companies:
@@ -83,7 +85,9 @@ class CoreffConnector(models.Model):
         gdp_request["Immediate_Delivery"] = immediate_delivery
 
         result = client.service.ws_OtherGDPProducts(gdp_request)
-        return result["CREDITMSGSRSV2"]["DATATRNRS"]["DATARS"]
+        return (
+            result.get("CREDITMSGSRSV2", {}).get("DATATRNRS", {}).get("DATARS")
+        )
 
     def get_company_informa_settings(self, user_id):
         """
