@@ -104,12 +104,16 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
             if (Autocomplete.validateSearchTerm(value, this.onlySiret) && Autocomplete.isOnline() && this.connector) {
                 self._showLoading();
                 return Autocomplete.autocomplete(value, this.onlySiret).then(function (suggestions) {
+                    $('#alert_coreff').html("").hide();
                     if (suggestions && suggestions.length) {
                         self.suggestions = suggestions;
                         self._showDropdown();
                     } else {
                         self._removeDropdown();
                     }
+                }, function (error) {
+                    $('#alert_coreff').html("<b>" + error.title + "</b><br>" + error.body).show();
+                    self._removeDropdown();
                 });
             } else {
                 this._removeDropdown();

@@ -11,7 +11,12 @@ odoo.define('coreff.autocomplete.core', function (require) {
             var def = $.Deferred();
 
             self._getCompanies(isSiret, value).then(res => {
-                return def.resolve(res);
+                if ("error" in res) {
+                    return def.reject(res.error);
+                }
+                else {
+                    return def.resolve(res);
+                }
             });
 
             return def;
