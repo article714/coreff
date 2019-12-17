@@ -33,29 +33,34 @@ class CoreffConnector(models.Model):
         look_up_request["lookUpInput"] = look_up_input
 
         result = client.service.ws_LookUp(look_up_request)["CREDITMSGSRSV2"]
-        if result:
-            companies = []
-            companies = (
-                result.get("LOOKUPTRNRS", {})
-                .get("LOOKUPRS", {})
-                .get("LOOKUPRSCOMPANY", {})
-                .get("ArrayOfLOOKUPRSCOMPANYItem", [])
-            )
-            companies.sort(key=lambda x: (x["NME"], x["NON_POST_TOWN"]))
-            suggestions = []
-            for company in companies:
-                suggestion = {}
-                suggestion["informa_company_id"] = company["DUNS_NBR"]
-                suggestion["name"] = company["NME"]
-                # suggestion["siret"] = company["DUNS_NBR"]
-                suggestion["street"] = company["ADR_LINE"]
-                suggestion["city"] = company["NON_POST_TOWN"]
-                suggestion["zip"] = company["POST_CODE"]
-                suggestion["phone"] = company["TLCM_NBR"]
-                # suggestion["country_id"] = company["country"]
-                suggestions.append(suggestion)
-            return suggestions
-        return []
+        if not result:
+            return []
+        result = result["LOOKUPTRNRS"]
+        if not result:
+            return []
+        result = result["LOOKUPRS"]
+        if not result:
+            return []
+        result = result["LOOKUPRSCOMPANY"]
+        if not result:
+            return []
+        companies = result["ArrayOfLOOKUPRSCOMPANYItem"]
+        if not companies:
+            return []
+        companies.sort(key=lambda x: (x["NME"], x["NON_POST_TOWN"]))
+        suggestions = []
+        for company in companies:
+            suggestion = {}
+            suggestion["informa_company_id"] = company["DUNS_NBR"]
+            suggestion["name"] = company["NME"]
+            # suggestion["siret"] = company["DUNS_NBR"]
+            suggestion["street"] = company["ADR_LINE"]
+            suggestion["city"] = company["NON_POST_TOWN"]
+            suggestion["zip"] = company["POST_CODE"]
+            suggestion["phone"] = company["TLCM_NBR"]
+            # suggestion["country_id"] = company["country"]
+            suggestions.append(suggestion)
+        return suggestions
 
     @api.model
     def informa_get_company(self, arguments):
@@ -88,9 +93,15 @@ class CoreffConnector(models.Model):
         result = client.service.ws_OtherGDPProducts(gdp_request)[
             "CREDITMSGSRSV2"
         ]
-        if result:
-            return result.get("DATATRNRS", {}).get("DATARS")
-        return {}
+        if not result:
+            return {}
+        result = result["DATATRNRS"]
+        if not result:
+            return {}
+        result = result["DATARS"]
+        if not result:
+            return {}
+        return result
 
     def get_company_informa_settings(self, user_id):
         """

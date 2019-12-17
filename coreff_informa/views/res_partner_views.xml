@@ -28,6 +28,8 @@
                             </span>
                         </group>
                         <group string="Decision Support">
+                            <field name="currency_id" 
+                                invisible="1" />
                             <field name="informa_company_id" />
                             <field name="informa_out_bus_ind" />
                             <field name="informa_tot_empl" />
@@ -39,20 +41,30 @@
                             <field name="informa_pnt_duns" />
                             <field name="informa_stmt_dt" />
                             <field name="informa_stmt_crcy_cd" />
-                            <field name="informa_cash_liq_aset" />
-                            <field name="informa_tot_curr_aset" />
-                            <field name="informa_tot_aset" />
-                            <field name="informa_tot_curr_liab" />
-                            <field name="informa_tot_liab" />
-                            <field name="informa_net_wrth" />
+                            <field name="informa_cash_liq_aset" 
+                                widget="monetary" />
+                            <field name="informa_tot_curr_aset" 
+                                widget="monetary" />
+                            <field name="informa_tot_aset" 
+                                widget="monetary" />
+                            <field name="informa_tot_curr_liab" 
+                                widget="monetary" />
+                            <field name="informa_tot_liab" 
+                                widget="monetary" />
+                            <field name="informa_net_wrth" 
+                                widget="monetary" />
                             <field name="informa_stmt_from_dt" />
                             <field name="informa_stmt_to_dt" />
-                            <field name="informa_sls" />
-                            <field name="informa_net_incm" />
+                            <field name="informa_sls" 
+                                widget="monetary" />
+                            <field name="informa_net_incm" 
+                                widget="monetary" />
                             <field name="informa_qk_rato" />
                             <field name="informa_curr_rato" />
-                            <field name="informa_prev_net_wrth" />
-                            <field name="informa_prev_sls" />
+                            <field name="informa_prev_net_wrth" 
+                                widget="monetary" />
+                            <field name="informa_prev_sls" 
+                                widget="monetary" />
                             <field name="informa_prev_stmt_dt" />
                             <field name="informa_pnt_ctry_cd" />
                         </group>
