@@ -32,13 +32,21 @@ class CoreffConnector(models.Model):
         look_up_request["Password"] = settings["password"]
         look_up_request["lookUpInput"] = look_up_input
 
-        result = client.service.ws_LookUp(look_up_request)
-        companies = []
-        res = result["CREDITMSGSRSV2"]["LOOKUPTRNRS"]["LOOKUPRS"][
-            "LOOKUPRSCOMPANY"
-        ]
-        if res:
-            companies = res["ArrayOfLOOKUPRSCOMPANYItem"]
+        result = client.service.ws_LookUp(look_up_request)["CREDITMSGSRSV2"]
+        if not result:
+            return []
+        result = result["LOOKUPTRNRS"]
+        if not result:
+            return []
+        result = result["LOOKUPRS"]
+        if not result:
+            return []
+        result = result["LOOKUPRSCOMPANY"]
+        if not result:
+            return []
+        companies = result["ArrayOfLOOKUPRSCOMPANYItem"]
+        if not companies:
+            return []
         companies.sort(key=lambda x: (x["NME"], x["NON_POST_TOWN"]))
         suggestions = []
         for company in companies:
@@ -82,8 +90,18 @@ class CoreffConnector(models.Model):
         gdp_request["Orders"] = orders
         gdp_request["Immediate_Delivery"] = immediate_delivery
 
-        result = client.service.ws_OtherGDPProducts(gdp_request)
-        return result["CREDITMSGSRSV2"]["DATATRNRS"]["DATARS"]
+        result = client.service.ws_OtherGDPProducts(gdp_request)[
+            "CREDITMSGSRSV2"
+        ]
+        if not result:
+            return {}
+        result = result["DATATRNRS"]
+        if not result:
+            return {}
+        result = result["DATARS"]
+        if not result:
+            return {}
+        return result
 
     def get_company_informa_settings(self, user_id):
         """

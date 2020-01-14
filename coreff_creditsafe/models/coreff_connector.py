@@ -38,7 +38,7 @@ class CoreffConnector(models.Model):
         if response.status_code == 401:
             return False
         else:
-            raise Exception(response)
+            return self.format_error(response)
 
     @api.model
     def creditsafe_get_companies(self, arguments, retry=False):
@@ -106,9 +106,9 @@ class CoreffConnector(models.Model):
                     if res:
                         return self.creditsafe_get_companies(arguments, True)
                 else:
-                    raise Exception(response)
+                    return self.format_error(response)
             else:
-                raise Exception(response)
+                return self.format_error(response)
 
     @api.model
     def creditsafe_get_company(self, arguments, retry=False):
@@ -143,9 +143,9 @@ class CoreffConnector(models.Model):
                     if res:
                         return self.creditsafe_get_company(arguments, True)
                 else:
-                    raise Exception(response)
+                    return self.format_error(response)
             else:
-                raise Exception(response)
+                return self.format_error(response)
 
     def get_company_creditsafe_settings(self, user_id):
         """
@@ -168,3 +168,14 @@ class CoreffConnector(models.Model):
         )
         res["countries"] = company.creditsafe_countries
         return res
+
+    def format_error(self, response):
+        """
+        Format api response
+        """
+        res = {}
+        res["title"] = "[{}] : {}".format(
+            response.status_code, response.reason
+        )
+        res["body"] = response.content
+        return {"error": res}
