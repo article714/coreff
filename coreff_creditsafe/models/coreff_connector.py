@@ -96,7 +96,7 @@ class CoreffConnector(models.Model):
                     suggestion["vat"] = company.get("vatNo", [""])[0]
                     suggestions.append(suggestion)
                 return suggestions
-            elif response.status_code == 403:
+            elif response.status_code in (401, 403):
                 if not retry:
                     res = self.creditsafe_authenticate(
                         settings["url"],
@@ -133,7 +133,7 @@ class CoreffConnector(models.Model):
             if response.status_code == 200:
                 content = response.json()
                 return content
-            elif response.status_code == 403:
+            elif response.status_code in (401, 403):
                 if not retry:
                     res = self.creditsafe_authenticate(
                         settings["url"],
