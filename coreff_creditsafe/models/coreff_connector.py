@@ -105,6 +105,8 @@ class CoreffConnector(models.Model):
                     )
                     if res:
                         return self.creditsafe_get_companies(arguments, True)
+                    else:
+                        return self.format_error(response)
                 else:
                     return self.format_error(response)
             else:
@@ -142,6 +144,8 @@ class CoreffConnector(models.Model):
                     )
                     if res:
                         return self.creditsafe_get_company(arguments, True)
+                    else:
+                        return self.format_error(response)
                 else:
                     return self.format_error(response)
             else:
