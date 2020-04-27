@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # ©2018-2019 Article714
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 
 from odoo import fields, models, _
@@ -14,7 +14,8 @@ class CoreffConfig(models.TransientModel):
     )
 
     societeComLogin = fields.Char(
-        string=_(u"Identifiant"), help=_(u"Login d'accès au service Societe.com.")
+        string=_(u"Identifiant"),
+        help=_(u"Login d'accès au service Societe.com."),
     )
 
     societeComPassword = fields.Char(
