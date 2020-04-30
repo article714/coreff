@@ -16,7 +16,7 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     coreff_search_is_head_office = fields.Boolean(
-        default=True, string="Head offices only", store=False
+        default=True, string="Head offices only"
     )
 
     # -------------------------
@@ -38,3 +38,12 @@ class ResPartner(models.Model):
         # TODO
         logging.debug("CREATE FROM CALL")
         return
+
+    @api.multi
+    def write(self, values):
+        """
+            Set is_head_office always True for next edition
+        """
+        values["coreff_search_is_head_office"] = True
+        res = super(ResPartner, self).write(values)
+        return res
