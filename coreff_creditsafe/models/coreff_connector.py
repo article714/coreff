@@ -56,7 +56,7 @@ class CoreffConnector(models.Model):
                 "Authorization": token if token else "",
             }
 
-            call_url = "{}/companies?language=en&page=1&pageSize=200".format(
+            call_url = "{}/companies?exact=true&language=en&page=1&pageSize=200".format(
                 url
             )
 
