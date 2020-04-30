@@ -5,12 +5,12 @@ odoo.define('coreff.autocomplete.core', function (require) {
     var session = require('web.session');
 
     return {
-        autocomplete: function (value, isSiret) {
+        autocomplete: function (value, isSiret, countryId, isHeadOffice) {
             value = value.trim();
             var self = this;
             var def = $.Deferred();
 
-            self._getCompanies(isSiret, value).then(res => {
+            self._getCompanies(isSiret, countryId, isHeadOffice, value).then(res => {
                 if ("error" in res) {
                     return def.reject(res.error);
                 }
@@ -86,9 +86,11 @@ odoo.define('coreff.autocomplete.core', function (require) {
             })
         },
 
-        _getCompanies: function (isSiret, value) {
+        _getCompanies: function (isSiret, countryId, isHeadOffice, value) {
             var data = {};
             data.is_siret = isSiret;
+            data.country_id = countryId;
+            data.is_head_office = isHeadOffice;
             data.value = value;
             data.user_id = session.uid;
             return rpc.query({

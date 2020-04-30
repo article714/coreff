@@ -103,7 +103,7 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
             var self = this;
             if (Autocomplete.validateSearchTerm(value, this.onlySiret) && Autocomplete.isOnline() && this.connector) {
                 self._showLoading();
-                return Autocomplete.autocomplete(value, this.onlySiret).then(function (suggestions) {
+                return Autocomplete.autocomplete(value, this.onlySiret, (this.recordData.country_id) ? this.recordData.country_id.data.id : false, this.recordData.coreff_search_is_head_office).then(function (suggestions) {
                     $('#alert_coreff').html("").hide();
                     if (suggestions && suggestions.length) {
                         self.suggestions = suggestions;

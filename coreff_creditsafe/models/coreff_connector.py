@@ -56,15 +56,28 @@ class CoreffConnector(models.Model):
                 "Authorization": token if token else "",
             }
 
-            countries = settings["countries"].replace(",", "%2C")
-            call_url = "{}/companies?countries={}&language=en&page=1&pageSize=200".format(
-                url, countries
+            call_url = "{}/companies?language=en&page=1&pageSize=200".format(
+                url
             )
 
             if arguments["is_siret"]:
                 call_url += "&regNo={}".format(arguments["value"])
             else:
                 call_url += "&name={}".format(arguments["value"])
+
+            if arguments["country_id"]:
+                code = (
+                    self.env["res.country"]
+                    .search([("id", "=", arguments["country_id"])])[0]
+                    .code
+                )
+                call_url += "&countries={}".format(code)
+            else:
+                countries = settings["countries"].replace(",", "%2C")
+                call_url += "&countries={}".format(countries)
+
+            if arguments["is_head_office"]:
+                call_url += "&officeType=headOffice"
 
             response = requests.get(call_url, headers=headers)
 

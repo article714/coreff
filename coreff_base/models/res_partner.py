@@ -9,11 +9,15 @@ Created on 8 August 2018
 
 import logging
 
-from odoo import api, models
+from odoo import api, models, fields
 
 
 class ResPartner(models.Model):
     _inherit = "res.partner"
+
+    coreff_search_is_head_office = fields.Boolean(
+        default=True, string="Head offices only", store=False
+    )
 
     # -------------------------
     # unimplemented method that will be defined in other module to update from HMI

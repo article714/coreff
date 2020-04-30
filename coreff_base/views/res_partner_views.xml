@@ -21,19 +21,28 @@
 				position="replace">
 			</xpath>
 
+			<xpath expr="//field[@name='company_type']" 
+				position="after">
+				<div class="oe_edit_only">
+					<field name="coreff_search_is_head_office" />
+					<span>Head offices only</span>
+				</div>
+			</xpath>
+
 			<xpath expr="//field[@name='name']" 
 				position="attributes">
 				<attribute name="widget">field_coreff_autocomplete</attribute>
 			</xpath>
 
-			<xpath expr="//field[@name='name']" 
+			<xpath expr="//field[@name='name']/.." 
 				position="after">
-				<div>
+				<h2>
 					<field name="siret" 
 						widget="field_coreff_autocomplete" 
 						placeholder="SIRET" 
 						attrs="{'invisible': [('is_company', '=', False)]}" />
-				</div>
+				</h2>
+
 			</xpath>
 		</field>
 	</record>
