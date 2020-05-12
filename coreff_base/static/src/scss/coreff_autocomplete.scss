@@ -6,18 +6,27 @@
     max-height: 500px;
   }
 
-  > .o_partner_autocomplete_dropdown .dropdown-item {
-    min-width: 300px;
-    padding: 4px 8px;
-    > img {
-      float: left;
-      width: 36px;
-      height: 36px;
+  > .o_partner_autocomplete_dropdown {
+    .o_is_head_office_checkbox {
+      min-width: 300px;
+      vertical-align: middle;
     }
-    > .o_partner_autocomplete_info {
-      margin-left: 2px;
-      > * {
-        @include o-text-overflow(block);
+    hr {
+      margin: 0;
+    }
+    .dropdown-item {
+      min-width: 300px;
+      padding: 4px 8px;
+      > img {
+        float: left;
+        width: 36px;
+        height: 36px;
+      }
+      > .o_partner_autocomplete_info {
+        margin-left: 2px;
+        > * {
+          @include o-text-overflow(block);
+        }
       }
     }
   }

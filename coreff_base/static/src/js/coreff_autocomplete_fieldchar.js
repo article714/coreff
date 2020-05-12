@@ -93,7 +93,7 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
 
         _showDropdown: function () {
             this._removeDropdown();
-            if (this.suggestions.length > 0) {
+            if (this.suggestions.length > -10) {
                 this.$dropdown = $(QWeb.render('coreff_autocomplete.dropdown', {
                     suggestions: this.suggestions,
                     isHeadOfficeOnly: this.isHeadOfficeOnly
@@ -108,7 +108,7 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
                 self._showLoading();
                 return Autocomplete.autocomplete(value, this.onlySiret, (this.recordData.country_id) ? this.recordData.country_id.data.id : false, this.isHeadOfficeOnly).then(function (suggestions) {
                     $('#alert_coreff').html("").hide();
-                    if (suggestions && suggestions.length) {
+                    if (suggestions) {
                         self.suggestions = suggestions;
                         self._showDropdown();
                     } else {
