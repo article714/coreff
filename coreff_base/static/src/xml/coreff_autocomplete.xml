@@ -3,6 +3,14 @@
     <div t-name="coreff_autocomplete.dropdown" 
         class="o_partner_autocomplete_dropdown dropdown-menu show" 
         role="menu">
+        <div class="o_is_head_office_checkbox">
+            <input type="checkbox" 
+                t-if="isHeadOfficeOnly" 
+                checked="" />
+            <input type="checkbox" 
+                t-else="" />
+            <label>Head Office Only</label>
+        </div>
         <t t-foreach="suggestions" 
             t-as="info">
             <a role="menuitem" 

@@ -15,10 +15,6 @@ from odoo import api, models, fields
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    coreff_search_is_head_office = fields.Boolean(
-        default=True, string="Head offices only"
-    )
-
     # -------------------------
     # unimplemented method that will be defined in other module to update from HMI
     # only runs validators by default

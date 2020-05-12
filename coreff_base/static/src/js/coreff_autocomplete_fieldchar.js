@@ -18,9 +18,11 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
         events: _.extend({}, FieldChar.prototype.events, {
             'keyup': '_onKeyup',
             'mousedown .o_partner_autocomplete_suggestion': '_onMousedown',
+            'mousedown .o_is_head_office_checkbox': '_onMousedown',
             'focusout': '_onFocusout',
             'mouseenter .o_partner_autocomplete_suggestion': '_onHoverDropdown',
             'click .o_partner_autocomplete_suggestion': '_onSuggestionClicked',
+            'click .o_is_head_office_checkbox': '_onHeadOfficeCheckboxToggle',
         }),
 
         init: function () {
@@ -28,7 +30,7 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
             this._super.apply(this, arguments);
 
             this.onlySiret = this.name === 'siret';
-
+            this.isHeadOfficeOnly = true;
             if (this.mode === 'edit') {
                 this.tagName = 'div';
                 this.className += ' dropdown open';
@@ -94,6 +96,7 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
             if (this.suggestions.length > 0) {
                 this.$dropdown = $(QWeb.render('coreff_autocomplete.dropdown', {
                     suggestions: this.suggestions,
+                    isHeadOfficeOnly: this.isHeadOfficeOnly
                 }));
                 this.$dropdown.appendTo(this.$el);
             }
@@ -103,7 +106,7 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
             var self = this;
             if (Autocomplete.validateSearchTerm(value, this.onlySiret) && Autocomplete.isOnline() && this.connector) {
                 self._showLoading();
-                return Autocomplete.autocomplete(value, this.onlySiret, (this.recordData.country_id) ? this.recordData.country_id.data.id : false, this.recordData.coreff_search_is_head_office).then(function (suggestions) {
+                return Autocomplete.autocomplete(value, this.onlySiret, (this.recordData.country_id) ? this.recordData.country_id.data.id : false, this.isHeadOfficeOnly).then(function (suggestions) {
                     $('#alert_coreff').html("").hide();
                     if (suggestions && suggestions.length) {
                         self.suggestions = suggestions;
@@ -189,6 +192,10 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
             e.preventDefault();
             this._selectCompany(this.suggestions[$(e.currentTarget).data('index')]);
         },
+
+        _onHeadOfficeCheckboxToggle: function (e) {
+            this.isHeadOfficeOnly = e.currentTarget.children[0].checked
+        }
     });
 
     field_registry.add('field_coreff_autocomplete', FieldAutocomplete);
