@@ -76,7 +76,7 @@ class CoreffConnector(models.Model):
                 countries = settings["countries"].replace(",", "%2C")
                 call_url += "&countries={}".format(countries)
 
-            if arguments["is_head_office"]:
+            if arguments.get("is_head_office", True):
                 call_url += "&officeType=headOffice"
 
             response = requests.get(call_url, headers=headers)
