@@ -3,7 +3,8 @@
     <div t-name="coreff_autocomplete.dropdown" 
         class="o_partner_autocomplete_dropdown dropdown-menu show" 
         role="menu">
-        <div class="o_is_head_office_checkbox">
+        <div class="o_is_head_office_checkbox" 
+            t-if="headOfficeCheckboxVisibility">
             <input type="checkbox" 
                 t-if="isHeadOfficeOnly" 
                 checked="" />

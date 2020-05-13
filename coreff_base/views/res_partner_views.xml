@@ -24,6 +24,7 @@
 			<xpath expr="//field[@name='name']" 
 				position="attributes">
 				<attribute name="widget">field_coreff_autocomplete</attribute>
+				<attribute name="options">{'headOffice': True}</attribute>
 			</xpath>
 
 			<xpath expr="//field[@name='name']/.." 
@@ -31,10 +32,10 @@
 				<h2>
 					<field name="siret" 
 						widget="field_coreff_autocomplete" 
+						options="{'headOffice': True}" 
 						placeholder="SIRET" 
 						attrs="{'invisible': [('is_company', '=', False)]}" />
 				</h2>
-
 			</xpath>
 		</field>
 	</record>

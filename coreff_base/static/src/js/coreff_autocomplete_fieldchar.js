@@ -28,6 +28,7 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
         init: function () {
             var self = this;
             this._super.apply(this, arguments);
+            this.headOfficeCheckboxVisibility = this.attrs.options.headOffice !== undefined ? this.attrs.options.headOffice : false
 
             this.onlySiret = this.name === 'siret';
             this.isHeadOfficeOnly = true;
@@ -93,10 +94,11 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
 
         _showDropdown: function () {
             this._removeDropdown();
-            if (this.suggestions.length > -10) {
+            if (this.suggestions.length > 0 || this.headOfficeCheckboxVisibility) {
                 this.$dropdown = $(QWeb.render('coreff_autocomplete.dropdown', {
                     suggestions: this.suggestions,
-                    isHeadOfficeOnly: this.isHeadOfficeOnly
+                    isHeadOfficeOnly: this.isHeadOfficeOnly,
+                    headOfficeCheckboxVisibility: this.headOfficeCheckboxVisibility
                 }));
                 this.$dropdown.appendTo(this.$el);
             }
