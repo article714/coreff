@@ -40,6 +40,5 @@ class ResPartner(models.Model):
         """
             Set is_head_office always True for next edition
         """
-        values["coreff_search_is_head_office"] = True
         res = super(ResPartner, self).write(values)
         return res
