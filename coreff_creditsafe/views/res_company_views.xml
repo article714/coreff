@@ -13,6 +13,8 @@
                 position="inside">
                 <field name="creditsafe_visibility" 
                     invisible="1" />
+                <field name="parent_id" 
+                    invisible="1" />
                 <page string="Creditsafe" 
                     attrs="{'invisible': [('creditsafe_visibility', '=', False)]}">
                     <group>
