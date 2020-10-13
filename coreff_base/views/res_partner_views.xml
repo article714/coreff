@@ -6,7 +6,7 @@
 		<field name="name">coreff.partner.form</field>
 		<field name="model">res.partner</field>
 		<field name="inherit_id"
-			ref="l10n_fr.res_partner_form_l10n_fr" />
+			ref="base.view_partner_form" />
 		<field name="arch"
 			type="xml">
 			<xpath expr="//div[@class='oe_title']"
