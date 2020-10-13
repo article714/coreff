@@ -15,6 +15,8 @@ from odoo import api, models, fields
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
+    coreff_company_code = fields.Char()
+
     # -------------------------
     # unimplemented method that will be defined in other module to update from HMI
     # only runs validators by default
@@ -38,7 +40,7 @@ class ResPartner(models.Model):
     @api.multi
     def write(self, values):
         """
-            Set is_head_office always True for next edition
+        Set is_head_office always True for next edition
         """
         res = super(ResPartner, self).write(values)
         return res

@@ -30,7 +30,7 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
             this._super.apply(this, arguments);
             this.headOfficeCheckboxVisibility = this.attrs.options.headOffice !== undefined ? this.attrs.options.headOffice : false
 
-            this.onlySiret = this.name === 'siret';
+            this.onlyCompanyCode = !(this.name === 'name');
             this.isHeadOfficeOnly = true;
             if (this.mode === 'edit') {
                 this.tagName = 'div';
@@ -77,8 +77,8 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
                 });
             });
 
-            if (this.onlySiret) {
-                this.$input.val(this._formatValue(company.siret));
+            if (this.onlyCompanyCode) {
+                this.$input.val(this._formatValue(company.coreff_company_code));
             }
             else {
                 this.$input.val(this._formatValue(company.name));
@@ -106,9 +106,9 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
 
         _suggestCompanies: function (value) {
             var self = this;
-            if (Autocomplete.validateSearchTerm(value, this.onlySiret) && Autocomplete.isOnline() && this.connector) {
+            if (Autocomplete.validateSearchTerm(value, this.onlyCompanyCode) && Autocomplete.isOnline() && this.connector) {
                 self._showLoading();
-                return Autocomplete.autocomplete(value, this.onlySiret, (this.recordData.country_id) ? this.recordData.country_id.data.id : false, this.isHeadOfficeOnly).then(function (suggestions) {
+                return Autocomplete.autocomplete(value, this.onlyCompanyCode, (this.recordData.country_id) ? this.recordData.country_id.data.id : false, this.isHeadOfficeOnly).then(function (suggestions) {
                     $('#alert_coreff').html("").hide();
                     if (suggestions) {
                         self.suggestions = suggestions;

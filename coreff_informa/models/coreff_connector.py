@@ -22,9 +22,7 @@ class CoreffConnector(models.Model):
 
         look_up_input = {}
         look_up_input["Country_Code"] = settings["country_code"]
-        # if arguments["is_siret"]:
-        #     look_up_input["DnB_DUNS_Number"] = arguments["value"]
-        # else:
+
         look_up_input["Name"] = arguments["value"]
 
         look_up_request = {}
@@ -53,12 +51,10 @@ class CoreffConnector(models.Model):
             suggestion = {}
             suggestion["informa_company_id"] = company["DUNS_NBR"]
             suggestion["name"] = company["NME"]
-            # suggestion["siret"] = company["DUNS_NBR"]
             suggestion["street"] = company["ADR_LINE"]
             suggestion["city"] = company["NON_POST_TOWN"]
             suggestion["zip"] = company["POST_CODE"]
             suggestion["phone"] = company["TLCM_NBR"]
-            # suggestion["country_id"] = company["country"]
             suggestions.append(suggestion)
         return suggestions
 

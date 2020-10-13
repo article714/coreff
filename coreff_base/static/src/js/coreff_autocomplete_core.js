@@ -5,12 +5,12 @@ odoo.define('coreff.autocomplete.core', function (require) {
     var session = require('web.session');
 
     return {
-        autocomplete: function (value, isSiret, countryId, isHeadOffice) {
+        autocomplete: function (value, valueIsCompanyCode, countryId, isHeadOffice) {
             value = value.trim();
             var self = this;
             var def = $.Deferred();
 
-            self._getCompanies(isSiret, countryId, isHeadOffice, value).then(res => {
+            self._getCompanies(valueIsCompanyCode, countryId, isHeadOffice, value).then(res => {
                 if ("error" in res) {
                     return def.reject(res.error);
                 }
@@ -47,8 +47,8 @@ odoo.define('coreff.autocomplete.core', function (require) {
             return navigator && navigator.onLine;
         },
 
-        validateSearchTerm: function (search_val, onlySiret) {
-            if (onlySiret) {
+        validateSearchTerm: function (search_val, onlyCompanyCode) {
+            if (onlyCompanyCode) {
                 return search_val && search_val.length > 8;
             }
             else {
@@ -86,9 +86,9 @@ odoo.define('coreff.autocomplete.core', function (require) {
             })
         },
 
-        _getCompanies: function (isSiret, countryId, isHeadOffice, value) {
+        _getCompanies: function (valueIsCompanyCode, countryId, isHeadOffice, value) {
             var data = {};
-            data.is_siret = isSiret;
+            data.valueIsCompanyCode = valueIsCompanyCode;
             data.country_id = countryId;
             data.is_head_office = isHeadOffice;
             data.value = value;

@@ -60,7 +60,7 @@ class CoreffConnector(models.Model):
                 url
             )
 
-            if arguments["is_siret"]:
+            if arguments["valueIsCompanyCode"]:
                 call_url += "&regNo={}".format(arguments["value"])
             else:
                 call_url += "&name={}".format(arguments["value"])
@@ -95,7 +95,9 @@ class CoreffConnector(models.Model):
                     suggestion = {}
                     suggestion["creditsafe_company_id"] = company.get("id", "")
                     suggestion["name"] = company.get("name", "")
-                    suggestion["siret"] = company.get("regNo", "")
+                    suggestion["coreff_company_code"] = company.get(
+                        "regNo", ""
+                    )
                     suggestion["street"] = company.get("address", {}).get(
                         "street", ""
                     )

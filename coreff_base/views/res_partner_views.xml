@@ -1,39 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-	<record model="ir.ui.view" 
+	<record model="ir.ui.view"
 		id="coreff_partner_form">
 		<field name="name">coreff.partner.form</field>
 		<field name="model">res.partner</field>
-		<field name="inherit_id" 
+		<field name="inherit_id"
 			ref="l10n_fr.res_partner_form_l10n_fr" />
-		<field name="arch" 
+		<field name="arch"
 			type="xml">
-			<xpath expr="//div[@class='oe_title']" 
+			<xpath expr="//div[@class='oe_title']"
 				position="after">
-				<p id="alert_coreff" 
-					class="alert alert-warning" 
+				<p id="alert_coreff"
+					class="alert alert-warning"
 					style="display: none;" />
 			</xpath>
 
-			<!-- Modify SIRET place -->
-			<xpath expr="//field[@name='siret']" 
-				position="replace">
-			</xpath>
-
-			<xpath expr="//field[@name='name']" 
+			<xpath expr="//field[@name='name']"
 				position="attributes">
 				<attribute name="widget">field_coreff_autocomplete</attribute>
 				<attribute name="options">{'headOffice': True}</attribute>
 			</xpath>
 
-			<xpath expr="//field[@name='name']/.." 
+			<xpath expr="//field[@name='name']/.."
 				position="after">
 				<h2>
-					<field name="siret" 
-						widget="field_coreff_autocomplete" 
-						options="{'headOffice': True}" 
-						placeholder="SIRET" 
+					<field name="coreff_company_code"
+						widget="field_coreff_autocomplete"
+						options="{'headOffice': True}"
+						placeholder="Company code"
 						attrs="{'invisible': [('is_company', '=', False)]}" />
 				</h2>
 			</xpath>
