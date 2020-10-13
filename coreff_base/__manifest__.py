@@ -13,7 +13,7 @@
     "license": u"LGPL-3",
     "website": u"https://www.article714.org",
     "summary": u"Manage Core Financial Data: base module",
-    "depends": ["base", "l10n_fr"],
+    "depends": ["base"],
     "data": [
         "security/coreff_security.xml",
         "views/coreff_autocomplete_assets.xml",
