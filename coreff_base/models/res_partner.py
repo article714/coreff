@@ -15,6 +15,14 @@ from odoo import api, models, fields
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
+    _sql_constraints = [
+        (
+            "coreff_company_code_uniq",
+            "unique (coreff_company_code, company_id)",
+            "Company code must be unique",
+        )
+    ]
+
     coreff_company_code = fields.Char()
 
     # -------------------------
