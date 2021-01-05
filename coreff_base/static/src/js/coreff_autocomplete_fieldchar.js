@@ -140,7 +140,6 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
         },
 
         _onKeydown: function (e) {
-            return;
             switch (e.which) {
                 case $.ui.keyCode.UP:
                 case $.ui.keyCode.DOWN:
