@@ -87,6 +87,11 @@ odoo.define('coreff.autocomplete.core', function (require) {
         },
 
         _getCompanies: function (valueIsCompanyCode, countryId, isHeadOffice, value) {
+            console.log("_getCompanies")
+            console.log(valueIsCompanyCode)
+            console.log(countryId)
+            console.log(isHeadOffice)
+            console.log(value)
             var data = {};
             data.valueIsCompanyCode = valueIsCompanyCode;
             data.country_id = countryId;
