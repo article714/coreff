@@ -167,6 +167,8 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
         },
 
         _onKeyup: function (e) {
+            console.log("_onKeyup")
+            console.log(e)
             switch (e.which) {
                 case $.ui.keyCode.ESCAPE:
                     e.preventDefault();
