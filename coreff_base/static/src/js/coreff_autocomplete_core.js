@@ -87,17 +87,14 @@ odoo.define('coreff.autocomplete.core', function (require) {
         },
 
         _getCompanies: function (valueIsCompanyCode, countryId, isHeadOffice, value) {
-            console.log("_getCompanies")
-            console.log(valueIsCompanyCode)
-            console.log(countryId)
-            console.log(isHeadOffice)
-            console.log(value)
             var data = {};
             data.valueIsCompanyCode = valueIsCompanyCode;
             data.country_id = countryId;
             data.is_head_office = isHeadOffice;
             data.value = value;
             data.user_id = session.uid;
+            console.log("_getCompanies")
+            console.log(data)
             return rpc.query({
                 model: 'coreff.api',
                 method: 'get_companies',
