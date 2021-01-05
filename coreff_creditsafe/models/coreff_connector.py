@@ -5,7 +5,6 @@
 import json
 import requests
 from odoo import api, models
-import logging
 
 
 class CoreffConnector(models.Model):
@@ -84,7 +83,6 @@ class CoreffConnector(models.Model):
 
             if response.status_code == 200:
                 content = response.json()
-                logging.info(content)
                 content["companies"].sort(
                     key=lambda x: (
                         x.get("name"),

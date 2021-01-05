@@ -136,7 +136,7 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
 
         _onInput: function () {
             this._super.apply(this, arguments);
-            this._suggestCompanies(this.$input.val());
+            // this._suggestCompanies(this.$input.val());
         },
 
         _onKeydown: function (e) {
