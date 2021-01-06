@@ -94,7 +94,6 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
 
         _showDropdown: function () {
             this._removeDropdown();
-            return;
             if (this.suggestions.length > 0 || this.headOfficeCheckboxVisibility) {
                 this.$dropdown = $(QWeb.render('coreff_autocomplete.dropdown', {
                     suggestions: this.suggestions,
@@ -168,8 +167,6 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
         },
 
         _onKeyup: function (e) {
-            console.log("_onKeyup")
-            console.log(e)
             switch (e.which) {
                 case $.ui.keyCode.ESCAPE:
                     e.preventDefault();
