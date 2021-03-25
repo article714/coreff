@@ -26,6 +26,8 @@ class ResCompany(models.Model):
         compute="_compute_parent_password"
     )
 
+    creditsafe_countries = fields.Char()
+
     @api.depends("parent_id")
     @api.onchange("parent_id", "creditsafe_use_parent_company")
     def _compute_parent_url(self):
@@ -40,8 +42,8 @@ class ResCompany(models.Model):
     def _compute_parent_username(self):
         for rec in self:
             if rec.parent_id and rec.creditsafe_use_parent_company:
-                rec.creditsafe_parent_username = (
-                    rec.get_parent_creditsafe_field("creditsafe_username")
+                rec.creditsafe_parent_username = rec.get_parent_creditsafe_field(
+                    "creditsafe_username"
                 )
 
     @api.depends("parent_id")
@@ -49,8 +51,8 @@ class ResCompany(models.Model):
     def _compute_parent_password(self):
         for rec in self:
             if rec.parent_id and rec.creditsafe_use_parent_company:
-                rec.creditsafe_parent_password = (
-                    rec.get_parent_creditsafe_field("creditsafe_password")
+                rec.creditsafe_parent_password = rec.get_parent_creditsafe_field(
+                    "creditsafe_password"
                 )
 
     @api.depends("coreff_connector_id")
