@@ -65,6 +65,7 @@ class CoreffConnector(models.Model):
             else:
                 call_url += "&name={}".format(arguments["value"])
 
+            code = False
             if arguments["country_id"]:
                 code = (
                     self.env["res.country"]
@@ -72,11 +73,8 @@ class CoreffConnector(models.Model):
                     .code
                 )
                 call_url += "&countries={}".format(code)
-            else:
-                countries = settings["countries"].replace(",", "%2C")
-                call_url += "&countries={}".format(countries)
 
-            if arguments.get("is_head_office", True):
+            if arguments.get("is_head_office", True) and code == "FR":
                 call_url += "&officeType=headOffice"
 
             response = requests.get(call_url, headers=headers)
@@ -185,7 +183,6 @@ class CoreffConnector(models.Model):
             .get_credentials(res["url"], res["username"])
             .token
         )
-        res["countries"] = company.creditsafe_countries
         return res
 
     def format_error(self, response):
