@@ -10,6 +10,7 @@ Created on 8 August 2018
 import logging
 
 from odoo import api, models, fields
+from odoo.osv import expression
 
 
 class ResPartner(models.Model):
@@ -52,3 +53,25 @@ class ResPartner(models.Model):
         """
         res = super(ResPartner, self).write(values)
         return res
+
+    def name_get(self):
+        res = []
+        for rec in self:
+            res.append((f"{rec.display_name} : {rec.coreff_company_code}"))
+        return res
+
+    @api.model
+    def name_search(self, name="", args=None, operator="ilike", limit=100):
+        if name:
+            args = expression.AND(
+                [
+                    expression.OR(
+                        [
+                            [("name", operator, name)],
+                            [("coreff_company_code", operator, name)],
+                        ]
+                    ),
+                    args,
+                ]
+            )
+        return self.search(args, limit=limit).name_get()
