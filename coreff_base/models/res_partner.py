@@ -54,10 +54,16 @@ class ResPartner(models.Model):
         res = super(ResPartner, self).write(values)
         return res
 
+    @api.multi
     def name_get(self):
         res = []
         for rec in self:
-            res.append((f"{rec.name} : {rec.coreff_company_code}"))
+            name = (
+                f"{rec.name} : {rec.coreff_company_code}"
+                if rec.coreff_company_code
+                else rec.name
+            )
+            res.append(name)
         return res
 
     @api.model
