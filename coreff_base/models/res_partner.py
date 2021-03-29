@@ -58,7 +58,10 @@ class ResPartner(models.Model):
     def name_get(self):
         res = []
         for rec in self:
-            res.append(rec.name)
+            if rec.coreff_company_code:
+                res.append(rec.name)
+            else:
+                res.append(f"{rec.name} : {rec.coreff_company_code}")
         return res
 
     @api.model
