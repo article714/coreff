@@ -54,15 +54,15 @@ class ResPartner(models.Model):
         res = super(ResPartner, self).write(values)
         return res
 
-    # @api.multi
-    # def name_get(self):
-    #     res = []
-    #     for rec in self:
-    #         if rec.coreff_company_code:
-    #             res.append(rec.name)
-    #         else:
-    #             res.append(f"{rec.name} : {rec.coreff_company_code}")
-    #     return res
+    @api.multi
+    def name_get(self):
+        res = []
+        for rec in self:
+            if rec.coreff_company_code:
+                res.append(rec.name)
+            else:
+                res.append(f"{rec.name} : {rec.coreff_company_code}")
+        return res
 
     @api.model
     def name_search(self, name="", args=None, operator="ilike", limit=100):
