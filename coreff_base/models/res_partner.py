@@ -54,6 +54,11 @@ class ResPartner(models.Model):
         res = super(ResPartner, self).write(values)
         return res
 
+    @api.depends("name", "coreff_company_code")
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = rec.name
+
     @api.multi
     def name_get(self):
         res = []
