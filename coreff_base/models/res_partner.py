@@ -83,17 +83,15 @@ class ResPartner(models.Model):
         return res
 
     @api.model
-    def name_search(self, name="", args=None, operator="ilike", limit=100):
-        if name:
-            args = expression.AND(
-                [
-                    expression.OR(
-                        [
-                            [("name", operator, name)],
-                            [("coreff_company_code", operator, name)],
-                        ]
-                    ),
-                    args,
-                ]
-            )
-        return self.search(args, limit=limit).name_get()
+    def _name_search(
+        self, name, args=None, operator="ilike", limit=100, name_get_uid=None
+    ):
+        res1 = super(ResPartner, self)._name_search(
+            name, args, operator, limit, name_get_uid
+        )
+
+        res2 = self.search(
+            [("coreff_company_code", operator, name)], limit=limit
+        ).name_get()
+
+        return list(set(res1) | set(res2))
