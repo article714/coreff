@@ -54,10 +54,23 @@ class ResPartner(models.Model):
         res = super(ResPartner, self).write(values)
         return res
 
-    @api.depends("name", "coreff_company_code")
+    @api.depends(
+        "is_company",
+        "name",
+        "parent_id.name",
+        "type",
+        "company_name",
+    )
     def _compute_display_name(self):
-        for rec in self:
-            rec.display_name = rec.name
+        diff = dict(
+            show_address=None,
+            show_address_only=None,
+            show_email=None,
+            html_format=None,
+        )
+        names = dict(super(ResPartner, self.with_context(**diff)).name_get())
+        for partner in self:
+            partner.display_name = names.get(partner.id)
 
     @api.multi
     def name_get(self):
