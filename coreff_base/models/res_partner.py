@@ -94,4 +94,5 @@ class ResPartner(models.Model):
             [("coreff_company_code", operator, name)], limit=limit
         ).name_get()
 
-        return list(set(res1) | set(res2))
+        res = res1 + [v for v in res2 if v not in res1]
+        return res
