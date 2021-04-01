@@ -154,3 +154,9 @@ class CreditSafeDataMixin(object):
             )
 
             rec.creditsafe_last_update = fields.Datetime.now()
+
+            rec.creditsafe_share_capital = (
+                company.get("shareCapitalStructure", {})
+                .get("nominalShareCapital", {})
+                .get("value", 0)
+            )
