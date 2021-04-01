@@ -28,9 +28,9 @@ class CreditSafeDataMixin(object):
     creditsafe_court_registry_description = fields.Char(
         string="RCS", readonly=True
     )
-    creditsafe_share_capital = fields.Monetary(
-        string="Share Capital", readonly=True
-    )
+    # creditsafe_share_capital = fields.Monetary(
+    #     string="Share Capital", readonly=True
+    # )
     creditsafe_incorporation_date = fields.Char(
         string="Registration Date", readonly=True
     )
@@ -155,8 +155,8 @@ class CreditSafeDataMixin(object):
 
             rec.creditsafe_last_update = fields.Datetime.now()
 
-            rec.creditsafe_share_capital = (
-                company.get("shareCapitalStructure", {})
-                .get("nominalShareCapital", {})
-                .get("value", 0)
-            )
+            # rec.creditsafe_share_capital = (
+            #     company.get("shareCapitalStructure", {})
+            #     .get("nominalShareCapital", {})
+            #     .get("value", 0)
+            # )
