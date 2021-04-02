@@ -3,7 +3,6 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 from odoo import fields
-import logging
 
 
 class CreditSafeDataMixin(object):
@@ -96,7 +95,6 @@ class CreditSafeDataMixin(object):
             arguments["company_id"] = rec.creditsafe_company_id
             arguments["user_id"] = self.env.user.id
             company = self.env["coreff.api"].get_company(arguments)
-            logging.info(company)
             company = company.get("report", {})
             company_summary = company.get("companySummary", {})
             basic_information = company.get("companyIdentification", {}).get(

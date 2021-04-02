@@ -107,6 +107,7 @@ class CoreffConnector(models.Model):
                     )
                     suggestion["country_id"] = company.get("country", "")
                     suggestion["vat"] = company.get("vatNo", [""])[0]
+                    suggestion["phone"] = company.get("phoneNumbers", [""])[0]
                     suggestions.append(suggestion)
                 return suggestions
             elif response.status_code in (401, 403):
