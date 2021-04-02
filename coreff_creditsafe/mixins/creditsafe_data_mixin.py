@@ -28,7 +28,7 @@ class CreditSafeDataMixin(object):
     creditsafe_court_registry_description = fields.Char(
         string="RCS", readonly=True
     )
-    creditsafe_share_capital = fields.Monetary(
+    creditsafe_share_capital = fields.Float(
         string="Share Capital", readonly=True
     )
     creditsafe_incorporation_date = fields.Char(
