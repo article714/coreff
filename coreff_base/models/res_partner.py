@@ -11,6 +11,7 @@ import logging
 
 from odoo import api, models, fields
 from odoo.osv import expression
+from odoo.exceptions import UserError
 
 
 class ResPartner(models.Model):
@@ -25,6 +26,9 @@ class ResPartner(models.Model):
     ]
 
     coreff_company_code = fields.Char()
+    coreff_company_code_mandatory = fields.Boolean(
+        related="company_id.coreff_company_code_mandatory"
+    )
 
     # -------------------------
     # unimplemented method that will be defined in other module to update from HMI
@@ -46,12 +50,26 @@ class ResPartner(models.Model):
         logging.debug("CREATE FROM CALL")
         return
 
+    @api.model
+    def create(self, values):
+        res = super(ResPartner, self).create(values)
+        if (
+            res.is_company
+            and res.coreff_company_code_mandatory
+            and not res.coreff_company_code
+        ):
+            raise UserError("Company code is required")
+        return res
+
     @api.multi
     def write(self, values):
-        """
-        Set is_head_office always True for next edition
-        """
         res = super(ResPartner, self).write(values)
+        if (
+            res.is_company
+            and res.coreff_company_code_mandatory
+            and not res.coreff_company_code
+        ):
+            raise UserError("Company code is required")
         return res
 
     @api.depends(

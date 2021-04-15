@@ -9,3 +9,4 @@ class ResCompany(models.Model):
     _inherit = "res.company"
 
     coreff_connector_id = fields.Many2one("coreff.connector")
+    coreff_company_code_mandatory = fields.Boolean()
