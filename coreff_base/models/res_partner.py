@@ -65,9 +65,9 @@ class ResPartner(models.Model):
     def write(self, values):
         res = super(ResPartner, self).write(values)
         if (
-            res.is_company
-            and res.coreff_company_code_mandatory
-            and not res.coreff_company_code
+            self.is_company
+            and self.coreff_company_code_mandatory
+            and not self.coreff_company_code
         ):
             raise UserError("Company code is required")
         return res
