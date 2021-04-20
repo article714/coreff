@@ -9,7 +9,7 @@ Created on 8 August 2018
 
 import logging
 
-from odoo import api, models, fields
+from odoo import api, models, fields, _
 from odoo.osv import expression
 from odoo.exceptions import UserError
 
@@ -52,25 +52,29 @@ class ResPartner(models.Model):
 
     @api.model
     def create(self, values):
-        res = super(ResPartner, self).create(values)
-        if (
-            res.is_company
-            and res.coreff_company_code_mandatory
-            and not res.coreff_company_code
-        ):
-            raise UserError("Company code is required")
-        return res
+        rec = super(ResPartner, self).create(values)
+        rec._check_company_code()
+        return rec
 
     @api.multi
     def write(self, values):
         res = super(ResPartner, self).write(values)
         if (
-            self.is_company
-            and self.coreff_company_code_mandatory
-            and not self.coreff_company_code
+            values.get("is_company")
+            or values.get("coreff_company_code_mandatory")
+            or "coreff_company_code" in values
         ):
-            raise UserError("Company code is required")
+            self._check_company_code()
         return res
+
+    def _check_company_code(self):
+        for rec in self:
+            if (
+                rec.is_company
+                and rec.coreff_company_code_mandatory
+                and not rec.coreff_company_code
+            ):
+                raise UserError(_("Company code is required"))
 
     @api.depends(
         "is_company",
