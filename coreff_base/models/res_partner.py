@@ -117,7 +117,7 @@ class ResPartner(models.Model):
         ids = self._search(
             res2_args, limit=limit, access_rights_uid=access_rights_uid
         )
-        res2 = self.browse(ids)
+        res2 = models.lazy_name_get(self.browse(ids).sudo(access_rights_uid))
 
         res = res1 + [v for v in res2 if v not in res1]
         return res
