@@ -113,7 +113,9 @@ class ResPartner(models.Model):
         )
 
         access_rights_uid = name_get_uid or self._uid
-        res2_args = args + [("coreff_company_code", operator, name)]
+        res2_args = (args if args else []) + [
+            ("coreff_company_code", operator, name)
+        ]
         ids = self._search(
             res2_args, limit=limit, access_rights_uid=access_rights_uid
         )
