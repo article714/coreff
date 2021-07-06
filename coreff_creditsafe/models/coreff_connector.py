@@ -3,7 +3,8 @@
 # # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 import json
-import requests
+from requests import Session
+from odoo.tools.config import config
 from odoo import api, models
 
 
@@ -21,24 +22,33 @@ class CoreffConnector(models.Model):
         }
 
         data = {"username": username, "password": password}
+        with Session() as session:
+            # Proxies
+            proxy_http = config.get("proxy_http")
+            proxy_https = config.get("proxy_https")
 
-        response = requests.post(
-            "{}/authenticate".format(url),
-            data=json.dumps(data),
-            headers=headers,
-        )
+            session.proxies = {
+                "http": proxy_http,
+                "https": proxy_https,
+            }
 
-        if response.status_code == 200:
-            content = response.json()
-
-            self.env["coreff.credentials"].update_token(
-                url, username, content["token"]
+            response = session.post(
+                "{}/authenticate".format(url),
+                data=json.dumps(data),
+                headers=headers,
             )
-            return content["token"]
-        if response.status_code == 401:
-            return False
-        else:
-            return self.format_error(response)
+
+            if response.status_code == 200:
+                content = response.json()
+
+                self.env["coreff.credentials"].update_token(
+                    url, username, content["token"]
+                )
+                return content["token"]
+            if response.status_code == 401:
+                return False
+            else:
+                return self.format_error(response)
 
     @api.model
     def creditsafe_get_companies(self, arguments, retry=False):
@@ -77,54 +87,69 @@ class CoreffConnector(models.Model):
             if arguments.get("is_head_office", True) and code == "FR":
                 call_url += "&officeType=headOffice"
 
-            response = requests.get(call_url, headers=headers)
+            with Session() as session:
+                # Proxies
+                proxy_http = config.get("proxy_http")
+                proxy_https = config.get("proxy_https")
 
-            if response.status_code == 200:
-                content = response.json()
-                content["companies"].sort(
-                    key=lambda x: (
-                        x.get("name"),
-                        x.get("address", {}).get("city", ""),
-                    )
-                )
+                session.proxies = {
+                    "http": proxy_http,
+                    "https": proxy_https,
+                }
+                response = session.get(call_url, headers=headers)
 
-                suggestions = []
-                for company in content.get("companies", {}):
-                    suggestion = {}
-                    suggestion["creditsafe_company_id"] = company.get("id", "")
-                    suggestion["name"] = company.get("name", "")
-                    suggestion["coreff_company_code"] = company.get(
-                        "regNo", ""
+                if response.status_code == 200:
+                    content = response.json()
+                    content["companies"].sort(
+                        key=lambda x: (
+                            x.get("name"),
+                            x.get("address", {}).get("city", ""),
+                        )
                     )
-                    suggestion["street"] = company.get("address", {}).get(
-                        "street", ""
-                    )
-                    suggestion["city"] = company.get("address", {}).get(
-                        "city", ""
-                    )
-                    suggestion["zip"] = company.get("address", {}).get(
-                        "postCode", ""
-                    )
-                    suggestion["country_id"] = company.get("country", "")
-                    suggestion["vat"] = company.get("vatNo", [""])[0]
-                    suggestion["phone"] = company.get("phoneNumbers", [""])[0]
-                    suggestions.append(suggestion)
-                return suggestions
-            elif response.status_code in (401, 403):
-                if not retry:
-                    res = self.creditsafe_authenticate(
-                        settings["url"],
-                        settings["username"],
-                        settings["password"],
-                    )
-                    if res:
-                        return self.creditsafe_get_companies(arguments, True)
+
+                    suggestions = []
+                    for company in content.get("companies", {}):
+                        suggestion = {}
+                        suggestion["creditsafe_company_id"] = company.get(
+                            "id", ""
+                        )
+                        suggestion["name"] = company.get("name", "")
+                        suggestion["coreff_company_code"] = company.get(
+                            "regNo", ""
+                        )
+                        suggestion["street"] = company.get("address", {}).get(
+                            "street", ""
+                        )
+                        suggestion["city"] = company.get("address", {}).get(
+                            "city", ""
+                        )
+                        suggestion["zip"] = company.get("address", {}).get(
+                            "postCode", ""
+                        )
+                        suggestion["country_id"] = company.get("country", "")
+                        suggestion["vat"] = company.get("vatNo", [""])[0]
+                        suggestion["phone"] = company.get(
+                            "phoneNumbers", [""]
+                        )[0]
+                        suggestions.append(suggestion)
+                    return suggestions
+                elif response.status_code in (401, 403):
+                    if not retry:
+                        res = self.creditsafe_authenticate(
+                            settings["url"],
+                            settings["username"],
+                            settings["password"],
+                        )
+                        if res:
+                            return self.creditsafe_get_companies(
+                                arguments, True
+                            )
+                        else:
+                            return self.format_error(response)
                     else:
                         return self.format_error(response)
                 else:
                     return self.format_error(response)
-            else:
-                return self.format_error(response)
 
     @api.model
     def creditsafe_get_company(self, arguments, retry=False):
@@ -143,27 +168,35 @@ class CoreffConnector(models.Model):
             }
 
             call_url = "{}/companies/{}".format(url, arguments["company_id"])
+            with Session() as session:
+                # Proxies
+                proxy_http = config.get("proxy_http")
+                proxy_https = config.get("proxy_https")
 
-            response = requests.get(call_url, headers=headers)
+                session.proxies = {
+                    "http": proxy_http,
+                    "https": proxy_https,
+                }
+                response = session.get(call_url, headers=headers)
 
-            if response.status_code == 200:
-                content = response.json()
-                return content
-            elif response.status_code in (401, 403):
-                if not retry:
-                    res = self.creditsafe_authenticate(
-                        settings["url"],
-                        settings["username"],
-                        settings["password"],
-                    )
-                    if res:
-                        return self.creditsafe_get_company(arguments, True)
+                if response.status_code == 200:
+                    content = response.json()
+                    return content
+                elif response.status_code in (401, 403):
+                    if not retry:
+                        res = self.creditsafe_authenticate(
+                            settings["url"],
+                            settings["username"],
+                            settings["password"],
+                        )
+                        if res:
+                            return self.creditsafe_get_company(arguments, True)
+                        else:
+                            return self.format_error(response)
                     else:
                         return self.format_error(response)
                 else:
                     return self.format_error(response)
-            else:
-                return self.format_error(response)
 
     def get_company_creditsafe_settings(self, user_id):
         """
