@@ -8,6 +8,19 @@ from odoo.tools.config import config
 from odoo import api, models
 
 
+class CustomSessionProxy(Session):
+    def __init__(self):
+        super().__init__()
+
+        proxy_http = config.get("proxy_http")
+        proxy_https = config.get("proxy_https")
+
+        self.proxies = {
+            "http": proxy_http,
+            "https": proxy_https,
+        }
+
+
 class CoreffConnector(models.Model):
     _inherit = "coreff.connector"
 
@@ -22,16 +35,8 @@ class CoreffConnector(models.Model):
         }
 
         data = {"username": username, "password": password}
-        with Session() as session:
-            # Proxies
-            proxy_http = config.get("proxy_http")
-            proxy_https = config.get("proxy_https")
 
-            session.proxies = {
-                "http": proxy_http,
-                "https": proxy_https,
-            }
-
+        with CustomSessionProxy() as session:
             response = session.post(
                 "{}/authenticate".format(url),
                 data=json.dumps(data),
@@ -87,15 +92,7 @@ class CoreffConnector(models.Model):
             if arguments.get("is_head_office", True) and code == "FR":
                 call_url += "&officeType=headOffice"
 
-            with Session() as session:
-                # Proxies
-                proxy_http = config.get("proxy_http")
-                proxy_https = config.get("proxy_https")
-
-                session.proxies = {
-                    "http": proxy_http,
-                    "https": proxy_https,
-                }
+            with CustomSessionProxy() as session:
                 response = session.get(call_url, headers=headers)
 
                 if response.status_code == 200:
@@ -168,15 +165,8 @@ class CoreffConnector(models.Model):
             }
 
             call_url = "{}/companies/{}".format(url, arguments["company_id"])
-            with Session() as session:
-                # Proxies
-                proxy_http = config.get("proxy_http")
-                proxy_https = config.get("proxy_https")
 
-                session.proxies = {
-                    "http": proxy_http,
-                    "https": proxy_https,
-                }
+            with CustomSessionProxy() as session:
                 response = session.get(call_url, headers=headers)
 
                 if response.status_code == 200:
