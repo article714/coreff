@@ -3,11 +3,23 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 from zeep import Client
+from odoo.tools.config import config
 from odoo import api, models
 
 
 class CoreffConnector(models.Model):
     _inherit = "coreff.connector"
+
+    @staticmethod
+    def set_proxies_on_client(client):
+
+        proxy_http = config.get("proxy_http")
+        proxy_https = config.get("proxy_https")
+
+        client.transport.session.proxies = {
+            "http": proxy_http,
+            "https": proxy_https,
+        }
 
     @api.model
     def informa_get_companies(self, arguments):
@@ -19,6 +31,7 @@ class CoreffConnector(models.Model):
             settings["url"]
             + "/DNB_WebServices.Providers.LookUp_V3:wsp_LookUp_V3?WSDL"
         )
+        self.set_proxies_on_client(client)
 
         look_up_input = {}
         look_up_input["Country_Code"] = settings["country_code"]
@@ -68,6 +81,7 @@ class CoreffConnector(models.Model):
             settings["url"]
             + "/DNB_WebServices.Providers.OrderAndInvestigations.GDP_V4:wsp_GDP_V4?WSDL"
         )
+        self.set_proxies_on_client(client)
 
         orders = {}
         orders["User_Language"] = "EN"
