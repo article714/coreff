@@ -23,7 +23,6 @@ odoo.define('coreff_autocomplete.create_from_button', function (require) {
                                 res_model: "res.partner",
                                 views: [[false, 'form']],
                                 target: 'current',
-                                view_type: 'form',
                                 view_mode: 'form',
                                 flags: { 'form': { 'action_buttons': true, 'options': { 'mode': 'edit' } } }
                         });

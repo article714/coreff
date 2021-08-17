@@ -6,7 +6,8 @@ import json
 from requests import Session
 from odoo.tools.config import config
 from odoo import api, models
-
+from odoo.exceptions import UserError,Warning
+import urllib.parse
 
 class CustomSessionProxy(Session):
     def __init__(self):
@@ -71,14 +72,19 @@ class CoreffConnector(models.Model):
                 "Authorization": token if token else "",
             }
 
-            call_url = "{}/companies?language=en&page=1&pageSize=200".format(
+            #CHRIS MANN: Lower pagesize from 200 to 10
+            call_url = "{}/companies?language=EN&page=1&pageSize=10".format(
                 url
             )
 
+            #CHRIS MANN: Using urllib.parse.quote to escape values
+            #to use in URL parameters (accounting for spaces)
             if arguments["valueIsCompanyCode"]:
-                call_url += "&regNo={}".format(arguments["value"])
+                query = urllib.parse.quote(arguments["value"])
+                call_url += "&regNo={}".format(query)
             else:
-                call_url += "&name={}".format(arguments["value"])
+                query = urllib.parse.quote(arguments["value"])
+                call_url += "&name={}".format(query)
 
             code = False
             if arguments["country_id"]:
@@ -88,15 +94,20 @@ class CoreffConnector(models.Model):
                     .code
                 )
                 call_url += "&countries={}".format(code)
+            else:
+                #CHRIS MANN: If no country specified, search in ALL (much slower)
+                call_url += "&countries=US,GB,SE,NO,NL,MX,LU,JP,IT,IE,DE,FR,DK,CA,BE"
 
-            if arguments.get("is_head_office", True) and code == "FR":
-                call_url += "&officeType=headOffice"
+            #CHRIS MANN: Add constraint for all other countries that support the HeadOffice category including FR
+            if arguments.get("is_head_office", True) and code in ["FR","CA","DK","US","IT","JP","LU","NL","NO"]:
+                call_url += "&officeType=HeadOffice"
 
             with CustomSessionProxy() as session:
                 response = session.get(call_url, headers=headers)
 
                 if response.status_code == 200:
                     content = response.json()
+
                     content["companies"].sort(
                         key=lambda x: (
                             x.get("name"),
@@ -124,10 +135,12 @@ class CoreffConnector(models.Model):
                             "postCode", ""
                         )
                         suggestion["country_id"] = company.get("country", "")
-                        suggestion["vat"] = company.get("vatNo", [""])[0]
-                        suggestion["phone"] = company.get(
-                            "phoneNumbers", [""]
-                        )[0]
+                        #CHRIS MANN: VAT and phone numbers only stored if present
+                        #otherwise crashes.
+                        optional_val = company.get("vatNo", [""])
+                        if len(optional_val)>0: suggestion["vat"] = optional_val[0]
+                        optional_val = company.get("phoneNumbers", [""])
+                        if len(optional_val)>0: suggestion["phone"] = optional_val[0]
                         suggestions.append(suggestion)
                     return suggestions
                 elif response.status_code in (401, 403):

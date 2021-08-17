@@ -2,12 +2,13 @@
 
 # @author: J. Carette
 # @author: C. Guychard
+# @author: Chris Mann (Open User Systems)
 # @copyright: ©2018-2019 Article 714
 # @license: LGPL v3
 
 {
     "name": u"CoreFF: Basic Module",
-    "version": u"12.0.1.0.0",
+    "version": u"14.0.1.0.0",
     "category": u"CoreFF",
     "author": u"Article714",
     "license": u"LGPL-3",
