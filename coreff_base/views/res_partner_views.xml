@@ -9,10 +9,11 @@
 			ref="base.view_partner_form" />
 		<field name="arch"
 			type="xml">
-			<xpath expr="//div[@class='oe_title']"
+      <xpath expr="//div[@class='oe_title']"
 				position="after">
 				<p id="alert_coreff"
 					class="alert alert-warning"
+          role="alert"
 					style="display: none;" />
 			</xpath>
 

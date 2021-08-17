@@ -3,6 +3,8 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 from odoo import api, fields, models
+from odoo.exceptions import UserError, ValidationError
+from odoo import _
 import datetime
 
 class ResPartner(models.Model):
@@ -48,10 +50,10 @@ class ResPartner(models.Model):
     creditsafe_activity_classification = fields.Char(
         string="Activity Classification", readonly=True
     )
-    creditsafe_country = fields.Char(string="Country", readonly=True)
+    creditsafe_country = fields.Char(string="CreditSafe Country", readonly=True)
 
     # Notations
-    creditsafe_status = fields.Char(string="Status", readonly=True)
+    creditsafe_status = fields.Char(string="Company Status", readonly=True)
     creditsafe_rating = fields.Integer(string="Rating", readonly=True)
     creditsafe_rating_short = fields.Char(
         string="Rating / Short Precision", readonly=True
@@ -59,8 +61,8 @@ class ResPartner(models.Model):
     creditsafe_rating_long = fields.Char(
         string="Rating / Long Precision", readonly=True
     )
-    creditsafe_credit_limit = fields.Integer(string="Credit Limit", readonly=True)
-    creditsafe_contract_limit = fields.Integer(string="Contract Limit", readonly=True)
+    creditsafe_credit_limit = fields.Integer(string="CreditSafe Credit Limit", readonly=True)
+    creditsafe_contract_limit = fields.Integer(string="CreditSafe Contract Limit", readonly=True)
 
     # Judgements
     creditsafe_last_change_date = fields.Datetime(
@@ -183,7 +185,7 @@ class ResPartner(models.Model):
             rec.creditsafe_last_update = fields.Datetime.now()
             rec.creditsafe_share_capital = (
                 company.get("shareCapitalStructure", {})
-                .get("nominalShareCapital", {})
+                .get("issuedShareCapital", {})
                 .get("value", 0)
             )
             #CHRIS MANN: Add latestTurnoverFigure field from companySummary
@@ -191,3 +193,78 @@ class ResPartner(models.Model):
                 company_summary.get("latestTurnoverFigure", {})
                 .get("value", 0)
             )
+
+    def retrieve_directors_data(self):
+        """
+        Retrieve directors contact data for company and store
+        """
+        for rec in self:
+            arguments = {}
+            arguments["company_id"] = rec.creditsafe_company_id
+            arguments["user_id"] = self.env.user.id
+            company = self.env["coreff.api"].get_company(arguments)
+            company = company.get("report", {})
+            directors = company.get("directors", {}).get(
+                "currentDirectors", {}
+            )
+            #For each director, iterate through retrieving record
+            #Next do a check for duplicates and if none present,
+            #store the record as a new contact linked to this company.
+            for director in directors:
+                self.get_director(director)
+
+    def get_director(self,director):
+        #Search for any duplicate contacts before taking action - Match name and postcode
+        result = self.env["res.partner"].search([
+            ("name","ilike",director.get("firstName", "") + " " + director.get("surname", "")),
+            ("zip","ilike",director.get("postalCode", "")
+        )])
+        if len(result)==0:
+            #Mappings for directors to Odoo res.partner
+            position = director.get("positions", {})[0].get("positionName", "")
+            address = director.get("address", {})
+            self.env["res.partner"].create({
+                "name": director.get("firstName", "") + " " + director.get("surname", ""),
+                "zip": director.get("postalCode", ""),
+                "parent_id": self.id,
+                "company_type": "person",
+                "function": position,
+                "ref": director.get("id", ""),
+                "street": address.get("street", ""),
+                "city": address.get("city", ""),
+                "zip": address.get("postalCode", ""),
+                "phone": address.get("telephone", ""),
+                "type": "other",
+                "title": self.get_title(director.get("title", "")),
+                "state_id": self.get_state(address.get("province", "")),
+                "country_id": self.get_country(address.get("country", "")),
+                })
+            return True
+        else:
+            raise UserError(_("Duplicate contact with same post/zipcode already detected for {}"
+                              .format(director.get("firstName", "") + " " + director.get("surname", ""))))
+
+    def get_title(self,title):
+        #Search for res.partner.title that matches the submitted string with a dot added
+        if len(title) > 0:
+            result = self.env["res.partner.title"].search([("shortcut","ilike",title + ".")])
+            return result.id
+        else:
+            return False
+
+    def get_state(self,state):
+        #Search for res.country that matches the submitted string
+        if len(state) > 0:
+            result = self.env["res.country.state"].search([("name","=",state)])
+            return result.id
+        else:
+            return False
+
+    def get_country(self,country_code):
+        #Search for res.country.state that matches the submitted string
+        #If no match found, use country of parent company
+        if len(country_code) > 0:
+            result = self.env["res.country"].search([("code","=",country_code)])
+            return result.id
+        else:
+            return self.country_id.id

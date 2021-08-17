@@ -17,15 +17,18 @@
                 <page string="CreditSafe"
                     attrs="{'invisible': ['|',('is_company', '=', False), ('creditsafe_visibility', '=', False)]}">
                     <group>
-                        <group col="1"
-                            colspan="2">
-                            <button string="CreditSafe Update"
-                                name="update_creditsafe_data"
-                                type="object"
-                                class="oe_highlight"
-                                attrs="{'invisible' : [('creditsafe_company_id', '=', False)]}" />
-                            <span attrs="{'invisible' : [('creditsafe_last_update', '=', False)]}">Last updated on : <field name="creditsafe_last_update"></field>
-                            </span>
+                        <group col="1" colspan="2">
+                          <span attrs="{'invisible' : [('creditsafe_last_update', '=', False)]}">
+                          Last updated on: <field name="creditsafe_last_update" /></span>
+                          <button string="CreditSafe Update"
+                              name="update_creditsafe_data"
+                              type="object"
+                              class="oe_highlight"
+                              attrs="{'invisible' : [('creditsafe_company_id', '=', False)]}" />
+                          <button string="Retrieve Directors"
+                              name="retrieve_directors_data"
+                              type="object"
+                              attrs="{'invisible' : [('creditsafe_company_id', '=', False)]}" />
                         </group>
                         <group string="Identification">
                             <field name="creditsafe_company_id" />
@@ -40,23 +43,21 @@
                             <field name="creditsafe_activity_classification" />
                             <field name="creditsafe_country" />
                         </group>
-                        <group col="1">
-                            <group string="Ratings">
-                                <field name="creditsafe_status" />
-                                <field name="creditsafe_rating" widget="percentpie" />
-                                <field name="creditsafe_rating_short" />
-                                <field name="creditsafe_rating_long" />
-                                <field name="creditsafe_credit_limit" />
-                                <field name="creditsafe_contract_limit" />
-                            </group>
-                            <group string="Legal and Financials">
-                                <field name="creditsafe_last_change_date" />
-                                <!--<field name="creditsafe_last_ccj_date" />-->
-                                <field name="creditsafe_number_of_directors" />
-                                <field name="creditsafe_share_capital" />
-                                <!--CHRIS MANN: Add field for latestTurnover-->
-                                <field name="creditsafe_latest_turnover" />
-                            </group>
+                        <group string="Ratings">
+                            <field name="creditsafe_status" />
+                            <field name="creditsafe_rating" widget="percentpie" />
+                            <field name="creditsafe_rating_short" />
+                            <field name="creditsafe_rating_long" />
+                            <field name="creditsafe_credit_limit" />
+                            <field name="creditsafe_contract_limit" />
+                        </group>
+                        <group string="Legal and Financials">
+                            <field name="creditsafe_last_change_date" />
+                            <!--<field name="creditsafe_last_ccj_date" />-->
+                            <field name="creditsafe_number_of_directors" />
+                            <field name="creditsafe_share_capital" />
+                            <!--CHRIS MANN: Add field for latestTurnover-->
+                            <field name="creditsafe_latest_turnover" />
                         </group>
                     </group>
                 </page>

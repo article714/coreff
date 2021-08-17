@@ -12,6 +12,7 @@ class CoreffAPI(models.Model):
     """
 
     _name = "coreff.api"
+    _description = "Coreff API"
 
     @api.model
     def get_companies(self, arguments):
