@@ -35,7 +35,7 @@ class ResPartner(models.Model):
     creditsafe_latest_turnover = fields.Float(
         string="Latest Turnover", readonly=True
     )
-    creditsafe_incorporation_date = fields.Char(
+    creditsafe_incorporation_date = fields.Datetime(
         string="Registration Date", readonly=True
     )
     creditsafe_activity_code = fields.Char(
@@ -123,9 +123,8 @@ class ResPartner(models.Model):
             rec.creditsafe_court_registry_description = basic_information.get(
                 "commercialCourt", ""
             )
-            rec.creditsafe_incorporation_date = basic_information.get(
-                "companyRegistrationDate", ""
-            )
+            formattedDatetime = datetime.datetime.strptime(basic_information.get("companyRegistrationDate", ""),"%Y-%m-%dT%H:%M:%SZ")
+            rec.creditsafe_incorporation_date = formattedDatetime
             #rec.creditsafe_activity_code = basic_information.get(
             #    "principalActivity", {}
             #).get("code", "")
@@ -181,15 +180,12 @@ class ResPartner(models.Model):
             rec.creditsafe_number_of_directors = len(
                 company.get("directors", {}).get("currentDirectors", {})
             )
-
             rec.creditsafe_last_update = fields.Datetime.now()
-
             rec.creditsafe_share_capital = (
                 company.get("shareCapitalStructure", {})
                 .get("nominalShareCapital", {})
                 .get("value", 0)
             )
-
             #CHRIS MANN: Add latestTurnoverFigure field from companySummary
             rec.creditsafe_latest_turnover = (
                 company_summary.get("latestTurnoverFigure", {})
