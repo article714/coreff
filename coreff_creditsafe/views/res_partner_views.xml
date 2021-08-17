@@ -34,6 +34,8 @@
                             <field name="creditsafe_court_registry_number" />
                             <field name="creditsafe_court_registry_description" />
                             <field name="creditsafe_share_capital" />
+                            <!--CHRIS MANN: Add field for latestTurnover-->
+                            <field name="creditsafe_latest_turnover" />
                             <field name="creditsafe_incorporation_date" />
                             <field name="creditsafe_activity_code" />
                             <field name="creditsafe_activity_description" />

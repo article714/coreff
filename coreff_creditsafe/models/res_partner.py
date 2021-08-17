@@ -32,6 +32,9 @@ class ResPartner(models.Model):
     creditsafe_share_capital = fields.Float(
         string="Share Capital", readonly=True
     )
+    creditsafe_latest_turnover = fields.Float(
+        string="Latest Turnover", readonly=True
+    )
     creditsafe_incorporation_date = fields.Char(
         string="Registration Date", readonly=True
     )
@@ -184,5 +187,11 @@ class ResPartner(models.Model):
             rec.creditsafe_share_capital = (
                 company.get("shareCapitalStructure", {})
                 .get("nominalShareCapital", {})
+                .get("value", 0)
+            )
+
+            #CHRIS MANN: Add latestTurnoverFigure field from companySummary
+            rec.creditsafe_latest_turnover = (
+                company_summary.get("latestTurnoverFigure", {})
                 .get("value", 0)
             )
