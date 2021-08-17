@@ -33,9 +33,6 @@
                             <field name="creditsafe_legal_form" />
                             <field name="creditsafe_court_registry_number" />
                             <field name="creditsafe_court_registry_description" />
-                            <field name="creditsafe_share_capital" />
-                            <!--CHRIS MANN: Add field for latestTurnover-->
-                            <field name="creditsafe_latest_turnover" />
                             <field name="creditsafe_incorporation_date" />
                             <field name="creditsafe_activity_code" />
                             <field name="creditsafe_activity_description" />
@@ -44,18 +41,21 @@
                             <field name="creditsafe_country" />
                         </group>
                         <group col="1">
-                            <group string="Notations">
+                            <group string="Ratings">
                                 <field name="creditsafe_status" />
-                                <field name="creditsafe_rating" />
+                                <field name="creditsafe_rating" widget="percentpie" />
                                 <field name="creditsafe_rating_short" />
                                 <field name="creditsafe_rating_long" />
                                 <field name="creditsafe_credit_limit" />
                                 <field name="creditsafe_contract_limit" />
                             </group>
-                            <group string="Judgements">
+                            <group string="Legal and Financials">
                                 <field name="creditsafe_last_change_date" />
-                                <field name="creditsafe_last_ccj_date" />
+                                <!--<field name="creditsafe_last_ccj_date" />-->
                                 <field name="creditsafe_number_of_directors" />
+                                <field name="creditsafe_share_capital" />
+                                <!--CHRIS MANN: Add field for latestTurnover-->
+                                <field name="creditsafe_latest_turnover" />
                             </group>
                         </group>
                     </group>
