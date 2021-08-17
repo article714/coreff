@@ -35,6 +35,8 @@ class ResCompany(models.Model):
                 rec.creditsafe_parent_url = rec.get_parent_creditsafe_field(
                     "creditsafe_url"
                 )
+            else: 
+                rec.creditsafe_parent_url = False
 
     @api.depends("parent_id")
     @api.onchange("parent_id", "creditsafe_use_parent_company")
@@ -44,6 +46,8 @@ class ResCompany(models.Model):
                 rec.creditsafe_parent_username = (
                     rec.get_parent_creditsafe_field("creditsafe_username")
                 )
+            else:
+                rec.creditsafe_parent_username = False
 
     @api.depends("parent_id")
     @api.onchange("parent_id", "creditsafe_use_parent_company")
@@ -53,6 +57,8 @@ class ResCompany(models.Model):
                 rec.creditsafe_parent_password = (
                     rec.get_parent_creditsafe_field("creditsafe_password")
                 )
+            else:
+                rec.creditsafe_parent_password = False
 
     @api.depends("coreff_connector_id")
     @api.onchange("coreff_connector_id")

@@ -28,5 +28,6 @@ Contributors
 ------------
 * Julien Carette <julien.carette@beinsoft.com>
 * Christophe Guychard <christophe@article714.org>
+* Chris Mann (Open User Systems) <chris.mann@openusersystems.com>
 
 
