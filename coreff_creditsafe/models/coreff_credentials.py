@@ -11,6 +11,7 @@ class CoreffCredentials(models.Model):
     """
 
     _name = "coreff.credentials"
+    _description = "Coreff API Credientials"
     _order = "create_date DESC"
 
     url = fields.Char()
