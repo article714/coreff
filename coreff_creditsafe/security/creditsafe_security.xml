@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <odoo>
-    <data>
 
         <record id="access_coreff_credentials" 
             model="ir.model.access">
@@ -16,5 +15,4 @@
             <field name="perm_unlink">1</field>
         </record>
 
-    </data>
 </odoo>

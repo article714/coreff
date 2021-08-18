@@ -50,7 +50,7 @@ class ResPartner(models.Model):
         string="Activity Classification", readonly=True
     )
     creditsafe_country = fields.Char(
-        string="Creditsafe Country", readonly=True
+        readonly=True
     )
     #CM: Add field for Year End Date
     creditsafe_yearenddate = fields.Datetime(
@@ -78,8 +78,8 @@ class ResPartner(models.Model):
     creditsafe_rating_long = fields.Char(
         string="Rating / Long Precision", readonly=True
     )
-    creditsafe_credit_limit = fields.Integer(string="Creditsafe Credit Limit", readonly=True)
-    creditsafe_contract_limit = fields.Integer(string="Creditsafe Contract Limit", readonly=True)
+    creditsafe_credit_limit = fields.Integer(readonly=True)
+    creditsafe_contract_limit = fields.Integer(readonly=True)
 
     # Judgements
     creditsafe_last_change_date = fields.Datetime(
