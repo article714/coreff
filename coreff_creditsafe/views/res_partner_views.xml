@@ -36,7 +36,7 @@
                             <field name="creditsafe_incorporation_date" />
                             <field name="creditsafe_activity_code" />
                             <field name="creditsafe_activity_description" />
-                            <!--CHRIS MANN: Add field for mainActivity classification-->
+                            <!--CM: Add field for mainActivity classification-->
                             <field name="creditsafe_activity_classification" />
                             <field name="creditsafe_country" />
                         </group>
@@ -50,11 +50,14 @@
                         </group>
                         <group string="Legal and Financials">
                             <field name="creditsafe_last_change_date" />
-                            <!--<field name="creditsafe_last_ccj_date" />-->
                             <field name="creditsafe_number_of_directors" />
                             <field name="creditsafe_share_capital" />
-                            <!--CHRIS MANN: Add field for latestTurnover-->
+                            <!--CM: Add field for LatestTurnover, Yearenddate, Pretaxprofit, Shareholder Funds, TotalEmployees -->
                             <field name="creditsafe_latest_turnover" />
+                            <field name="creditsafe_yearenddate" />
+                            <field name="creditsafe_pretaxprofit" />
+                            <field name="creditsafe_shareholderfunds" />
+                            <field name="creditsafe_totalemployees" />
                         </group>
                         <group string="Raw Data">
                             <field name="creditsafe_raw_data" nolabel="1"></field>
