@@ -1,5 +1,3 @@
-# coding: utf-8
-
 # @author: J. Carette
 # @author: C. Guychard
 # @author: Chris Mann (Open User Systems)
