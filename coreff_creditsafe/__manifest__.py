@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # @author: J. Carette
 # @author: C. Guychard
 # @author: Chris Mann (Open User Systems)
@@ -13,11 +12,12 @@
     "license": "LGPL-3",
     "website": "https://www.article714.org",
     "summary": "",
-    "depends": ["coreff_base", "web"],
+    "depends": ["coreff_base", "web", "crm"],
     "data": [
         "security/creditsafe_security.xml",
         "views/res_company_views.xml",
         "views/res_partner_views.xml",
+        "views/crm_lead_views.xml",
         "data/coreff_connector.xml",
     ],
     "qweb": [],
