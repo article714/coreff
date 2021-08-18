@@ -46,11 +46,29 @@ class ResPartner(models.Model):
     creditsafe_activity_description = fields.Char(
         string="Activity Description", readonly=True
     )
-    #CHRIS MANN: Add field for mainActivity classification
+    #CM: Add field for mainActivity classification
     creditsafe_activity_classification = fields.Char(
         string="Activity Classification", readonly=True
     )
-    creditsafe_country = fields.Char(string="CreditSafe Country", readonly=True)
+    creditsafe_country = fields.Char(
+        string="Creditsafe Country", readonly=True
+    )
+    #CM: Add field for Year End Date
+    creditsafe_yearenddate = fields.Datetime(
+        string="Year End Date", readonly=True
+    )
+    #CM: Add field for Pre Tax Profit
+    creditsafe_pretaxprofit = fields.Float(
+        string="Pre Tax Profit", readonly=True
+    )
+    #CM: Add field for Shareholder Funds
+    creditsafe_shareholderfunds = fields.Float(
+        string="Shareholder Funds", readonly=True
+    )
+    #CM: Add field for Total Employees
+    creditsafe_totalemployees = fields.Integer(
+        string="Total Employees", readonly=True
+    )
 
     # Notations
     creditsafe_status = fields.Char(string="Company Status", readonly=True)
@@ -61,14 +79,13 @@ class ResPartner(models.Model):
     creditsafe_rating_long = fields.Char(
         string="Rating / Long Precision", readonly=True
     )
-    creditsafe_credit_limit = fields.Integer(string="CreditSafe Credit Limit", readonly=True)
-    creditsafe_contract_limit = fields.Integer(string="CreditSafe Contract Limit", readonly=True)
+    creditsafe_credit_limit = fields.Integer(string="Creditsafe Credit Limit", readonly=True)
+    creditsafe_contract_limit = fields.Integer(string="Creditsafe Contract Limit", readonly=True)
 
     # Judgements
     creditsafe_last_change_date = fields.Datetime(
         string="Status Change Date", readonly=True
     )
-    creditsafe_last_ccj_date = fields.Char(string="", readonly=True)
     creditsafe_number_of_directors = fields.Char(
         string="Number of Directors", readonly=True
     )
@@ -111,7 +128,21 @@ class ResPartner(models.Model):
             basic_information = company.get("companyIdentification", {}).get(
                 "basicInformation", {}
             )
+            company_address = basic_information.get("contactAddress", {})
             credit_score = company.get("creditScore", {})
+            financialStatements = company.get("financialStatements", {})
+            employeeInfo = company.get("otherInformation", {}).get("employeesInformation", {})
+
+            #CM: Retrieve company address details to override existing
+            rec.phone = company_address.get("telephone", "")
+            if len(company_address.get("houseNumber", "")) > 0:
+                rec.street = company_address.get("houseNumber", "") + " " + company_address.get("street", "")
+            else:
+                rec.street = company_address.get("street", "")
+            rec.city = company_address.get("city", "")
+            rec.zip = company_address.get("postalCode", "")
+            rec.state_id = self.get_state(company_address.get("province", ""))
+            rec.country_id = self.get_country(company_address.get("country", ""))
 
             rec.creditsafe_company_name = company_summary.get(
                 "businessName", ""
@@ -127,13 +158,7 @@ class ResPartner(models.Model):
             )
             formattedDatetime = datetime.datetime.strptime(basic_information.get("companyRegistrationDate", ""),"%Y-%m-%dT%H:%M:%SZ")
             rec.creditsafe_incorporation_date = formattedDatetime
-            #rec.creditsafe_activity_code = basic_information.get(
-            #    "principalActivity", {}
-            #).get("code", "")
-            #rec.creditsafe_activity_description = basic_information.get(
-            #    "principalActivity", {}
-            #).get("description", "")
-            #CHRIS MANN: Get companySummary>mainActivity>code,description,classification
+            #CM: Get companySummary>mainActivity>code,description,classification
             rec.creditsafe_activity_code = company_summary.get(
                 "mainActivity", {}
             ).get("code", "")
@@ -143,42 +168,51 @@ class ResPartner(models.Model):
             rec.creditsafe_activity_classification = company_summary.get(
                 "mainActivity", {}
             ).get("classification", "")
-            #CHRIS MANN: Get website and store on partner record
+            #CM: Get website and store on partner record
             websites = company.get(
                 "contactInformation", {}
             ).get("websites", {})
             if len(websites) > 0: rec.website = websites[0]
+            #CM: Get email and store on partner record
+            emails = company.get(
+                "contactInformation", {}
+            ).get("emailAddresses", {})
+            if len(emails) > 0: rec.email = emails[0]
 
             rec.creditsafe_country = basic_information.get("country", "")
 
             rec.creditsafe_status = basic_information.get(
                 "companyStatus", {}
             ).get("status", "")
-            rec.creditsafe_rating = (
-                credit_score.get("currentCreditRating", {})
-                .get("providerValue", {})
-                .get("value", 0)
-            )
-            rec.creditsafe_rating_short = credit_score.get(
-                "currentCreditRating", {}
-            ).get("commonDescription", "")
-            rec.creditsafe_rating_long = credit_score.get(
-                "currentCreditRating", {}
-            ).get("providerDescription", "")
-            rec.creditsafe_credit_limit = (
-                credit_score.get("currentCreditRating", {})
-                .get("creditLimit", {})
-                .get("value", 0)
-            )
-            rec.creditsafe_contract_limit = (
-                credit_score.get("currentContractLimit", {})
-                .get("value", 0)
-            )
 
-            #CHRIS MANN: Format string to datetime to store in Odoo field
+            #CM: Handle errors with companies that have no credit score
+            try:
+                rec.creditsafe_rating = (
+                    credit_score.get("currentCreditRating", {})
+                    .get("providerValue", {})
+                    .get("value", 0)
+                )
+                rec.creditsafe_rating_short = credit_score.get(
+                    "currentCreditRating", {}
+                ).get("commonDescription", "")
+                rec.creditsafe_rating_long = credit_score.get(
+                    "currentCreditRating", {}
+                ).get("providerDescription", "")
+                rec.creditsafe_credit_limit = (
+                    credit_score.get("currentCreditRating", {})
+                    .get("creditLimit", {})
+                    .get("value", 0)
+                )
+                rec.creditsafe_contract_limit = (
+                    credit_score.get("currentContractLimit", {})
+                    .get("value", 0)
+                )
+            except:
+                rec.creditsafe_rating = 0
+
+            #CM: Format string to datetime to store in Odoo field
             formattedDatetime = datetime.datetime.strptime(credit_score.get("latestRatingChangeDate", ""),"%Y-%m-%dT%H:%M:%SZ")
             rec.creditsafe_last_change_date = formattedDatetime
-            # rec.creditsafe_last_ccj_date = company[""][""]
             rec.creditsafe_number_of_directors = len(
                 company.get("directors", {}).get("currentDirectors", {})
             )
@@ -188,10 +222,24 @@ class ResPartner(models.Model):
                 .get("issuedShareCapital", {})
                 .get("value", 0)
             )
-            #CHRIS MANN: Add latestTurnoverFigure field from companySummary
+            #CM: Add latestTurnoverFigure field from companySummary
             rec.creditsafe_latest_turnover = (
                 company_summary.get("latestTurnoverFigure", {})
                 .get("value", 0)
+            )
+            #CM: Get profitBeforeTax, yearEndDate, numberOfEmployees, latestShareholdersEquityFigure
+            if len(financialStatements)>0:
+                rec.creditsafe_pretaxprofit = (
+                    financialStatements[0].get("profitAndLoss", {}).get("profitBeforeTax", 0)
+                )
+                formattedDatetime = datetime.datetime.strptime(financialStatements[0].get("yearEndDate", ""),"%Y-%m-%dT%H:%M:%SZ")
+                rec.creditsafe_yearenddate = formattedDatetime
+            if len(employeeInfo)>0:
+                rec.creditsafe_totalemployees = (
+                    employeeInfo[0].get("numberOfEmployees", 0)
+                )
+            rec.creditsafe_shareholderfunds = (
+                company_summary.get("latestShareholdersEquityFigure", {}).get("value", 0)
             )
 
     def retrieve_directors_data(self):
@@ -207,53 +255,60 @@ class ResPartner(models.Model):
             directors = company.get("directors", {}).get(
                 "currentDirectors", {}
             )
-            #For each director, iterate through retrieving record
+            #CM: For each director, iterate through retrieving record
             #Next do a check for duplicates and if none present,
             #store the record as a new contact linked to this company.
             for director in directors:
                 self.get_director(director)
 
     def get_director(self,director):
-        #Search for any duplicate contacts before taking action - Match name and postcode
+        #CM: Search for any duplicate contacts before taking action - Match name and postcode
         result = self.env["res.partner"].search([
             ("name","ilike",director.get("firstName", "") + " " + director.get("surname", "")),
             ("zip","ilike",director.get("postalCode", "")
         )])
         if len(result)==0:
-            #Mappings for directors to Odoo res.partner
+            #CM: Mappings for directors to Odoo res.partner
+            #Create partner contact for this director, link to parent company
             position = director.get("positions", {})[0].get("positionName", "")
             address = director.get("address", {})
+            #CM: Append housenumber if exists, otherwise use street
+            if len(address.get("houseNumber", "")) > 0:
+                street = address.get("houseNumber", "") + " " + address.get("street", "")
+            else:
+                street = address.get("street", "")
+            #CM: If phone exists use it, otherwise use phone from parent company
+            if len(address.get("telephone", "")) > 0:
+                telephone = address.get("telephone", "")
+            else:
+                telephone = self.phone
             self.env["res.partner"].create({
                 "name": director.get("firstName", "") + " " + director.get("surname", ""),
-                "zip": director.get("postalCode", ""),
                 "parent_id": self.id,
                 "company_type": "person",
                 "function": position,
                 "ref": director.get("id", ""),
-                "street": address.get("street", ""),
+                "street": street,
                 "city": address.get("city", ""),
                 "zip": address.get("postalCode", ""),
-                "phone": address.get("telephone", ""),
+                "phone": telephone,
                 "type": "other",
                 "title": self.get_title(director.get("title", "")),
                 "state_id": self.get_state(address.get("province", "")),
                 "country_id": self.get_country(address.get("country", "")),
                 })
             return True
-        else:
-            raise UserError(_("Duplicate contact with same post/zipcode already detected for {}"
-                              .format(director.get("firstName", "") + " " + director.get("surname", ""))))
 
     def get_title(self,title):
-        #Search for res.partner.title that matches the submitted string with a dot added
+        #CM: Search for res.partner.title that matches the submitted string with a dot added
         if len(title) > 0:
-            result = self.env["res.partner.title"].search([("shortcut","ilike",title + ".")])
+            result = self.env["res.partner.title"].search(["|",("shortcut","=",title),("shortcut","ilike",title + ".")])
             return result.id
         else:
             return False
 
     def get_state(self,state):
-        #Search for res.country that matches the submitted string
+        #CM: Search for res.country that matches the submitted string
         if len(state) > 0:
             result = self.env["res.country.state"].search([("name","=",state)])
             return result.id
@@ -261,7 +316,7 @@ class ResPartner(models.Model):
             return False
 
     def get_country(self,country_code):
-        #Search for res.country.state that matches the submitted string
+        #CM: Search for res.country.state that matches the submitted string
         #If no match found, use country of parent company
         if len(country_code) > 0:
             result = self.env["res.country"].search([("code","=",country_code)])

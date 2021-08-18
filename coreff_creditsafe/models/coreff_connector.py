@@ -72,12 +72,12 @@ class CoreffConnector(models.Model):
                 "Authorization": token if token else "",
             }
 
-            #CHRIS MANN: Lower pagesize from 200 to 10
+            #CM: Lower pagesize from 200 to 10
             call_url = "{}/companies?language=EN&page=1&pageSize=10".format(
                 url
             )
 
-            #CHRIS MANN: Using urllib.parse.quote to escape values
+            #CM: Using urllib.parse.quote to escape values
             #to use in URL parameters (accounting for spaces)
             if arguments["valueIsCompanyCode"]:
                 query = urllib.parse.quote(arguments["value"])
@@ -95,10 +95,10 @@ class CoreffConnector(models.Model):
                 )
                 call_url += "&countries={}".format(code)
             else:
-                #CHRIS MANN: If no country specified, search in ALL (much slower)
+                #CM: If no country specified, search in ALL (much slower)
                 call_url += "&countries=US,GB,SE,NO,NL,MX,LU,JP,IT,IE,DE,FR,DK,CA,BE"
 
-            #CHRIS MANN: Add constraint for all other countries that support the HeadOffice category including FR
+            #CM: Add constraint for all other countries that support the HeadOffice category including FR
             if arguments.get("is_head_office", True) and code in ["FR","CA","DK","US","IT","JP","LU","NL","NO"]:
                 call_url += "&officeType=HeadOffice"
 
@@ -135,7 +135,7 @@ class CoreffConnector(models.Model):
                             "postCode", ""
                         )
                         suggestion["country_id"] = company.get("country", "")
-                        #CHRIS MANN: VAT and phone numbers only stored if present
+                        #CM: VAT and phone numbers only stored if present
                         #otherwise crashes.
                         optional_val = company.get("vatNo", [""])
                         if len(optional_val)>0: suggestion["vat"] = optional_val[0]
