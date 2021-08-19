@@ -174,6 +174,8 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
                     break;
                 case $.ui.keyCode.ENTER:
                     if (!this.$dropdown) {
+                        //CM: Force display of suggestions when enter is pressed
+                        this._suggestCompanies(this.$input.val());
                         break;
                     }
                     e.preventDefault();
