@@ -97,7 +97,7 @@ class CoreffConnector(models.Model):
                 #CM: If no country specified, search in ALL (much slower)
                 #call_url += "&countries=US,GB,SE,NO,NL,MX,LU,JP,IT,IE,DE,FR,DK,CA,BE"
                 #Search only for the country of the current users logged-in Odoo company
-                call_url += "&countries=" + self.env.user.company_id.country_code
+                call_url += "&countries=" + self.env.user.company_id.country_id.code
 
             #CM: Add constraint for all other countries that support the HeadOffice category including FR
             if arguments.get("is_head_office", True) and code in ["FR","CA","DK","US","IT","JP","LU","NL","NO"]:
