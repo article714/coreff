@@ -15,8 +15,8 @@ class CrmLead(models.Model):
 
     def creditsafe_lookup(self):
         company_name = urllib.parse.quote(self.partner_name)
-        creditsafe_url = "https://app.creditsafeuk.com/CSUKLive/webpages/CompanySearch/SearchResults.aspx"
-        creditsafe_params = f"?CompanyName={company_name}&IsAdvancedSearch=True&CompanyType=Limited%2c+NonLimited&PageSize=10"
+        creditsafe_url = "https://app.creditsafe.com/search"
+        creditsafe_params = f"?limit=15&name={company_name}&page=1"
 
         action = {
             "type"     : "ir.actions.act_url",
