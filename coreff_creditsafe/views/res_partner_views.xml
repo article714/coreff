@@ -23,7 +23,8 @@
                                 name="update_creditsafe_data"
                                 type="object"
                                 class="oe_highlight"
-                                attrs="{'invisible' : [('creditsafe_company_id', '=', False)]}" />
+                                attrs="{'invisible' : [('creditsafe_company_id', '=', False)]}"
+                                confirm="Be careful, this action can override CreditSafe fields" />
                             <span attrs="{'invisible' : [('creditsafe_last_update', '=', False)]}">Last updated on : <field name="creditsafe_last_update"></field>
                             </span>
                         </group>
