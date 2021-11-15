@@ -113,7 +113,7 @@ class CreditSafeDataMixin(object):
             ).get("description", "")
             rec.creditsafe_legal_form_code = basic_information.get(
                 "legalForm", {}
-            ).get("providerCode", "")
+            ).get("commonCode", "")
             rec.creditsafe_court_registry_number = basic_information.get(
                 "companyRegistrationNumber", ""
             )
