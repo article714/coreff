@@ -75,6 +75,8 @@ class CoreffConnector(models.Model):
                 url
             )
 
+            call_url += "&status=Active"
+
             if arguments["valueIsCompanyCode"]:
                 call_url += "&regNo={}".format(arguments["value"])
             else:
