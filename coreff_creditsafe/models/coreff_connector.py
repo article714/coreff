@@ -166,7 +166,9 @@ class CoreffConnector(models.Model):
                 "Authorization": token if token else "",
             }
 
-            call_url = "{}/companies/{}".format(url, arguments["company_id"])
+            call_url = "{}/companies/{}&language={}".format(
+                url, arguments["company_id"], settings["language"]
+            )
 
             with CustomSessionProxy() as session:
                 response = session.get(call_url, headers=headers)
@@ -203,6 +205,9 @@ class CoreffConnector(models.Model):
         )
         res["password"] = company.get_parent_creditsafe_field(
             "creditsafe_password"
+        )
+        res["language"] = company.get_parent_creditsafe_field(
+            "creditsafe_language"
         )
         res["token"] = (
             self.env["coreff.credentials"]

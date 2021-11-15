@@ -33,6 +33,7 @@
                             <field name="creditsafe_parent_username" />
                             <field name="creditsafe_parent_password"
                                 password="True" />
+                            <field name="creditsafe_language" />
                         </group>
                     </group>
                 </page>

@@ -17,6 +17,7 @@ class ResCompany(models.Model):
     creditsafe_url = fields.Char()
     creditsafe_username = fields.Char()
     creditsafe_password = fields.Char()
+    creditsafe_language = fields.Char(default="en")
 
     creditsafe_parent_url = fields.Char(compute="_compute_parent_url")
     creditsafe_parent_username = fields.Char(
