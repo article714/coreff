@@ -166,7 +166,7 @@ class CoreffConnector(models.Model):
                 "Authorization": token if token else "",
             }
 
-            call_url = "{}/companies/{}&language={}".format(
+            call_url = "{}/companies/{}?language={}".format(
                 url, arguments["company_id"], settings["language"]
             )
 
