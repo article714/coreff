@@ -22,9 +22,6 @@ class CreditSafeDataMixin(object):
         string="Business Name", readonly=True
     )
     creditsafe_legal_form = fields.Char(string="Legal Form", readonly=True)
-    creditsafe_legal_form_code = fields.Char(
-        string="Legal Form Code", readonly=True
-    )
     creditsafe_court_registry_number = fields.Char(
         string="RCS Number", readonly=True
     )
@@ -111,9 +108,6 @@ class CreditSafeDataMixin(object):
             rec.creditsafe_legal_form = basic_information.get(
                 "legalForm", {}
             ).get("description", "")
-            rec.creditsafe_legal_form_code = basic_information.get(
-                "legalForm", {}
-            ).get("commonCode", "")
             rec.creditsafe_court_registry_number = basic_information.get(
                 "companyRegistrationNumber", ""
             )
