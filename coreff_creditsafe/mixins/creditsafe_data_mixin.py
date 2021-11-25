@@ -128,11 +128,10 @@ class CreditSafeDataMixin(object):
             rec.creditsafe_status = basic_information.get(
                 "companyStatus", {}
             ).get("status", "")
-            rec.creditsafe_rating = (
-                credit_score.get("currentCreditRating", {})
-                .get("providerValue", {})
-                .get("maxValue", "")
+            providerValue = credit_score.get("currentCreditRating", {}).get(
+                "providerValue", {}
             )
+            rec.creditsafe_rating = f"{providerValue.get('value')} / {providerValue.get('maxValue')}"
             rec.creditsafe_rating_short = credit_score.get(
                 "currentCreditRating", {}
             ).get("commonDescription", "")
