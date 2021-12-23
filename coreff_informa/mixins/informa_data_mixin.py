@@ -116,61 +116,66 @@ class InformaDataMixin(object):
         """
 
         for rec in self:
-            arguments = {}
-            arguments["company_id"] = rec.informa_company_id
-            arguments["user_id"] = self.env.user.id
-            company = self.env["coreff.api"].get_company(arguments)
+            rec.write(rec.update_informa_data())
 
-            if company:
-                rec.informa_out_bus_ind = company["OUT_BUS_IND"]
-                rec.informa_tot_empl = company["TOT_EMPL"]
-                rec.informa_incn_yr = company["INCN_YR"]
-                rec.informa_finl_embt_ind = company["FINL_EMBT_IND"]
-                rec.informa_dnb_ratg = company["DNB_RATG"]
-                rec.informa_max_cr = company["MAX_CR"]
-                rec.informa_pnt_nme = company["PNT_NME"]
-                rec.informa_pnt_duns = company["PNT_DUNS"]
-                rec.informa_stmt_dt = (
-                    datetime.datetime.strptime(
-                        company["STMT_DT"], "%Y%m%d"
-                    ).date()
-                    if company["STMT_DT"] is not None
-                    else None
-                )
-                rec.informa_stmt_crcy_cd = company["STMT_CRCY_CD"]
-                rec.informa_cash_liq_aset = company["CASH_LIQ_ASET"]
-                rec.informa_tot_curr_aset = company["TOT_CURR_ASET"]
-                rec.informa_tot_aset = company["TOT_ASET"]
-                rec.informa_tot_curr_liab = company["TOT_CURR_LIAB"]
-                rec.informa_tot_liab = company["TOT_LIAB"]
-                rec.informa_net_wrth = company["NET_WRTH"]
-                rec.informa_stmt_from_dt = (
-                    datetime.datetime.strptime(
-                        company["STMT_FROM_DT"], "%Y%m%d"
-                    ).date()
-                    if company["STMT_FROM_DT"] is not None
-                    else None
-                )
-                rec.informa_stmt_to_dt = (
-                    datetime.datetime.strptime(
-                        company["STMT_TO_DT"], "%Y%m%d"
-                    ).date()
-                    if company["STMT_TO_DT"] is not None
-                    else None
-                )
-                rec.informa_sls = company["SLS"]
-                rec.informa_net_incm = company["NET_INCM"]
-                rec.informa_qk_rato = company["QK_RATO"]
-                rec.informa_curr_rato = company["CURR_RATO"]
-                rec.informa_prev_net_wrth = company["PREV_NET_WRTH"]
-                rec.informa_prev_sls = company["PREV_SLS"]
-                rec.informa_prev_stmt_dt = (
-                    datetime.datetime.strptime(
-                        company["PREV_STMT_DT"], "%Y%m%d"
-                    ).date()
-                    if company["PREV_STMT_DT"] is not None
-                    else None
-                )
-                rec.informa_pnt_ctry_cd = company["PNT_CTRY_CD"]
+    def get_informa_data(self):
+        self.ensure_one()
 
-                rec.informa_last_update = fields.Datetime.now()
+        arguments = {}
+        arguments["company_id"] = rec.informa_company_id
+        arguments["user_id"] = self.env.user.id
+        company = self.env["coreff.api"].get_company(arguments)
+
+        data = {
+            "informa_out_bus_ind": company["OUT_BUS_IND"],
+            "informa_tot_empl": company["TOT_EMPL"],
+            "informa_incn_yr": company["INCN_YR"],
+            "informa_finl_embt_ind": company["FINL_EMBT_IND"],
+            "informa_dnb_ratg": company["DNB_RATG"],
+            "informa_max_cr": company["MAX_CR"],
+            "informa_pnt_nme": company["PNT_NME"],
+            "informa_pnt_duns": company["PNT_DUNS"],
+            "informa_stmt_dt": (
+                datetime.datetime.strptime(company["STMT_DT"], "%Y%m%d").date()
+                if company["STMT_DT"] is not None
+                else None
+            ),
+            "informa_stmt_crcy_cd": company["STMT_CRCY_CD"],
+            "informa_cash_liq_aset": company["CASH_LIQ_ASET"],
+            "informa_tot_curr_aset": company["TOT_CURR_ASET"],
+            "informa_tot_aset": company["TOT_ASET"],
+            "informa_tot_curr_liab": company["TOT_CURR_LIAB"],
+            "informa_tot_liab": company["TOT_LIAB"],
+            "informa_net_wrth": company["NET_WRTH"],
+            "informa_stmt_from_dt": (
+                datetime.datetime.strptime(
+                    company["STMT_FROM_DT"], "%Y%m%d"
+                ).date()
+                if company["STMT_FROM_DT"] is not None
+                else None
+            ),
+            "informa_stmt_to_dt": (
+                datetime.datetime.strptime(
+                    company["STMT_TO_DT"], "%Y%m%d"
+                ).date()
+                if company["STMT_TO_DT"] is not None
+                else None
+            ),
+            "informa_sls": company["SLS"],
+            "informa_net_incm": company["NET_INCM"],
+            "informa_qk_rato": company["QK_RATO"],
+            "informa_curr_rato": company["CURR_RATO"],
+            "informa_prev_net_wrth": company["PREV_NET_WRTH"],
+            "informa_prev_sls": company["PREV_SLS"],
+            "informa_prev_stmt_dt": (
+                datetime.datetime.strptime(
+                    company["PREV_STMT_DT"], "%Y%m%d"
+                ).date()
+                if company["PREV_STMT_DT"] is not None
+                else None
+            ),
+            "informa_pnt_ctry_cd": company["PNT_CTRY_CD"],
+            "informa_last_update": fields.Datetime.now(),
+        }
+
+        return data
