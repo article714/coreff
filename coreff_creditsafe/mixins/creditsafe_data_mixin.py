@@ -89,73 +89,75 @@ class CreditSafeDataMixin(object):
         """
         Update financial information
         """
-
         for rec in self:
-            arguments = {}
-            arguments["company_id"] = rec.creditsafe_company_id
-            arguments["user_id"] = self.env.user.id
-            company = self.env["coreff.api"].get_company(arguments)
-            company = company.get("report", {})
-            company_summary = company.get("companySummary", {})
-            basic_information = company.get("companyIdentification", {}).get(
-                "basicInformation", {}
-            )
-            credit_score = company.get("creditScore", {})
+            rec.write(rec.get_creditsafe_data())
 
-            rec.creditsafe_company_name = company_summary.get(
-                "businessName", ""
-            )
-            rec.creditsafe_legal_form = basic_information.get(
+    def get_creditsafe_data(self):
+        self.ensure_one()
+
+        arguments = {}
+        arguments["company_id"] = self.creditsafe_company_id
+        arguments["user_id"] = self.env.user.id
+        company = self.env["coreff.api"].get_company(arguments)
+
+        company = company.get("report", {})
+        company_summary = company.get("companySummary", {})
+        basic_information = company.get("companyIdentification", {}).get(
+            "basicInformation", {}
+        )
+        credit_score = company.get("creditScore", {})
+        provider_value = credit_score.get("currentCreditRating", {}).get(
+            "providerValue", {}
+        )
+
+        data = {
+            "creditsafe_company_name": company_summary.get("businessName", ""),
+            "creditsafe_legal_form": basic_information.get(
                 "legalForm", {}
-            ).get("description", "")
-            rec.creditsafe_court_registry_number = basic_information.get(
+            ).get("description", ""),
+            "creditsafe_court_registry_number": basic_information.get(
                 "companyRegistrationNumber", ""
-            )
-            rec.creditsafe_court_registry_description = basic_information.get(
+            ),
+            "creditsafe_court_registry_description": basic_information.get(
                 "commercialCourt", ""
-            )
-            rec.creditsafe_incorporation_date = basic_information.get(
+            ),
+            "creditsafe_incorporation_date": basic_information.get(
                 "companyRegistrationDate", ""
-            )
-            rec.creditsafe_activity_code = basic_information.get(
+            ),
+            "creditsafe_activity_code": basic_information.get(
                 "principalActivity", {}
-            ).get("code", "")
-            rec.creditsafe_activity_description = basic_information.get(
+            ).get("code", ""),
+            "creditsafe_activity_description": basic_information.get(
                 "principalActivity", {}
-            ).get("description", "")
-            rec.creditsafe_country = basic_information.get("country", "")
-
-            rec.creditsafe_status = basic_information.get(
+            ).get("description", ""),
+            "creditsafe_country": basic_information.get("country", ""),
+            "creditsafe_status": basic_information.get(
                 "companyStatus", {}
-            ).get("status", "")
-            providerValue = credit_score.get("currentCreditRating", {}).get(
-                "providerValue", {}
-            )
-            rec.creditsafe_rating = f"{providerValue.get('value')} / {providerValue.get('maxValue')}"
-            rec.creditsafe_rating_short = credit_score.get(
+            ).get("status", ""),
+            "creditsafe_rating": f"{provider_value.get('value')} / {provider_value.get('maxValue')}",
+            "creditsafe_rating_short": credit_score.get(
                 "currentCreditRating", {}
-            ).get("commonDescription", "")
-            rec.creditsafe_rating_long = credit_score.get(
+            ).get("commonDescription", ""),
+            "creditsafe_rating_long": credit_score.get(
                 "currentCreditRating", {}
-            ).get("providerDescription", "")
-            rec.creditsafe_credit_limit = (
+            ).get("providerDescription", ""),
+            "creditsafe_credit_limit": (
                 credit_score.get("currentCreditRating", {})
                 .get("creditLimit", {})
                 .get("value", "")
-            )
-
-            rec.creditsafe_last_judgement_date = credit_score.get(
+            ),
+            "creditsafe_last_judgement_date": credit_score.get(
                 "latestRatingChangeDate", ""
-            )
-            # rec.creditsafe_last_ccj_date = company[""][""]
-            rec.creditsafe_number_of_directors = len(
+            ),
+            "creditsafe_number_of_directors": len(
                 company.get("directors", {}).get("currentDirectors", {})
-            )
-
-            rec.creditsafe_last_update = fields.Datetime.now()
-
-            rec.creditsafe_share_capital = (
+            ),
+            "creditsafe_last_update": fields.Datetime.now(),
+            "creditsafe_share_capital": (
                 company.get("shareCapitalStructure", {})
                 .get("nominalShareCapital", {})
                 .get("value", 0)
-            )
+            ),
+        }
+
+        return data
