@@ -19,7 +19,6 @@
         "views/res_company_views.xml",
         "views/res_partner_views.xml",
     ],
-    "qweb": ["static/src/xml/coreff_autocomplete.xml"],
     "installable": True,
     "images": [],
     "application": False,
@@ -29,6 +28,9 @@
             "coreff_base/static/src/js/create_from_button.js",
             "coreff_base/static/src/js/coreff_autocomplete_core.js",
             "coreff_base/static/src/js/coreff_autocomplete_fieldchar.js",
+        ],
+        "web.assets_qweb": [
+            "static/src/xml/coreff_autocomplete.xml",
         ]
     }
 }
