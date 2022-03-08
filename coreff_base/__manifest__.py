@@ -31,7 +31,7 @@
             "coreff_base/static/src/js/coreff_autocomplete_fieldchar.js",
         ],
         "web.assets_qweb": [
-            "static/src/xml/coreff_autocomplete.xml",
+            "coreff_base/static/src/xml/coreff_autocomplete.xml",
         ]
     }
 }
