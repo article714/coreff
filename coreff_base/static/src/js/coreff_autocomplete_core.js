@@ -3,43 +3,45 @@ odoo.define('coreff.autocomplete.core', function (require) {
 
     var rpc = require('web.rpc');
     var session = require('web.session');
+    var concurrency = require('web.concurrency');
 
-    return {
+    var Autocomplete = {
+        _dropPreviousOdoo: new concurrency.DropPrevious(),
+        _dropPreviousClearbit: new concurrency.DropPrevious(),
+        _timeout : 1000, // Timeout for Clearbit autocomplete in ms
+
         autocomplete: function (value, valueIsCompanyCode, countryId, isHeadOffice) {
             value = value.trim();
             var self = this;
             var def = $.Deferred();
+                self._getCompanies(valueIsCompanyCode, countryId, isHeadOffice, value).then(res => {
+                    if ("error" in res) {
+                        return def.reject(res.error);
+                    }
+                    else {
+                        return def.resolve(res);
+                    }
+                });
 
-            self._getCompanies(valueIsCompanyCode, countryId, isHeadOffice, value).then(res => {
-                if ("error" in res) {
-                    return def.reject(res.error);
-                }
-                else {
-                    return def.resolve(res);
-                }
-            });
-
-            return def;
+                return def;
         },
 
         getCreateData: function (company) {
             var self = this;
             var def = $.Deferred();
             var company_data = company;
-
+            
             const getCountryId = async (company) => {
                 var countryId;
                 countryId = await self._getCountryId(company.country_id);
                 return countryId;
             };
-
             getCountryId(company).then(res => {
                 company_data.country_id = res;
                 def.resolve({
                     company: company_data
                 });
             });
-
             return def;
         },
 
@@ -115,4 +117,6 @@ odoo.define('coreff.autocomplete.core', function (require) {
         }
 
     };
+
+    return Autocomplete;
 });

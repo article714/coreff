@@ -10,7 +10,7 @@ odoo.define('coreff.autocomplete.fieldchar', function (require) {
 
     var FieldChar = basic_fields.FieldChar;
 
-    var FieldAutocomplete = FieldChar.extend({
+    var FieldAutocomplete = FieldChar.extend(Autocomplete, {
         className: 'o_field_partner_autocomplete',
         debounceSuggestions: 400,
         resetOnAnyFieldChange: true,
