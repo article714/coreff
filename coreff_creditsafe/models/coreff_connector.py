@@ -162,7 +162,7 @@ class CoreffConnector(models.Model):
             elif "name" in criterias:
                 params["name"] = arguments["value"]
 
-            if "countries" in criterias and arguments["country_id"]:
+            if arguments["country_id"]:
                 code = (
                     self.env["res.country"]
                     .search([("id", "=", arguments["country_id"])])[0]
