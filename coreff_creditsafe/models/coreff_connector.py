@@ -136,6 +136,7 @@ class CoreffConnector(models.Model):
         token = settings["token"]
 
         criterias = self.creditsafe_get_companies_criterias(arguments)
+        logging.info(criterias)
 
         if url:
             headers = {
