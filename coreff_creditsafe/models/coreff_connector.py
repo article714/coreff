@@ -3,7 +3,6 @@
 # # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 import json
-import logging
 from requests import Session
 from odoo.tools.config import config
 from odoo import api, models
@@ -81,11 +80,9 @@ class CoreffConnector(models.Model):
                     .search([("id", "=", arguments["country_id"])])[0]
                     .code
                 )
-                call_url += "&countries={}".format(code)
+                call_url += "?countries={}".format(code)
 
             with CustomSessionProxy() as session:
-                logging.info(call_url)
-                logging.info(headers)
                 response = session.get(call_url, headers=headers)
 
                 if response.status_code == 200:
@@ -137,7 +134,9 @@ class CoreffConnector(models.Model):
         token = settings["token"]
 
         criterias = self.creditsafe_get_companies_criterias(arguments)
-        logging.info(criterias)
+
+        if not isinstance(criterias, list):
+            return criterias
 
         if url:
             headers = {
@@ -171,7 +170,6 @@ class CoreffConnector(models.Model):
                 call_url += "&officeType=headOffice"
 
             with CustomSessionProxy() as session:
-                logging.info(call_url)
                 response = session.get(call_url, headers=headers)
 
                 if response.status_code == 200:
