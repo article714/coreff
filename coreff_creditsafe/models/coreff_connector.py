@@ -6,6 +6,7 @@ import json
 from requests import Session
 from odoo.tools.config import config
 from odoo import api, models
+import logging
 
 
 class CustomSessionProxy(Session):
@@ -137,6 +138,8 @@ class CoreffConnector(models.Model):
         token = settings["token"]
 
         criterias = self.creditsafe_get_companies_criterias(arguments)
+        logging.info("criterias")
+        logging.info(criterias)
 
         if not isinstance(criterias, list):
             return criterias
