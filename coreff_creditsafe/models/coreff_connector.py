@@ -85,6 +85,7 @@ class CoreffConnector(models.Model):
 
             with CustomSessionProxy() as session:
                 logging.info(call_url)
+                logging.info(headers)
                 response = session.get(call_url, headers=headers)
 
                 if response.status_code == 200:
