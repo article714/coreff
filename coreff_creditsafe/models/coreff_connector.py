@@ -56,9 +56,9 @@ class CoreffConnector(models.Model):
                 return self.format_error(response)
 
     @api.model
-    def creditsafe_get_companies(self, arguments, retry=False):
+    def creditsafe_get_companies_criterias(self, arguments, retry=False):
         """
-        Get companies
+        Get companies criterias
         """
         settings = self.get_company_creditsafe_settings(arguments["user_id"])
         url = settings["url"]
@@ -71,16 +71,7 @@ class CoreffConnector(models.Model):
                 "Authorization": token if token else "",
             }
 
-            call_url = "{}/companies?language=en&page=1&pageSize=200".format(
-                url
-            )
-
-            call_url += "&status=Active"
-
-            if arguments["valueIsCompanyCode"]:
-                call_url += "&regNo={}".format(arguments["value"])
-            else:
-                call_url += "&name={}".format(arguments["value"])
+            call_url = "{}/companies/criterias".format(url)
 
             code = False
             if arguments["country_id"]:
@@ -91,7 +82,88 @@ class CoreffConnector(models.Model):
                 )
                 call_url += "&countries={}".format(code)
 
-            if arguments.get("is_head_office", True) and code == "FR":
+            with CustomSessionProxy() as session:
+                response = session.get(call_url, headers=headers)
+
+                if response.status_code == 200:
+                    content = response.json()
+
+                    def get_criterias(d):
+                        c = []
+                        for k in d:
+                            if "required" in d[k]:
+                                c.append(k)
+                            else:
+                                for i in get_criterias(d[k]):
+                                    if i == "simpleValue":
+                                        c.append(k)
+                                    else:
+                                        c.append(i)
+                        return c
+
+                    criterias = []
+                    for i in content["criteriaSets"]:
+                        criterias += get_criterias(i)
+
+                    return criterias
+                elif response.status_code in (401, 403):
+                    if not retry:
+                        res = self.creditsafe_authenticate(
+                            settings["url"],
+                            settings["username"],
+                            settings["password"],
+                        )
+                        if res:
+                            return self.creditsafe_get_companies_criterias(
+                                arguments, True
+                            )
+                        else:
+                            return self.format_error(response)
+                    else:
+                        return self.format_error(response)
+                else:
+                    return self.format_error(response)
+
+    @api.model
+    def creditsafe_get_companies(self, arguments, retry=False):
+        """
+        Get companies
+        """
+        settings = self.get_company_creditsafe_settings(arguments["user_id"])
+        url = settings["url"]
+        token = settings["token"]
+
+        criterias = self.creditsafe_get_companies_criterias(arguments)
+
+        if url:
+            headers = {
+                "accept": "application/json",
+                "Content-type": "application/json",
+                "Authorization": token if token else "",
+            }
+
+            call_url = "{}/companies?language=en&page=1&pageSize=200".format(
+                url
+            )
+            if "status" in criterias:
+                call_url += "&status=Active"
+
+            if "regNo" in criterias and arguments["valueIsCompanyCode"]:
+                call_url += "&regNo={}".format(arguments["value"])
+            elif "name" in criterias:
+                call_url += "&name={}".format(arguments["value"])
+
+            if "countries" in criterias and arguments["country_id"]:
+                code = (
+                    self.env["res.country"]
+                    .search([("id", "=", arguments["country_id"])])[0]
+                    .code
+                )
+                call_url += "&countries={}".format(code)
+
+            if "officeType" in criterias and arguments.get(
+                "is_head_office", True
+            ):
                 call_url += "&officeType=headOffice"
 
             with CustomSessionProxy() as session:
