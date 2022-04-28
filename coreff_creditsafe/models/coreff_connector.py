@@ -3,6 +3,7 @@
 # # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 import json
+import logging
 from requests import Session
 from odoo.tools.config import config
 from odoo import api, models
@@ -83,6 +84,7 @@ class CoreffConnector(models.Model):
                 call_url += "&countries={}".format(code)
 
             with CustomSessionProxy() as session:
+                logging.info(call_url)
                 response = session.get(call_url, headers=headers)
 
                 if response.status_code == 200:
@@ -167,6 +169,7 @@ class CoreffConnector(models.Model):
                 call_url += "&officeType=headOffice"
 
             with CustomSessionProxy() as session:
+                logging.info(call_url)
                 response = session.get(call_url, headers=headers)
 
                 if response.status_code == 200:
