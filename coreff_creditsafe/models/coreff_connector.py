@@ -72,7 +72,7 @@ class CoreffConnector(models.Model):
                 "Authorization": token if token else "",
             }
 
-            call_url = "{}/companies/criterias".format(url)
+            call_url = "{}/companies/searchcriteria".format(url)
 
             code = False
             if arguments["country_id"]:
