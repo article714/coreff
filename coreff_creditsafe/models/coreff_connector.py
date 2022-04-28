@@ -73,17 +73,20 @@ class CoreffConnector(models.Model):
 
             call_url = "{}/companies/searchcriteria".format(url)
 
-            code = False
+            params = {}
+
             if arguments["country_id"]:
                 code = (
                     self.env["res.country"]
                     .search([("id", "=", arguments["country_id"])])[0]
                     .code
                 )
-                call_url += "?countries={}".format(code)
+                params["countries"] = code
 
             with CustomSessionProxy() as session:
-                response = session.get(call_url, headers=headers)
+                response = session.get(
+                    call_url, params=params, headers=headers
+                )
 
                 if response.status_code == 200:
                     content = response.json()
@@ -145,16 +148,16 @@ class CoreffConnector(models.Model):
                 "Authorization": token if token else "",
             }
 
-            call_url = "{}/companies?language=en&page=1&pageSize=200".format(
-                url
-            )
+            call_url = "{}/companies".format(url)
+            params = {"language": "en", "page": 1, "pageSize": 200}
+
             if "status" in criterias:
-                call_url += "&status=Active"
+                params["status"] = "Active"
 
             if "regNo" in criterias and arguments["valueIsCompanyCode"]:
-                call_url += "&regNo={}".format(arguments["value"])
+                params["regNo"] = arguments["value"]
             elif "name" in criterias:
-                call_url += "&name={}".format(arguments["value"])
+                params["name"] = arguments["value"]
 
             if "countries" in criterias and arguments["country_id"]:
                 code = (
@@ -162,15 +165,17 @@ class CoreffConnector(models.Model):
                     .search([("id", "=", arguments["country_id"])])[0]
                     .code
                 )
-                call_url += "&countries={}".format(code)
+                params["countries"] = code
 
             if "officeType" in criterias and arguments.get(
                 "is_head_office", True
             ):
-                call_url += "&officeType=headOffice"
+                params["officeType"] = "headOffice"
 
             with CustomSessionProxy() as session:
-                response = session.get(call_url, headers=headers)
+                response = session.get(
+                    call_url, params=params, headers=headers
+                )
 
                 if response.status_code == 200:
                     content = response.json()
@@ -241,12 +246,13 @@ class CoreffConnector(models.Model):
                 "Authorization": token if token else "",
             }
 
-            call_url = "{}/companies/{}?language={}".format(
-                url, arguments["company_id"], settings["language"]
-            )
+            call_url = "{}/companies/{}".format(url, arguments["company_id"])
+            params = {"language": settings["language"]}
 
             with CustomSessionProxy() as session:
-                response = session.get(call_url, headers=headers)
+                response = session.get(
+                    call_url, params=params, headers=headers
+                )
 
                 if response.status_code == 200:
                     content = response.json()
