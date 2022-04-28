@@ -2,6 +2,7 @@
 # ©2018-2019 Article714
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
+import json
 from odoo import fields
 
 
@@ -16,6 +17,8 @@ class CreditSafeDataMixin(object):
     )
 
     creditsafe_company_id = fields.Char(string="Creditsafe id")
+
+    creditsafe_raw_data = fields.Text(string="Raw Data", readonly=True)
 
     # Identification
     creditsafe_company_name = fields.Char(
@@ -111,6 +114,7 @@ class CreditSafeDataMixin(object):
         )
 
         data = {
+            "creditsafe_raw_data": json.dumps(company, indent=2),
             "creditsafe_company_name": company_summary.get("businessName", ""),
             "creditsafe_legal_form": basic_information.get(
                 "legalForm", {}
