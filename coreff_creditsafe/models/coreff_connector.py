@@ -2,6 +2,7 @@
 # ©2018-2019 Article714
 # # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
+import base64
 import json
 from requests import Session
 from odoo.tools.config import config
@@ -240,9 +241,14 @@ class CoreffConnector(models.Model):
         token = settings["token"]
 
         if url:
+            mime = (
+                "application/pdf"
+                if arguments["as_pdf"]
+                else "application/json"
+            )
             headers = {
-                "accept": "application/json",
-                "Content-type": "application/json",
+                "accept": mime,
+                "Content-type": mime,
                 "Authorization": token if token else "",
             }
 
@@ -255,8 +261,11 @@ class CoreffConnector(models.Model):
                 )
 
                 if response.status_code == 200:
-                    content = response.json()
-                    return content
+                    if arguments["as_pdf"]:
+                        return base64.b64encode(response.content)
+                    else:
+                        content = response.json()
+                        return content
                 elif response.status_code in (401, 403):
                     if not retry:
                         res = self.creditsafe_authenticate(

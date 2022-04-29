@@ -95,12 +95,23 @@ class CreditSafeDataMixin(object):
         for rec in self:
             rec.write(rec.get_creditsafe_data())
 
+    def get_creditsafe_pdf(self):
+        self.ensure_one()
+
+        arguments = {}
+        arguments["company_id"] = self.creditsafe_company_id
+        arguments["user_id"] = self.env.user.id
+        arguments["as_pdf"] = True
+        pdf = self.env["coreff.api"].get_company(arguments)
+        return pdf
+
     def get_creditsafe_data(self):
         self.ensure_one()
 
         arguments = {}
         arguments["company_id"] = self.creditsafe_company_id
         arguments["user_id"] = self.env.user.id
+        arguments["as_pdf"] = False
         company = self.env["coreff.api"].get_company(arguments)
 
         company = company.get("report", {})

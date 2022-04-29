@@ -44,8 +44,8 @@
                                 <field name="creditsafe_number_of_directors" />
                             </group>
                         </group>
-                        <group col="1" string="Raw Data">
-                            <field name="creditsafe_raw_data"></field>
+                        <group string="Raw Data">
+                            <field name="creditsafe_raw_data" nolabel="1"></field>
                         </group>
                     </group>
                 </page>
