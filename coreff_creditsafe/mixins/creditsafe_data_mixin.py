@@ -34,7 +34,7 @@ class CreditSafeDataMixin(object):
     creditsafe_share_capital = fields.Float(
         string="Share Capital", readonly=True
     )
-    creditsafe_incorporation_date = fields.Char(
+    creditsafe_incorporation_date = fields.Date(
         string="Registration Date", readonly=True
     )
     creditsafe_activity_code = fields.Char(
@@ -54,13 +54,15 @@ class CreditSafeDataMixin(object):
     creditsafe_rating_long = fields.Char(
         string="Rating / Long Precision", readonly=True
     )
-    creditsafe_credit_limit = fields.Char(string="Credit Limit", readonly=True)
+    creditsafe_credit_limit = fields.Float(
+        string="Credit Limit", readonly=True
+    )
 
     # Judgements
-    creditsafe_last_judgement_date = fields.Char(
+    creditsafe_last_judgement_date = fields.Date(
         string="Last Judgement", readonly=True
     )
-    creditsafe_last_ccj_date = fields.Char(string="", readonly=True)
+    creditsafe_last_ccj_date = fields.Date(string="", readonly=True)
     creditsafe_number_of_directors = fields.Char(
         string="Number of Directors", readonly=True
     )
