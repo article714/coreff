@@ -140,7 +140,8 @@ class CreditSafeDataMixin(object):
             ),
             "creditsafe_incorporation_date": basic_information.get(
                 "companyRegistrationDate", ""
-            ),
+            )
+            or False,
             "creditsafe_activity_code": basic_information.get(
                 "principalActivity", {}
             ).get("code", ""),
@@ -165,7 +166,8 @@ class CreditSafeDataMixin(object):
             ),
             "creditsafe_last_judgement_date": credit_score.get(
                 "latestRatingChangeDate", ""
-            ),
+            )
+            or False,
             "creditsafe_number_of_directors": len(
                 company.get("directors", {}).get("currentDirectors", {})
             ),
