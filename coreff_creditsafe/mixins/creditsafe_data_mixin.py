@@ -126,6 +126,24 @@ class CreditSafeDataMixin(object):
             "providerValue", {}
         )
 
+        try:
+            creditsafe_share_capital = float(
+                company.get("shareCapitalStructure", {})
+                .get("nominalShareCapital", {})
+                .get("value", 0)
+            )
+        except ValueError:
+            creditsafe_share_capital = 0
+
+        try:
+            creditsafe_credit_limit = float(
+                credit_score.get("currentCreditRating", {})
+                .get("creditLimit", {})
+                .get("value", 0)
+            )
+        except ValueError:
+            creditsafe_credit_limit = 0
+
         data = {
             "creditsafe_raw_data": json.dumps(company, indent=2),
             "creditsafe_company_name": company_summary.get("businessName", ""),
@@ -159,11 +177,7 @@ class CreditSafeDataMixin(object):
             "creditsafe_rating_long": credit_score.get(
                 "currentCreditRating", {}
             ).get("providerDescription", ""),
-            "creditsafe_credit_limit": (
-                credit_score.get("currentCreditRating", {})
-                .get("creditLimit", {})
-                .get("value", "")
-            ),
+            "creditsafe_credit_limit": creditsafe_credit_limit,
             "creditsafe_last_judgement_date": credit_score.get(
                 "latestRatingChangeDate", ""
             )
@@ -172,11 +186,7 @@ class CreditSafeDataMixin(object):
                 company.get("directors", {}).get("currentDirectors", {})
             ),
             "creditsafe_last_update": fields.Datetime.now(),
-            "creditsafe_share_capital": (
-                company.get("shareCapitalStructure", {})
-                .get("nominalShareCapital", {})
-                .get("value", 0)
-            ),
+            "creditsafe_share_capital": creditsafe_share_capital,
         }
 
         return data
