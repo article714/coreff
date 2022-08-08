@@ -167,7 +167,7 @@ class CoreffConnector(models.Model):
 
             if not (
                 arguments["valueIsCompanyCode"]
-                and params["countries"].lower() == self.env.ref("base.es").code
+                and params["countries"] == self.env.ref("base.es").code
             ):
                 if "officeType" in criterias and arguments.get(
                     "is_head_office", True
