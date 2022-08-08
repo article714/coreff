@@ -152,9 +152,6 @@ class CoreffConnector(models.Model):
             call_url = "{}/companies".format(url)
             params = {"language": "en", "page": 1, "pageSize": 200}
 
-            if "status" in criterias:
-                params["status"] = "Active"
-
             if "regNo" in criterias and arguments["valueIsCompanyCode"]:
                 params["regNo"] = arguments["value"]
             elif "name" in criterias:
@@ -168,10 +165,17 @@ class CoreffConnector(models.Model):
                 )
                 params["countries"] = code
 
-            if "officeType" in criterias and arguments.get(
-                "is_head_office", True
+            if not (
+                arguments["valueIsCompanyCode"]
+                and params["countries"].lower() == self.env.ref("base.es").code
             ):
-                params["officeType"] = "headOffice"
+                if "officeType" in criterias and arguments.get(
+                    "is_head_office", True
+                ):
+                    params["officeType"] = "headOffice"
+
+                if "status" in criterias:
+                    params["status"] = "Active"
 
             with CustomSessionProxy() as session:
                 response = session.get(
