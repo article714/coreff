@@ -4,6 +4,7 @@
 
 import json
 from odoo import fields
+from odoo.exceptions import UserError
 
 
 class CreditSafeDataMixin(object):
@@ -115,6 +116,9 @@ class CreditSafeDataMixin(object):
         arguments["user_id"] = self.env.user.id
         arguments["as_pdf"] = False
         company = self.env["coreff.api"].get_company(arguments)
+
+        if "error" in company:
+            raise UserError(company["error"]["body"])
 
         company = company.get("report", {})
         company_summary = company.get("companySummary", {})

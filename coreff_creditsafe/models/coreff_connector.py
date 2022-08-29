@@ -211,7 +211,10 @@ class CoreffConnector(models.Model):
                             "postCode", ""
                         )
                         suggestion["country_id"] = company.get("country", "")
-                        suggestion["vat"] = company.get("vatNo", [""])[0]
+                        vat = company.get("vatNo", "")
+                        suggestion["vat"] = (
+                            vat[0] if isinstance(vat, list) else vat
+                        )
                         suggestion["phone"] = company.get(
                             "phoneNumbers", [""]
                         )[0]
