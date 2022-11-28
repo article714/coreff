@@ -1,0 +1,24 @@
+include:
+  - project: "article714/build-tools"
+    ref: master
+    file: "ci/odoo-modules-pipeline.yml"
+
+variables:
+  # CI_DEBUG_TRACE: "true"
+  PYTHON_VERSION: 3.8
+  DEBIAN_VERSION: slim
+  ODOO_VERSION: ${CI_COMMIT_BRANCH}-latest
+  POSTGRESQL_IMAGE: postgres:11
+  POSTGRES_USER: odoo
+  POSTGRES_PASSWORD: odoo
+  POSTGRES_DB: testdb
+  POSTGRES_HOST_AUTH_METHOD: trust
+
+# -----------------------------------------
+# Tests
+#
+
+test_coreff_base_install:
+  extends: .test_module_install
+  variables:
+    MODULE_NAME: coreff_base

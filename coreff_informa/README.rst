@@ -7,4 +7,4 @@ from Informa and add them to res_partner model.
 Of course, you need a Informa account and set its properties
 into "financial informations" configuration menu.
 
-**Credits:**: Article 714, Infibail, Informa
+**Credits:**: Article 714, Infibail, Tekfor, Informa
