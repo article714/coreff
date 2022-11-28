@@ -5,13 +5,13 @@
 # @license: LGPL v3
 
 {
-    "name": u"CoreFF: Test Module",
-    "version": u"12.0.1.0.0",
-    "category": u"CoreFF",
-    "author": u"Article714",
-    "license": u"LGPL-3",
-    "website": u"https://www.article714.org",
-    "summary": u"Coreff Test Module",
+    "name": "CoreFF: Test Module",
+    "version": "12.0.1.0.0",
+    "category": "CoreFF",
+    "author": "Article714",
+    "license": "LGPL-3",
+    "website": "https://www.article714.org",
+    "summary": "Coreff Test Module",
     "depends": ["coreff_creditsafe", "coreff_societecom", "coreff_informa"],
     "data": [],
     "installable": True,

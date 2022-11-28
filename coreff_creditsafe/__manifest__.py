@@ -5,12 +5,12 @@
 # @license: LGPL v3
 
 {
-    "name": u"CoreFF: CreditSafe",
-    "version": u"12.0.1.0.0",
-    "category": u"CoreFF",
-    "author": u"Article714",
-    "license": u"LGPL-3",
-    "website": u"https://www.article714.org",
+    "name": "CoreFF: CreditSafe",
+    "version": "12.0.1.0.0",
+    "category": "CoreFF",
+    "author": "Article714",
+    "license": "LGPL-3",
+    "website": "https://www.article714.org",
     "summary": "",
     "depends": ["coreff_base", "web"],
     "data": [
