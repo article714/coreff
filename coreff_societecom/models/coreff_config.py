@@ -3,7 +3,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 
-from odoo import fields, models, _
+from odoo import fields, models
 
 
 class CoreffConfig(models.TransientModel):
