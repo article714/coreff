@@ -59,9 +59,6 @@
                             <field name="creditsafe_shareholderfunds" />
                             <field name="creditsafe_totalemployees" />
                         </group>
-                        <group string="Raw Data">
-                            <field name="creditsafe_raw_data" nolabel="1"></field>
-                        </group>
                     </group>
                 </page>
             </xpath>
