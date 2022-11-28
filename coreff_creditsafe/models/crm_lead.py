@@ -7,6 +7,7 @@ from odoo import _
 import datetime
 import urllib.parse
 
+
 class CrmLead(models.Model):
     """
     Fields for creditsafe informations
@@ -20,11 +21,11 @@ class CrmLead(models.Model):
             creditsafe_params = f"?limit=15&name={company_name}&page=1"
 
             action = {
-                "type"     : "ir.actions.act_url",
-                "target"   : "new",
-                "url"      : creditsafe_url + creditsafe_params
+                "type": "ir.actions.act_url",
+                "target": "new",
+                "url": creditsafe_url + creditsafe_params
             }
             return action
         else:
-            raise UserError("Missing [Company Name] to perform Creditsafe lookup.")
-            return False
+            raise UserError(
+                _("Missing [Company Name] to perform Creditsafe lookup."))

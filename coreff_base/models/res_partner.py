@@ -23,7 +23,8 @@ class ResPartner(models.Model):
         )
     ]
 
-    #CM: Add company_id field manually as required to set default to current company
+    # CM: Add company_id field manually as required to set default
+    # to current company
     company_id = fields.Many2one(
         'res.company', index=True, default=lambda self: self.env.company
     )
@@ -103,12 +104,12 @@ class ResPartner(models.Model):
             res.append((rec.id, name))
         return res
 
-    #CM: Disabled as causes crash in Odoo V14 - Apparently allows searching a partner by coreff_company_code
-    #in addition to name.
-    #@api.model
-    #def _name_search(
+    # CM: Disabled as causes crash in Odoo V14 - Apparently allows searching a
+    # partner by coreff_company_code in addition to name.
+    # @api.model
+    # def _name_search(
     #    self, name, args=None, operator="ilike", limit=100, name_get_uid=None
-    #):
+    # ):
     #    res1 = super(ResPartner, self)._name_search(
     #        name, args, operator, limit, name_get_uid
     #    )
