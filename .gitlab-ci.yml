@@ -6,9 +6,9 @@ include:
 
 variables:
   # CI_DEBUG_TRACE: "true"
-  PYTHON_VERSION: "3.9"
+  PYTHON_VERSION: "3.10"
   DEBIAN_VERSION: slim
-  ODOO_VERSION: 14.0-latest
+  ODOO_VERSION: 15.0-latest
   POSTGRESQL_IMAGE: postgres:11
   POSTGRES_USER: odoo
   POSTGRES_PASSWORD: odoo
