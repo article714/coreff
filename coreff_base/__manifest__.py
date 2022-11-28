@@ -6,7 +6,7 @@
 
 {
     "name": "CoreFF: Basic Module",
-    "version": "14.0.1.0.0",
+    "version": "15.0.1.0.0",
     "category": "CoreFF",
     "author": "Article714",
     "license": "LGPL-3",
@@ -15,7 +15,6 @@
     "depends": ["base"],
     "data": [
         "security/coreff_security.xml",
-        "views/coreff_autocomplete_assets.xml",
         "views/coreff_config_views.xml",
         "views/res_company_views.xml",
         "views/res_partner_views.xml",
