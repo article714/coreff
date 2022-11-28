@@ -10,15 +10,15 @@ class CoreffConfig(models.TransientModel):
     _inherit = "res.config.settings"
 
     societeComUrl = fields.Char(
-        string=_(u"URL"), help=_(u"URL d'accès au service Societe.com.")
+        string="URL", help="URL d'accès au service Societe.com."
     )
 
     societeComLogin = fields.Char(
-        string=_(u"Identifiant"),
-        help=_(u"Login d'accès au service Societe.com."),
+        string="Identifiant",
+        help="Login d'accès au service Societe.com.",
     )
 
     societeComPassword = fields.Char(
-        string=_(u"Mot de passe"),
-        help=_(u"Mot de passe d'accès au service Societe.com."),
+        string="Mot de passe",
+        help="Mot de passe d'accès au service Societe.com.",
     )

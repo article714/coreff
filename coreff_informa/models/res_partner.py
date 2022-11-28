@@ -3,7 +3,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 from odoo import models
-from odoo.addons.coreff_informa.mixins.informa_data_mixin import (
+from .mixins.informa_data_mixin import (
     InformaDataMixin,
 )
 

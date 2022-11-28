@@ -25,6 +25,7 @@ class CoreffAPI(models.Model):
                 connector.get_companies_def,
                 {"self": connector, "arguments": arguments},
             )
+        return False
 
     @api.model
     def get_company(self, arguments):
@@ -38,3 +39,4 @@ class CoreffAPI(models.Model):
                 connector.get_company_def,
                 {"self": connector, "arguments": arguments},
             )
+        return False
