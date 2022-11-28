@@ -1,6 +1,6 @@
 # This is a TOML document.
 
-title = "Alpagouin build system requirement"
+title = "Coreff build system requirement"
 
 [tool.black]
 line-length = 79
