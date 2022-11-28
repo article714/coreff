@@ -10,7 +10,6 @@ Created on 8 August 2018
 import logging
 
 from odoo import api, models, fields, _
-from odoo.osv import expression
 from odoo.exceptions import UserError
 
 
@@ -31,8 +30,8 @@ class ResPartner(models.Model):
     )
 
     # -------------------------
-    # unimplemented method that will be defined in other module to update from HMI
-    # only runs validators by default
+    # unimplemented method that will be defined in other module to
+    # update from HMI, only runs validators by default
     def interactive_update(self):
         # just call data valition methods
         self.run_validators()

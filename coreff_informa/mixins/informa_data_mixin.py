@@ -122,7 +122,7 @@ class InformaDataMixin(object):
         self.ensure_one()
 
         arguments = {}
-        arguments["company_id"] = rec.informa_company_id
+        arguments["company_id"] = self.informa_company_id
         arguments["user_id"] = self.env.user.id
         company = self.env["coreff.api"].get_company(arguments)
 

@@ -174,7 +174,8 @@ class CreditSafeDataMixin(object):
             "creditsafe_status": basic_information.get(
                 "companyStatus", {}
             ).get("status", ""),
-            "creditsafe_rating": f"{provider_value.get('value')} / {provider_value.get('maxValue')}",
+            "creditsafe_rating": f"{provider_value.get('value')} "
+            f"/ {provider_value.get('maxValue')}",
             "creditsafe_rating_short": credit_score.get(
                 "currentCreditRating", {}
             ).get("commonDescription", ""),

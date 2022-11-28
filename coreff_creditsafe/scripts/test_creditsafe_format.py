@@ -19,14 +19,14 @@ class TestCreditSafe:
             assert isinstance(c["address"], dict)
             assert isinstance(c["country"], str)
             assert (
-                not "vatNo" in c
+                "vatNo" not in c
                 or isinstance(c["vatNo"], str)
                 or (
                     isinstance(c["vatNo"], list)
                     and isinstance(c["vatNo"][0], str)
                 )
             )
-            assert not "phoneNumbers" in c or (
+            assert "phoneNumbers" not in c or (
                 isinstance(c["phoneNumbers"], list)
                 and isinstance(c["phoneNumbers"][0], str)
             )

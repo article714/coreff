@@ -79,7 +79,8 @@ class CoreffConnector(models.Model):
         settings = self.get_company_informa_settings(arguments["user_id"])
         client = Client(
             settings["url"]
-            + "/DNB_WebServices.Providers.OrderAndInvestigations.GDP_V4:wsp_GDP_V4?WSDL"
+            + "/DNB_WebServices.Providers.OrderAndInvestigations.GDP_V4"
+            ":wsp_GDP_V4?WSDL"
         )
         self.set_proxies_on_client(client)
 
