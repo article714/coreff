@@ -1,3 +1,4 @@
+---
 include:
   - project: "article714/build-tools"
     ref: master
