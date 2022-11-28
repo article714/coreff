@@ -47,6 +47,7 @@ enable = [
   "duplicate-xml-record-id",
   "eval-referenced",
   "eval-used",
+  "external-request-timeout",
   "incoherent-interpreter-exec-perm",
   "license-allowed",
   "manifest-author-string",
