@@ -12,6 +12,11 @@ dependencies = ["zeep"]
 [tool.black]
 line-length = 79
 
+[tool.flake8]
+exclude = ["./.git", "./tests"]
+max-line-length = 79
+per-file-ignores = ['__init__.py:F401']
+
 [tool.pylint.'MASTER']
-[MASTER]
 ignore = ["tests", "README.md", "pyproject.toml", "requirements.txt"]
+max-line-length = 79
