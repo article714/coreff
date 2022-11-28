@@ -23,8 +23,8 @@ test_coreff_base_install:
   extends: .test_module_install
   variables:
     MODULE_NAME: coreff_base
-    ODOO_RC: tests/odoo.conf
   script:
     - ls -alrt tests/*
+    - ls -alrt ${ODOO_RC}
     - chpst -u odoo python3 /container/tools/auto_addons_path.py
     - chpst -u odoo odoo -d testdb -i ${MODULE_NAME} --stop-after-init -c $ODOO_RC
