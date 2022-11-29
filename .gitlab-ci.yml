@@ -20,6 +20,11 @@ variables:
 #
 
 test_coreff_base_install:
-  extends: .test_module_install
+  extends: .test_module_installation
   variables:
-    MODULE_NAME: coreff_base
+    MODULE_NAMES: coreff_base
+
+test_coreff_societecom:
+  extends: .install_and_test_module
+  variables:
+    MODULE_NAMES: coreff_base_l10n_fr_siret,coreff_societecom
