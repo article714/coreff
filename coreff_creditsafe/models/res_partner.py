@@ -308,7 +308,8 @@ class ResPartner(models.Model):
                 )
             else:
                 street = address.get("street", "")
-            # CM: If phone exists use it, otherwise use phone from parent company
+            # CM: If phone exists use it, otherwise use phone from parent
+            #  company
             if len(address.get("telephone", "")) > 0:
                 telephone = address.get("telephone", "")
             else:
