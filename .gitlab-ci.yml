@@ -24,9 +24,8 @@ test_coreff_base_install:
   variables:
     MODULE_NAME: coreff_base
   script:
-    - ls -alrt tests/*
-    - ls -alrt ${ODOO_RC}
-    - chown -R odoo. tests/
+    - pwd
+    - ls -alrt *
     - chpst -u odoo ls -alrt tests/*
     - chpst -u odoo python3 tests/auto_addons_path.py
     - chpst -u odoo odoo -d testdb -i ${MODULE_NAME} --stop-after-init -c $ODOO_RC
