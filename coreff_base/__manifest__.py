@@ -1,5 +1,5 @@
 # @author: J. Carette
-# @author: C. Guychard
+# @author: C. Guychard (Article714, Tekfor)
 # @author: Chris Mann (Open User Systems)
 # @copyright: ©2018-2019 Article 714
 # @license: LGPL v3
@@ -12,7 +12,7 @@
     "license": "LGPL-3",
     "website": "https://www.article714.org",
     "summary": "Manage Core Financial Data: base module",
-    "depends": ["base"],
+    "depends": ["base", "web"],
     "data": [
         "security/coreff_security.xml",
         "views/coreff_autocomplete_assets.xml",
