@@ -1,9 +1,7 @@
 # ©2018-2019 Article714
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
-from odoo import api, fields, models
-from odoo.exceptions import UserError, ValidationError
-from odoo import _
+from odoo import fields, models
 import datetime
 
 
@@ -168,7 +166,8 @@ class ResPartner(models.Model):
                 "%Y-%m-%dT%H:%M:%SZ",
             )
             rec.creditsafe_incorporation_date = formattedDatetime
-            # CM: Get companySummary>mainActivity>code,description,classification
+            # CM: Get companySummary>mainActivity>code,description,
+            # classification
             rec.creditsafe_activity_code = company_summary.get(
                 "mainActivity", {}
             ).get("code", "")
@@ -218,7 +217,7 @@ class ResPartner(models.Model):
                 rec.creditsafe_contract_limit = credit_score.get(
                     "currentContractLimit", {}
                 ).get("value", 0)
-            except:
+            except:  # noqa: E722
                 rec.creditsafe_rating = 0
 
             # CM: Format string to datetime to store in Odoo field
@@ -240,7 +239,8 @@ class ResPartner(models.Model):
             rec.creditsafe_latest_turnover = company_summary.get(
                 "latestTurnoverFigure", {}
             ).get("value", 0)
-            # CM: Get profitBeforeTax, yearEndDate, numberOfEmployees, latestShareholdersEquityFigure
+            # CM: Get profitBeforeTax, yearEndDate, numberOfEmployees,
+            #  latestShareholdersEquityFigure
             if len(financialStatements) > 0:
                 rec.creditsafe_pretaxprofit = (
                     financialStatements[0]
@@ -280,7 +280,8 @@ class ResPartner(models.Model):
                 self.get_director(director)
 
     def get_director(self, director):
-        # CM: Search for any duplicate contacts before taking action - Match name and postcode
+        # CM: Search for any duplicate contacts before taking action
+        # - Match name and postcode
         result = self.env["res.partner"].search(
             [
                 (
@@ -334,7 +335,8 @@ class ResPartner(models.Model):
             return True
 
     def get_title(self, title):
-        # CM: Search for res.partner.title that matches the submitted string with a dot added
+        # CM: Search for res.partner.title that matches the submitted string
+        #  with a dot added
         if len(title) > 0:
             result = self.env["res.partner.title"].search(
                 [

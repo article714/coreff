@@ -153,6 +153,7 @@ class CoreffConnector(models.Model):
             call_url = "{}/companies?language=EN&page=1&pageSize=10".format(
                 url
             )
+            params = {"language": "en", "page": 1, "pageSize": 200}
 
             # CM: Using urllib.parse.quote to escape values
             # to use in URL parameters (accounting for spaces)
@@ -172,8 +173,8 @@ class CoreffConnector(models.Model):
                 call_url += "&countries={}".format(code)
             else:
                 # CM: If no country specified, search in ALL (much slower)
-                # call_url += "&countries=US,GB,SE,NO,NL,MX,LU,JP,IT,IE,DE,FR,DK,CA,BE"
-                # Search only for the country of the current users logged-in Odoo company
+                # Search only for the country of the current users logged-in
+                # Odoo company
                 call_url += (
                     "&countries=" + self.env.user.company_id.country_id.code
                 )
