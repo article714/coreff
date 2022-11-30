@@ -88,3 +88,6 @@ enable = [
   "xml-syntax-error",
 ]
 manifest_deprecated_keys = ["description", "active"]
+
+[tool.pytest.ini_options]
+ignore = "scripts/"
