@@ -10,7 +10,18 @@ requires-python = ">=3.7"
 dependencies = ["zeep"]
 
 [tool.black]
+extend-exclude = '''
+/(
+  \.eggs
+  | \.git
+  | \.mypy_cache
+  | ^/pyproject\.toml
+  | ^/README\.md
+  | ^/.*\.txt
+)/
+'''
 line-length = 79
+target-version = ['py36', 'py37', 'py38', 'py39']
 
 [tool.flake8]
 exclude = ["./.git", "./tests"]
