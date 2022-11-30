@@ -94,6 +94,7 @@ class ResPartner(models.Model):
         names = dict(super(ResPartner, self.with_context(**diff)).name_get())
         for partner in self:
             partner.display_name = names.get(partner.id)
+        return
 
     def name_get(self):
         res = []
