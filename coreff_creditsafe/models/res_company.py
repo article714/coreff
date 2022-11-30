@@ -34,7 +34,7 @@ class ResCompany(models.Model):
                 rec.creditsafe_parent_url = rec.get_parent_creditsafe_field(
                     "creditsafe_url"
                 )
-            else: 
+            else:
                 rec.creditsafe_parent_url = False
 
     @api.depends("parent_id")

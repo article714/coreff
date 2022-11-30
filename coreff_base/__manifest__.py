@@ -31,6 +31,6 @@
         ],
         "web.assets_qweb": [
             "coreff_base/static/src/xml/coreff_autocomplete.xml",
-        ]
-    }
+        ],
+    },
 }
