@@ -267,11 +267,7 @@ class CoreffConnector(models.Model):
         token = settings["token"]
 
         if url:
-            mime = (
-                "application/pdf"
-                if arguments["as_pdf"]
-                else "application/json"
-            )
+            mime = "application/pdf" if arguments.get("as_pdf", False) else "application/json"
             headers = {
                 "accept": mime,
                 "Content-type": mime,
@@ -287,7 +283,7 @@ class CoreffConnector(models.Model):
                 )
 
                 if response.status_code == 200:
-                    if arguments["as_pdf"]:
+                    if arguments.get("as_pdf", False):
                         return base64.b64encode(response.content)
                     else:
                         content = response.json()
