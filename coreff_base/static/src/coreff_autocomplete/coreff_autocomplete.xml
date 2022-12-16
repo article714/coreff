@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <templates>
-    <div t-name="coreff_autocomplete.dropdown"
+    <t t-name="coreff_base.PartnerAutoCompleteCharField" t-inherit="web.CharField" owl="1">
+        <xpath expr="//t[@t-else='']" position="before">
+            <t t-elif="props.record.resModel !== 'res.partner' || props.record.data.company_type === 'company'">
+                <AutoComplete
+                    value="props.value || ''"
+                    sources="sources"
+                    onSelect.bind="onSelect"
+                    input="inputRef"
+                />
+            </t>
+        </xpath>
+    </t>
+    <t t-name="coreff_base.CharFieldDropdownOption" owl="1">
+        <!-- <img t-att-src="option.logo" onerror="this.src='/base/static/img/company_image.png'" alt="Placeholder"/> -->
+        <img src="/base/static/img/company_image.png" alt="Placeholder"/>
+
+        <div class="o_partner_autocomplete_info">
+            <strong t-esc="option.label or '&#160;'"/>
+            <div t-esc="option.description"/>
+            <!--
+            <strong>
+                <t t-esc="info['name'] or '&#160;'" />
+            </strong>
+            <t t-esc="info['city'] or '&#160;'" />
+            <div>
+                <t t-esc="info['coreff_company_code']" />
+            </div>
+            -->
+        </div>
+    </t>
+
+    <!-- <div t-name="coreff_autocomplete.dropdown"
         class="o_partner_autocomplete_dropdown dropdown-menu show"
         role="menu">
         <div class="o_is_head_office_checkbox"
@@ -31,7 +62,6 @@
             </a>
         </t>
     </div>
-
     <div t-name="coreff_autocomplete.loading"
         class="o_partner_autocomplete_dropdown dropdown-menu show"
         role="menu">
@@ -44,4 +74,4 @@
             </div>
         </div>
     </div>
-</templates>
+</templates> -->

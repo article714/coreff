@@ -64,6 +64,7 @@ class CoreffConnector(models.Model):
         settings = self.get_company_creditsafe_settings(arguments["user_id"])
         url = settings["url"]
         token = settings["token"]
+        code = False
 
         if url:
             headers = {
@@ -83,6 +84,9 @@ class CoreffConnector(models.Model):
                     .code
                 )
                 params["countries"] = code
+            else:
+                # Search only for the country of the current users logged-in
+                params["countries"] = self.env.user.company_id.country_id.code
 
             with CustomSessionProxy() as session:
                 response = session.get(
@@ -137,6 +141,7 @@ class CoreffConnector(models.Model):
         url = settings["url"]
         token = settings["token"]
         params = {}
+        code = False
 
         criterias = self.creditsafe_get_companies_criterias(arguments)
 

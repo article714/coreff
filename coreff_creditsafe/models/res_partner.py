@@ -1,9 +1,10 @@
 # ©2018-2019 Article714
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
-from odoo import fields, models
+from odoo import api, fields, models
+from odoo.exceptions import UserError, ValidationError
+from odoo import _
 import datetime
-
 
 class ResPartner(models.Model):
     """
@@ -131,6 +132,10 @@ class ResPartner(models.Model):
             employeeInfo = company.get("otherInformation", {}).get(
                 "employeesInformation", {}
             )
+
+            #CM: If no data returned from CreditSafe, skip this record
+            if not company:
+                raise UserError("Error retrieving credit report, check CreditSafe API credentials and service status.")
 
             # CM: Retrieve company address details to override existing
             rec.phone = company_address.get("telephone", "")

@@ -17,26 +17,25 @@
           style="display: none;" />
       </xpath>
 
-      <xpath expr="//div[hasclass('oe_title')]/h1/field[@id='company']" position="replace">
-        <field id="company" widget="field_coreff_autocomplete" autocomplete="new-password" options="{'headOffice': True}" name="name" default_focus="1" placeholder="Company Lookup..." attrs="{'required' : [('type', '=', 'contact'),('is_company', '=', True)], 'invisible': [('is_company','=', False)]}"/>
-      </xpath>
-      <xpath expr="//div[hasclass('oe_title')]/h1/field[@id='individual']" position="replace">
-        <field id="individual" widget="field_coreff_autocomplete" autocomplete="new-password" options="{'headOffice': True}" name="name" default_focus="1" placeholder="Company Lookup..." attrs="{'required' : [('type', '=', 'contact'),('is_company', '=', False)], 'invisible': [('is_company','=', True)]}"/>
+      <xpath expr="//div[hasclass('oe_title')]/h1/field[@id='company']" position="attributes">
+        <attribute name="widget">field_coreff_autocomplete</attribute>
+        <attribute name="options">{'headOffice': True}</attribute>
+        <attribute name="autocomplete">new-password</attribute>
       </xpath>
 
-      <xpath expr="//field[@name='name']/.."
+      <xpath expr="//div[hasclass('oe_title')]/h1"
         position="after">
-        <group string="Coreff">
-          <!-- <field string="Lookup" widget="field_coreff_autocomplete" autocomplete="new-password" options="{'headOffice': True}" name="name" attrs="{'invisible': ['|',('is_company', '=', False),('coreff_company_code', '!=', False)]}"/> -->
-          <field name="coreff_company_code_mandatory"
-            invisible="1" />
-          <field name="coreff_company_code"
-            string="Company Code"
-            widget="field_coreff_autocomplete"
-            options="{'headOffice': True}"
-            placeholder="Company Code..."
-            attrs="{'invisible': [('is_company', '=', False)], 'required': [('coreff_company_code_mandatory','=',True)]}" />
-        </group>
+        <h2>
+          <group>
+            <field name="coreff_company_code_mandatory"
+              invisible="1" />
+            <field name="coreff_company_code"
+              widget="field_coreff_autocomplete"
+              options="{'headOffice': True}"
+              placeholder="Company code"
+              attrs="{'invisible': [('is_company', '=', False)], 'required': [('coreff_company_code_mandatory','=',True)]}" />
+          </group>
+        </h2>
       </xpath>
     </field>
   </record>
