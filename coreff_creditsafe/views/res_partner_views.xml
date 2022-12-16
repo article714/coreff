@@ -21,6 +21,7 @@
                               name="update_creditsafe_data"
                               type="object"
                               class="oe_highlight"
+                              confirm="Be careful, this action can override CreditSafe fields"
                               attrs="{'invisible' : [('creditsafe_company_id', '=', False)]}" />
                           <button string="Retrieve Directors"
                               name="retrieve_directors_data"
