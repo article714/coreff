@@ -67,6 +67,8 @@ class ResPartner(models.Model):
     creditsafe_totalemployees = fields.Integer(
         string="Total Employees", readonly=True
     )
+    # CM: Add field for storing PDF report
+    creditsafe_pdf_report = fields.Binary()
 
     # Notations
     creditsafe_status = fields.Char(string="Company Status", readonly=True)
@@ -111,7 +113,7 @@ class ResPartner(models.Model):
         else:
             return False
 
-    def update_creditsafe_data(self):
+    def update_creditsafe_data(self, get_directors=False):
         """
         Update financial information
         """
@@ -133,7 +135,7 @@ class ResPartner(models.Model):
                 "employeesInformation", {}
             )
 
-            #CM: If no data returned from CreditSafe, skip this record
+            # CM: If no data returned from CreditSafe, skip this record
             if not company:
                 raise UserError("Error retrieving credit report, check CreditSafe API credentials and service status.")
 
@@ -264,25 +266,35 @@ class ResPartner(models.Model):
             rec.creditsafe_shareholderfunds = company_summary.get(
                 "latestShareholdersEquityFigure", {}
             ).get("value", 0)
+            # CM: For each director, iterate through retrieving record
+            # Next do a check for duplicates and if none present,
+            # store the record as a new contact linked to this company.
+            if get_directors:
+                directors = company.get("directors", {}).get(
+                    "currentDirectors", {}
+                )
+                for director in directors:
+                    self.get_director(director)
 
-    def retrieve_directors_data(self):
+    def get_creditsafe_pdf(self):
         """
-        Retrieve directors contact data for company and store
+        Retrieve PDF version of latest CS report
         """
         for rec in self:
             arguments = {}
             arguments["company_id"] = rec.creditsafe_company_id
             arguments["user_id"] = self.env.user.id
+            arguments["as_pdf"] = True
             company = self.env["coreff.api"].get_company(arguments)
-            company = company.get("report", {})
-            directors = company.get("directors", {}).get(
-                "currentDirectors", {}
-            )
-            # CM: For each director, iterate through retrieving record
-            # Next do a check for duplicates and if none present,
-            # store the record as a new contact linked to this company.
-            for director in directors:
-                self.get_director(director)
+            # company = company.get("report", {})
+            # Store PDF as base64 converted to binary field
+            self.creditsafe_pdf_report = company
+
+    def update_with_directors(self):
+        """
+        Retrieve directors contact data for company and store
+        """
+        self.update_creditsafe_data(get_directors=True)
 
     def get_director(self, director):
         # CM: Search for any duplicate contacts before taking action
