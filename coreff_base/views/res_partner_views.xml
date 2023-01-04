@@ -31,7 +31,7 @@
 						widget="field_coreff_autocomplete"
 						options="{'headOffice': True}"
 						placeholder="Company code"
-						attrs="{'invisible': [('is_company', '=', False)], 'required': [('coreff_company_code_mandatory','=',True)]}" />
+						attrs="{'invisible': [('is_company', '=', False)], 'required': [('coreff_company_code_mandatory','=',True),('is_company','=',True)]}" />
 				</h2>
 			</xpath>
 		</field>
