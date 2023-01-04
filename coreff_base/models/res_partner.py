@@ -60,7 +60,6 @@ class ResPartner(models.Model):
         res = super(ResPartner, self).write(values)
         if (
             values.get("is_company")
-            or values.get("company_type")
             or values.get("coreff_company_code_mandatory")
             or "coreff_company_code" in values
         ):
@@ -71,7 +70,6 @@ class ResPartner(models.Model):
         for rec in self:
             if (
                 rec.is_company
-                and rec.company_type == "company"
                 and rec.coreff_company_code_mandatory
                 and not rec.coreff_company_code
             ):
