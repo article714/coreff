@@ -98,7 +98,7 @@ class CreditSafeDataMixin(object):
             if name.startswith("creditsafe_") and field.type == "date"
         ]
         for key in field_names:
-            if data.get(key) == "01/01/01":
+            if data.get(key) == "0001-01-01T00:00:00Z":
                 data[key] = False
 
     def update_creditsafe_data(self):
