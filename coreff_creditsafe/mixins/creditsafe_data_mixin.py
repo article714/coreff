@@ -91,6 +91,16 @@ class CreditSafeDataMixin(object):
         else:
             return False
 
+    def _clean_creditsafe_dates(self, data):
+        field_names = [
+            name
+            for name, field in self._fields.items()
+            if name.startswith("creditsafe_") and field.type == "date"
+        ]
+        for key in field_names:
+            if data.get(key) == "01/01/01":
+                data[key] = False
+
     def update_creditsafe_data(self):
         """
         Update financial information
@@ -193,5 +203,5 @@ class CreditSafeDataMixin(object):
             "creditsafe_last_update": fields.Datetime.now(),
             "creditsafe_share_capital": creditsafe_share_capital,
         }
-
+        self._clean_creditsafe_dates(data)
         return data
