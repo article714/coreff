@@ -6,7 +6,25 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="coreff_base.coreff_partner_form" />
         <field name="arch" type="xml">
-
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button string="CreditSafe Update + Directors"
+                        name="update_with_directors"
+                        type="object"
+                        class="oe_highlight"
+                        confirm="Be careful, this action can override CreditSafe fields"
+                        attrs="{'invisible' : [('creditsafe_company_id', '=', False)]}" title="Get latest CS report data and directors, store as Odoo contacts." />
+                    <button string="CreditSafe Update"
+                        name="update_creditsafe_data"
+                        type="object"
+                        confirm="Be careful, this action can override CreditSafe fields"
+                        attrs="{'invisible' : [('creditsafe_company_id', '=', False)]}" title="Get latest CS report data and store to fields." />
+                    <button string="CreditSafe PDF"
+                        name="get_creditsafe_pdf"
+                        type="object"
+                        attrs="{'invisible' : [('creditsafe_company_id', '=', False)]}" title="Get CS report as a PDF and store." />
+                </header>
+            </xpath>
             <xpath expr="//page[@name='internal_notes']" position="before">
                 <field name="creditsafe_visibility" invisible="1" />
                 <page string="CreditSafe" attrs="{'invisible': ['|',('is_company', '=', False), ('creditsafe_visibility', '=', False)]}">
@@ -59,6 +77,9 @@
                             <field name="creditsafe_pretaxprofit" />
                             <field name="creditsafe_shareholderfunds" />
                             <field name="creditsafe_totalemployees" />
+                        </group>
+                        <group string="PDF Report" colspan="2">
+                            <field name="creditsafe_pdf_report" widget="pdf_viewer" />
                         </group>
                     </group>
                 </page>
