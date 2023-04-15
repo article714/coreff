@@ -34,6 +34,18 @@
                             Last updated on: <field name="creditsafe_last_update" />
                             </div>
                         </group>
+                        <group col="1" colspan="2">
+                          <button string="CreditSafe Update"
+                              name="update_creditsafe_data"
+                              type="object"
+                              class="oe_highlight"
+                              confirm="Be careful, this action can override CreditSafe fields"
+                              attrs="{'invisible' : [('creditsafe_company_id', '=', False)]}" />
+                          <button string="Retrieve Directors"
+                              name="retrieve_directors_data"
+                              type="object"
+                              attrs="{'invisible' : [('creditsafe_company_id', '=', False)]}" />
+                        </group>
                         <group string="Identification">
                             <field name="creditsafe_company_id" />
                             <field name="creditsafe_company_name" />
