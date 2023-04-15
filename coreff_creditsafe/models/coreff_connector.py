@@ -64,6 +64,7 @@ class CoreffConnector(models.Model):
         settings = self.get_company_creditsafe_settings(arguments["user_id"])
         url = settings["url"]
         token = settings["token"]
+        code = False
 
         if url:
             headers = {
@@ -83,6 +84,9 @@ class CoreffConnector(models.Model):
                     .code
                 )
                 params["countries"] = code
+            else:
+                # Search only for the country of the current users logged-in
+                params["countries"] = self.env.user.company_id.country_id.code
 
             with CustomSessionProxy() as session:
                 response = session.get(
@@ -136,6 +140,8 @@ class CoreffConnector(models.Model):
         settings = self.get_company_creditsafe_settings(arguments["user_id"])
         url = settings["url"]
         token = settings["token"]
+        params = {}
+        code = False
 
         criterias = self.creditsafe_get_companies_criterias(arguments)
 
@@ -153,7 +159,6 @@ class CoreffConnector(models.Model):
             call_url = "{}/companies?language=EN&page=1&pageSize=10".format(
                 url
             )
-            params = {"language": "en", "page": 1, "pageSize": 200}
 
             # CM: Using urllib.parse.quote to escape values
             # to use in URL parameters (accounting for spaces)
@@ -180,7 +185,7 @@ class CoreffConnector(models.Model):
                 )
 
             # CM: Add constraint for all other countries that support the
-            #  HeadOffice category including FR
+            # HeadOffice category including FR
             if arguments.get("is_head_office", True) and code in [
                 "FR",
                 "CA",
@@ -267,11 +272,7 @@ class CoreffConnector(models.Model):
         token = settings["token"]
 
         if url:
-            mime = (
-                "application/pdf"
-                if arguments["as_pdf"]
-                else "application/json"
-            )
+            mime = "application/pdf" if arguments.get("as_pdf", False) else "application/json"
             headers = {
                 "accept": mime,
                 "Content-type": mime,
@@ -287,7 +288,7 @@ class CoreffConnector(models.Model):
                 )
 
                 if response.status_code == 200:
-                    if arguments["as_pdf"]:
+                    if arguments.get("as_pdf", False):
                         return base64.b64encode(response.content)
                     else:
                         content = response.json()
