@@ -5,13 +5,13 @@
 # @license: LGPL v3
 
 {
-    "name": u"CoreFF: Basic Module",
-    "version": u"16.0.1.0.0",
-    "category": u"CoreFF",
-    "author": u"Article714",
-    "license": u"LGPL-3",
-    "website": u"https://www.article714.org",
-    "summary": u"Manage Core Financial Data: base module",
+    "name": "CoreFF: Basic Module",
+    "version": "16.0.1.0.1",
+    "category": "CoreFF",
+    "author": "Article714",
+    "license": "LGPL-3",
+    "website": "https://www.article714.org",
+    "summary": "Manage Core Financial Data: base module",
     "depends": ["base"],
     "data": [
         "security/coreff_security.xml",
@@ -29,5 +29,5 @@
             "coreff_base/static/src/xml/*",
             "coreff_base/static/src/coreff_autocomplete/*",
         ],
-    }
+    },
 }
