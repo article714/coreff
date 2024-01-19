@@ -23,11 +23,6 @@ class ResPartner(models.Model):
         )
     ]
 
-    # CM: Add company_id field manually as required to set default to
-    # current company
-    company_id = fields.Many2one(
-        "res.company", index=True, default=lambda self: self.env.company
-    )
     coreff_company_code = fields.Char()
     coreff_company_code_mandatory = fields.Boolean(
         related="company_id.coreff_company_code_mandatory"
